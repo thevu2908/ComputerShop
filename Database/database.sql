@@ -33,22 +33,8 @@ use computershop;
 CREATE TABLE `chi_tiet_hoa_don` (
   `ma_hd` varchar(10) NOT NULL,
   `ma_sp` varchar(10) NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  `don_gia` int(11) NOT NULL,
-  `thanh_tien` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `chi_tiet_hoa_don`
---
-
-INSERT INTO `chi_tiet_hoa_don` (`ma_hd`, `ma_sp`, `so_luong`, `don_gia`, `thanh_tien`) VALUES
-('HD01', 'SP01', 1, 20500000, 20500000),
-('HD01', 'SP02', 1, 15790000, 15790000),
-('HD02', 'SP03', 1, 42990000, 42990000),
-('HD02', 'SP04', 1, 24190000, 24190000);
-
--- --------------------------------------------------------
+  `so_luong` int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Table structure for table `chi_tiet_phieu_nhap`
@@ -57,22 +43,8 @@ INSERT INTO `chi_tiet_hoa_don` (`ma_hd`, `ma_sp`, `so_luong`, `don_gia`, `thanh_
 CREATE TABLE `chi_tiet_phieu_nhap` (
   `ma_pn` varchar(10) NOT NULL,
   `ma_sp` varchar(10) NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  `don_gia` int(11) NOT NULL,
-  `thanh_tien` int(11) NOT NULL
+  `so_luong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `chi_tiet_phieu_nhap`
---
-
-INSERT INTO `chi_tiet_phieu_nhap` (`ma_pn`, `ma_sp`, `so_luong`, `don_gia`, `thanh_tien`) VALUES
-('PN01', 'SP01', 1, 20500000, 20500000),
-('PN01', 'SP02', 1, 15790000, 15790000),
-('PN02', 'SP02', 1, 15790000, 15790000),
-('PN02', 'SP03', 1, 42990000, 42990000);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `chi_tiet_phieu_xuat`
@@ -83,17 +55,6 @@ CREATE TABLE `chi_tiet_phieu_xuat` (
   `ma_sp` varchar(10) NOT NULL,
   `so_luong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `chi_tiet_phieu_xuat`
---
-
-INSERT INTO `chi_tiet_phieu_xuat` (`ma_px`, `ma_sp`, `so_luong`) VALUES
-('PX01', 'SP01', 1),
-('PX01', 'SP02', 1),
-('PX02', 'SP03', 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `hang_san_pham`
@@ -133,16 +94,6 @@ CREATE TABLE `hoa_don` (
   `tong_tien` int(11) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `hoa_don`
---
-
-INSERT INTO `hoa_don` (`ma_hd`, `ma_kh`, `ma_nv`, `ngay_lap`, `tong_tien`, `trang_thai`) VALUES
-('HD01', 'KH02', 'NV03', '2023-09-24', 36290000, 1),
-('HD02', 'KH03', 'NV03', '2023-09-24', 67180000, 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `khach_hang`
@@ -188,7 +139,7 @@ INSERT INTO `loai_nhan_vien` (`ma_lnv`, `ten_lnv`, `trang_thai`) VALUES
 ('LNV01', 'Admin', 1),
 ('LNV02', 'Quản lý', 1),
 ('LNV03', 'Nhân viên bán hàng', 1),
-('LNV04', 'Nhân viên kho', 1);
+('LNV04', 'Nhân viên thủ kho', 1);
 
 -- --------------------------------------------------------
 
@@ -257,40 +208,18 @@ CREATE TABLE `phieu_nhap` (
   `ma_ncc` varchar(10) NOT NULL,
   `ngay_nhap` date NOT NULL,
   `tong_tien` int(11) NOT NULL,
+  `tinh_trang` nvarchar(20) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `phieu_nhap`
---
-
-INSERT INTO `phieu_nhap` (`ma_pn`, `ma_nv`, `ma_ncc`, `ngay_nhap`, `tong_tien`, `trang_thai`) VALUES
-('PN01', 'NV04', 'NCC04', '2023-09-12', 36290000, 1),
-('PN02', 'NV04', 'NCC06', '2023-09-22', 58780000, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `phieu_xuat`
---
 
 CREATE TABLE `phieu_xuat` (
   `ma_px` varchar(10) NOT NULL,
   `ma_nv` varchar(10) NOT NULL,
   `ngay_xuat` date NOT NULL,
   `tong_so_luong` int(11) NOT NULL,
+  `tinh_trang` nvarchar(20) NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `phieu_xuat`
---
-
-INSERT INTO `phieu_xuat` (`ma_px`, `ma_nv`, `ngay_xuat`, `tong_so_luong`, `trang_thai`) VALUES
-('PX01', 'NV04', '2023-09-20', 1, 1),
-('PX02', 'NV04', '2023-09-18', 1, 1);
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `san_pham`
@@ -327,8 +256,23 @@ INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `bo_vi_xu_ly`, `bo_n
 ('SP04', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'Đen', '2.41 kg', 'NVIDIA GeForce RTX 3050', '720p HD', '57.5 Wh 4-cell Li-ion', 'Đang cập nhật', 'Wi-Fi 6 AX 1650i (2x2)', 100, 1);
 
 --
--- Indexes for dumped tables
+-- Table structure for table `san_pham_kho`
 --
+
+CREATE TABLE `san_pham_kho` (
+  `ma_sp` varchar(10) NOT NULL,
+  `so_luong` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `san_pham`
+--
+
+INSERT INTO `san_pham_kho` (`ma_sp`, `so_luong`) VALUES
+('SP01', 200),
+('SP02', 250),
+('SP03', 150),
+('SP04', 50);
 
 --
 -- Indexes for table `chi_tiet_hoa_don`
@@ -413,6 +357,13 @@ ALTER TABLE `san_pham`
   ADD KEY `hsp_constraint_sp` (`ma_hsp`);
 
 --
+-- Indexes for table `san_pham_kho`
+--
+ALTER TABLE `san_pham_kho`
+  ADD PRIMARY KEY (`ma_sp`),
+  ADD KEY `sp_kho_constraint_sp` (`ma_sp`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -468,6 +419,12 @@ ALTER TABLE `phieu_xuat`
 --
 ALTER TABLE `san_pham`
   ADD CONSTRAINT `hsp_constraint_sp` FOREIGN KEY (`ma_hsp`) REFERENCES `hang_san_pham` (`ma_hsp`);
+
+--
+-- Constraints for table `san_pham_kho`
+--
+ALTER TABLE `san_pham_kho`
+  ADD CONSTRAINT `sp_kho_constraint_sp` FOREIGN KEY (`ma_sp`) REFERENCES `san_pham` (`ma_sp`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
