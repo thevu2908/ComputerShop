@@ -1,5 +1,7 @@
 package GUI;
 
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +35,11 @@ public class ExportDetailGUI {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
         JFrame frame = new JFrame("ExportDetailGUI");
         frame.setContentPane(new ExportDetailGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,4 +57,5 @@ public class ExportDetailGUI {
     private JButton btnDelete;
     private JButton btnReset;
     private JPanel cbxQuantity;
+    private JTextField textField1;
 }
