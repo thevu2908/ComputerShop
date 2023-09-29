@@ -7,30 +7,30 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class ExportDetailGUI {
-    private DefaultTableModel model;
+public class ProductGUI {
+    private DefaultTableModel prodModel;
 
-    public ExportDetailGUI() {
+    public ProductGUI() {
         initTable();
     }
 
     public void initTable() {
-        model = new DefaultTableModel() {
+        prodModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng"};
-        model.setColumnIdentifiers(cols);
-        tblExportDetails.setModel(model);
-        tblExportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Hãng", "Giá"};
+        prodModel.setColumnIdentifiers(cols);
+        tblProducts.setModel(prodModel);
+        tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < cols.length; i++) {
-            tblExportDetails.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
@@ -40,22 +40,29 @@ public class ExportDetailGUI {
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
-        JFrame frame = new JFrame("ExportDetailGUI");
-        frame.setContentPane(new ExportDetailGUI().mainPanel);
+        JFrame frame = new JFrame("ProductGUI");
+        frame.setContentPane(new ProductGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    private JPanel mainPanel;
-    private JTable tblExportDetails;
-    private JComboBox cbxSearchType;
-    private JTextField txtSearch;
-    private JComboBox comboBox2;
+    private JPanel contentPanel;
+    private JTable tblProducts;
+    private JComboBox cbSearchType;
     private JButton btnAdd;
+    private JButton btnUpdate;
+    private JButton btnExportExcel;
     private JButton btnDelete;
+    private JButton btnImportExcel;
     private JButton btnReset;
-    private JPanel cbxQuantity;
-    private JTextField textField1;
+    private JButton btnCreateId;
+    private JTextField txtProductID;
+    private JTextField txtProductName;
+    private JTextField txtProductPrice;
+    private JComboBox cbxProductType;
+    private JPanel mainPanel;
+    private JButton btnViewConfig;
+    private JTextField txtSearch;
 }

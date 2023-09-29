@@ -25,7 +25,7 @@ public class ImportDetailGUI {
         String[] cols = {"Mã SP", "Tên SP", "Số lượng", "Đơn giá", "Thành tiền"};
         model.setColumnIdentifiers(cols);
         tblImportDetails.setModel(model);
-        tblImportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.PLAIN, 16));
+        tblImportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

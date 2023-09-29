@@ -45,7 +45,7 @@ public class StorageGUI {
         String[] cols = {"Mã phiếu nhập", "Mã nhân viên", "Ngày xuất", "Tổng số lượng", "Tình trạng"};
         exportModel.setColumnIdentifiers(cols);
         tblExports.setModel(exportModel);
-        tblExports.getTableHeader().setFont(new Font("Time News Roman", Font.PLAIN, 16));
+        tblExports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -72,7 +72,7 @@ public class StorageGUI {
         String[] cols = {"Mã phiếu nhập", "Mã nhân viên", "Mã nhà cung cấp", "Ngày nhập", "Tổng tiền", "Tình trạng"};
         importModel.setColumnIdentifiers(cols);
         tblImports.setModel(importModel);
-        tblImports.getTableHeader().setFont(new Font("Time News Roman", Font.PLAIN, 16));
+        tblImports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -96,10 +96,10 @@ public class StorageGUI {
             }
         };
 
-        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Hãng sản phẩm", "Số lượng"};
+        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Hãng", "Số lượng"};
         prodModel.setColumnIdentifiers(cols);
         tblProducts.setModel(prodModel);
-        tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.PLAIN, 16));
+        tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
