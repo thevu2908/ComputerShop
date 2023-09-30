@@ -7,12 +7,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class DecentralizationGUI {
+public class AccessGUI {
     private DefaultTableModel decentralizationModel;
 
-    public DecentralizationGUI() {
+    public AccessGUI() {
         initTable();
     }
+
     public void initTable() {
         decentralizationModel = new DefaultTableModel() {
             @Override
@@ -41,9 +42,10 @@ public class DecentralizationGUI {
         }
 
         JFrame frame = new JFrame();
-        frame.setContentPane(new DecentralizationGUI().mainPanel);
+        frame.setContentPane(new AccessGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 
@@ -51,18 +53,14 @@ public class DecentralizationGUI {
     private JPanel contentPanel;
     private JTable tblDSQuyen;
     private JPanel SearchPanel;
-    private JPanel ButtonPanel;
+    private JTextField txtTenQuyen;
+    private JTextField txtMaQuyen;
+    private JComboBox cbxKieuTimKiem;
+    private JTextField txtTimKiem;
     private JButton btnTaoMoi;
     private JButton btnThem;
     private JButton btnXoa;
     private JButton btnSua;
     private JButton btnReset;
     private JButton btnPhanQuyen;
-    private JPanel TextFiledPanel;
-    private JTextField txtTenQuyen;
-    private JTextField txtMaQuyen;
-    private JComboBox cbxKieuTimKiem;
-    private JTextField txtTimKiem;
-
-
 }

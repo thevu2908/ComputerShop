@@ -11,16 +11,17 @@ public class LoginGUI {
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
-        JFrame frame = new JFrame("LoginGUI");
+        JFrame frame = new JFrame("Đăng nhập");
         frame.setContentPane(new LoginGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setSize(1000, 500);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     private JPanel mainPanel;
-    private JButton đăngNhậpButton;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JButton btnLogin;
+    private JTextField txtUsername;
+    private JTextField txtPassword;
 }

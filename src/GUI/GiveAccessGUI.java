@@ -3,9 +3,7 @@ package GUI;
 import javax.swing.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
-public class AddDecentralizationGUI {
-
-
+public class GiveAccessGUI {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
@@ -13,10 +11,11 @@ public class AddDecentralizationGUI {
             System.err.println( "Failed to initialize LaF" );
         }
 
-        JFrame frame = new JFrame("AddDecentralizationGUI");
-        frame.setContentPane(new AddDecentralizationGUI().mainPanel);
+        JFrame frame = new JFrame("GiveAccessGUI");
+        frame.setContentPane(new GiveAccessGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -27,6 +26,4 @@ public class AddDecentralizationGUI {
     private JComboBox cbxChonQuyen;
     private JButton cbxThuHoiQuyen;
     private JButton cbxCapQuyen;
-
-
 }
