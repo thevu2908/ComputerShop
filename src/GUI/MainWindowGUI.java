@@ -5,6 +5,8 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MainWindowGUI {
     private ProductGUI productGUI;
@@ -14,6 +16,7 @@ public class MainWindowGUI {
     public MainWindowGUI() {
         setCursor();
         setHover();
+        setCurrentDate();
         intiContentPanel();
 
         MouseAdapter showContent = new MouseAdapter() {
@@ -77,6 +80,13 @@ public class MainWindowGUI {
     public void setColor(JPanel panel, JLabel label) {
         panel.setBackground(new Color(86, 132, 242));
         label.setForeground(new Color(255, 255, 255));
+    }
+
+    public void setCurrentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        String[] arr = dtf.format(now).split("/");
+        lblCurrentDate.setText("Ngày " + arr[2] + " tháng " + arr[1] + ", " + arr[0]);
     }
 
     public void setHover() {
@@ -201,5 +211,6 @@ public class MainWindowGUI {
     private JPanel customerPanel;
     private JPanel storagePanel;
     private JPanel supplierPanel;
+    private JLabel lblCurrentDate;
     private JPanel logoutPanel;
 }
