@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class MainWindowGUI {
+    private AccessGUI accessGUI;
+    private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
     private StorageGUI storageGUI;
-    private AccessGUI accessGUI;
 
     public MainWindowGUI() {
         setCursor();
@@ -55,17 +56,15 @@ public class MainWindowGUI {
     }
 
     public void intiContentPanel() {
+        accessGUI = new AccessGUI();
+        employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
         storageGUI = new StorageGUI();
-        accessGUI = new AccessGUI();
 
-        productGUI.getMainPanel().setName("productGUIPanel");
-        storageGUI.getMainPanel().setName("storageGUIPanel");
-        accessGUI.getMainPanel().setName("accessGUIPanel");
-
+        contentPanel.add("Access", accessGUI.getMainPanel());
+        contentPanel.add("Employee", employeeGUI.getMainPanel());
         contentPanel.add("Product", productGUI.getMainPanel());
         contentPanel.add("Storage", storageGUI.getMainPanel());
-        contentPanel.add("Access", accessGUI.getMainPanel());
     }
 
     public void setCurrentContent(JPanel panel, JLabel label) {
