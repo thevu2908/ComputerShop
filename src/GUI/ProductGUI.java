@@ -38,20 +38,6 @@ public class ProductGUI {
         return mainPanel;
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-        JFrame frame = new JFrame("ProductGUI");
-        frame.setContentPane(new ProductGUI().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
-    }
-
     private JPanel contentPanel;
     private JTable tblProducts;
     private JComboBox cbSearchType;

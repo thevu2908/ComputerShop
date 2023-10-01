@@ -9,10 +9,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class MainWindowGUI {
+    private StatisticsGUI statisticsGUI;
     private AccessGUI accessGUI;
     private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
     private StorageGUI storageGUI;
+    private SupplierGUI supplierGUI;
 
     public MainWindowGUI() {
         setCursor();
@@ -52,19 +54,22 @@ public class MainWindowGUI {
         lblCustomer.addMouseListener(showContent);
         lblStorage.addMouseListener(showContent);
         lblSupplier.addMouseListener(showContent);
-
     }
 
     public void intiContentPanel() {
+        statisticsGUI = new StatisticsGUI();
         accessGUI = new AccessGUI();
         employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
         storageGUI = new StorageGUI();
+        supplierGUI = new SupplierGUI();
 
+        contentPanel.add("Statistics", statisticsGUI.getMainPanel());
         contentPanel.add("Access", accessGUI.getMainPanel());
         contentPanel.add("Employee", employeeGUI.getMainPanel());
         contentPanel.add("Product", productGUI.getMainPanel());
         contentPanel.add("Storage", storageGUI.getMainPanel());
+        contentPanel.add("Supplier", supplierGUI.getMainPanel());
     }
 
     public void setCurrentContent(JPanel panel, JLabel label) {

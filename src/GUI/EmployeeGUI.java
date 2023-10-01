@@ -45,20 +45,6 @@ public class EmployeeGUI {
         return mainPanel;
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-        JFrame frame = new JFrame("Employee");
-        frame.setContentPane(new EmployeeGUI().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
-    }
-
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JTable tblEmployees;
