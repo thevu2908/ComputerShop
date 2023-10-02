@@ -168,8 +168,8 @@ INSERT INTO `nhan_vien` (`ma_nv`, `ma_lnv`, `ho_ten`, `dia_chi`, `so_dien_thoai`
 ('NV01', 'LNV01', 'Admin', 'Admin', '0123456789', '2003-01-01', 'Nam', 'admin@gmail.com', 'admin', 1),
 ('NV02', 'LNV02', 'Vương Huy Hoàng', '79 Trần Phú', '0974638593', '2003-09-10', 'Nam', 'huyhoang1910@gmail.com', '123', 1),
 ('NV03', 'LNV03', 'Trần Kim Phú', '523 Xóm Đất', '0975638294', '2003-04-15', 'Nam', 'kimphutran@gmail.com', '123', 1),
-('NV04', 'LNV04', 'Huỳnh Ngọc Diễm Ly', '456 An Dương Vương', '0987563892', '2003-04-05', 'Nữ', 'diemly123@gmail.com', '123', 1);
-('NV05', 'LNV02', 'Nguyễn Thế Vũ', '1080 CMT8', '0975842194', '2003-01-01', 'Nam', 'thevu29@gmail.com', '123', 1),
+('NV04', 'LNV04', 'Huỳnh Ngọc Diễm Ly', '456 An Dương Vương', '0987563892', '2003-04-05', 'Nữ', 'diemly123@gmail.com', '123', 1),
+('NV05', 'LNV02', 'Nguyễn Thế Vũ', '1080 CMT8', '0975842194', '2003-01-01', 'Nam', 'thevu29@gmail.com', '123', 1);
 
 -- --------------------------------------------------------
 
@@ -231,17 +231,11 @@ CREATE TABLE `san_pham` (
   `ma_hsp` varchar(10) NOT NULL,
   `ten_sp` varchar(255) NOT NULL,
   `gia` int(11) NOT NULL,
-  `bo_vi_xu_ly` varchar(255) NOT NULL,
-  `bo_nho_trong` varchar(255) NOT NULL,
-  `o_cung` varchar(50) NOT NULL,
-  `kich_thuoc_man_hinh` varchar(255) NOT NULL,
-  `mau_sac` varchar(255) NOT NULL,
-  `can_nang` varchar(255) NOT NULL,
-  `card_do_hoa` varchar(255) NOT NULL,
-  `webcam` varchar(255) NOT NULL,
-  `pin` varchar(255) NOT NULL,
-  `am_thanh` varchar(255) NOT NULL,
-  `ket_noi_khong_day` varchar(255) NOT NULL,
+  `cpu` varchar(50) NOT NULL,
+  `ram` varchar(30) NOT NULL,
+  `o_cung` varchar(30) NOT NULL,
+  `man_hinh` nvarchar(50) NOT NULL,
+  `card_man_hinh` nvarchar(50) NOT NULL,
   `so_luong` int NOT NULL,
   `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -250,11 +244,11 @@ CREATE TABLE `san_pham` (
 -- Dumping data for table `san_pham`
 --
 
-INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `bo_vi_xu_ly`, `bo_nho_trong`, `o_cung`, `kich_thuoc_man_hinh`, `mau_sac`, `can_nang`, `card_do_hoa`, `webcam`, `pin`, `am_thanh`, `ket_noi_khong_day`, `so_luong`, `trang_thai`) VALUES
-('SP01', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', 'Đen', '1.69 kg', '2GB MX350', 'HD webcam', '48Wh', 'Realtek High Definit', 'Wifi,Bluetooth', 100, 1),
-('SP02', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Bạc', '1.41kg', 'Intel Iris Xe Graphics', 'HP Wide Vision 720p HD camera', '3-cell, 43 Wh Li-ion polymer', 'B&O; Loa kép; HP Audio Boost', '1MediaTek Wi-Fi 6 MT7921 (2x2)', 100, 1),
-('SP03', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', 'Xám', '1.6 kg', '14 core-GPU', '1080p FaceTime HD camera', 'Đang cập nhật', 'Dolby Atmos, Hệ thống âm thanh 6 loa, Wide stereo sound', 'Wi-Fi 6 (802.11ax), Bluetooth 5.0', 100, 1),
-('SP04', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'Đen', '2.41 kg', 'NVIDIA GeForce RTX 3050', '720p HD', '57.5 Wh 4-cell Li-ion', 'Đang cập nhật', 'Wi-Fi 6 AX 1650i (2x2)', 100, 1);
+INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
+('SP01', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 1),
+('SP02', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 1),
+('SP03', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 1),
+('SP04', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 1);
 
 --
 -- Table structure for table `san_pham_kho`
