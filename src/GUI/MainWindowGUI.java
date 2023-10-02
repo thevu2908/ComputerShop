@@ -1,6 +1,7 @@
 package GUI;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.mysql.cj.log.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +55,16 @@ public class MainWindowGUI {
         lblCustomer.addMouseListener(showContent);
         lblStorage.addMouseListener(showContent);
         lblSupplier.addMouseListener(showContent);
+
+        lblLogout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                frame.dispose();
+                LoginGUI loginGUI = new LoginGUI();
+                loginGUI.openLoginGUI();
+            }
+        });
     }
 
     public void intiContentPanel() {
@@ -180,6 +191,15 @@ public class MainWindowGUI {
         lblStorage.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblSupplier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    public void openMainWindow() {
+        JFrame frame = new JFrame("Quản trị hệ thống");
+        frame.setContentPane(new MainWindowGUI().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
