@@ -1,7 +1,5 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +51,10 @@ public class ProductGUI {
     private JTextField txtProductPrice;
     private JComboBox cbxProductType;
     private JPanel mainPanel;
-    private JButton btnViewConfig;
     private JTextField txtSearch;
+    private JTextField txtCPU;
+    private JTextField txtOCung;
+    private JTextField txtRAM;
+    private JTextField txtScreen;
+    private JTextField txtScreenCard;
 }
