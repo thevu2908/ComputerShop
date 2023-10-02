@@ -41,6 +41,18 @@ public class EmployeeBUS {
         return true;
     }
 
+    public String getTypeByEmail(String email) {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeDTO.getEmployeeEmail().equals(email)) {
+                return employeeDTO.getEmployeeType();
+            }
+        }
+
+        return null;
+    }
+
     public boolean checkPassword(String username, String password) {
         loadData();
 

@@ -447,14 +447,14 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="1f0b3" class="javax.swing.JMenuItem">
+              <component id="1f0b3" class="javax.swing.JMenuItem" binding="menuSystem">
                 <constraints/>
                 <properties>
                   <horizontalTextPosition value="2"/>
                   <text value="Hệ thống"/>
                 </properties>
               </component>
-              <component id="57340" class="javax.swing.JMenuItem">
+              <component id="57340" class="javax.swing.JMenuItem" binding="menuLogout">
                 <constraints/>
                 <properties>
                   <horizontalTextPosition value="2"/>

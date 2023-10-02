@@ -20,8 +20,14 @@ public class LoginGUI {
                 String password = txtPassword.getText();
 
                 if (employeeBUS.login(username, password)) {
-                    MainWindowGUI mainWindow = new MainWindowGUI();
-                    mainWindow.openMainWindow();
+                    if (employeeBUS.getTypeByEmail(username).equals("LNV03")) {
+                        SellGUI sellGUI = new SellGUI();
+                        sellGUI.openSellGUI();
+                    } else {
+                        SystemGUI systemGUI = new SystemGUI();
+                        systemGUI.openSystemGUI();
+                    }
+
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                     frame.dispose();
                 }

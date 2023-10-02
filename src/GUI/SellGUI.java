@@ -1,12 +1,13 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SellGUI {
     private DefaultTableModel productModel;
@@ -16,6 +17,26 @@ public class SellGUI {
     public SellGUI() {
         initSell();
         initOrder();
+
+        menuSystem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SystemGUI systemGUI = new SystemGUI();
+                systemGUI.openSystemGUI();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                frame.dispose();
+            }
+        });
+
+        menuLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginGUI loginGUI = new LoginGUI();
+                loginGUI.openLoginGUI();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                frame.dispose();
+            }
+        });
     }
 
     public void initSell() {
@@ -128,6 +149,8 @@ public class SellGUI {
     private JButton btnChooseProd;
     private JButton btnUnchooseProd;
     private JPanel orderPanel;
+    private JMenuItem menuSystem;
+    private JMenuItem menuLogout;
     private JDateChooser orderDateFrom;
     private JDateChooser orderDateTo;
 }
