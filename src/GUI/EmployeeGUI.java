@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.EmployeeBUS;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.toedter.calendar.JDateChooser;
 
@@ -10,10 +11,17 @@ import java.awt.*;
 
 public class EmployeeGUI {
     private DefaultTableModel employeeModel;
+    private EmployeeBUS employeeBUS;
 
     public EmployeeGUI() {
+        employeeBUS = new EmployeeBUS();
         intiDateChooser();
         initTable();
+        initTableData();
+    }
+
+    public void initTableData() {
+        employeeBUS.renderToTable(employeeModel);
     }
 
     public void initTable() {
