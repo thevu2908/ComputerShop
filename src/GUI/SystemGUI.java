@@ -1,10 +1,16 @@
 package GUI;
 
+import BUS.EmployeeBUS;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SystemGUI {
     private StatisticsGUI statisticsGUI;
@@ -15,13 +21,77 @@ public class SystemGUI {
     private CustomerGUI customerGUI;
     private StorageGUI storageGUI;
     private SupplierGUI supplierGUI;
+    private String employeeId;
+    private String employeeType;
 
-    public SystemGUI() {
+    private EmployeeBUS employeeBUS;
+
+    public SystemGUI(String employeeId, String employeeType) {
+        employeeBUS = new EmployeeBUS();
+        this.employeeId = employeeId;
+        this.employeeType = employeeType;
         setCursor();
         setHover();
         setCurrentDate();
+        setName();
+        setMargin();
         intiContentPanel();
+        showContentListener();
+        giveAccess();
 
+        lblLogout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (employeeType.equals("LNV03")) {
+                    SellGUI sellGUI = new SellGUI(employeeId);
+                    sellGUI.openSellGUI();
+                } else {
+                    LoginGUI loginGUI = new LoginGUI();
+                    loginGUI.openLoginGUI();
+                }
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                frame.dispose();
+            }
+        });
+    }
+
+    public void giveAccess() {
+        CardLayout card = (CardLayout) contentPanel.getLayout();
+        ArrayList<JPanel> panels = new ArrayList<>();
+        List<JPanel> list = null;
+        if (employeeType.equals("LNV01")) {
+            list = Arrays.asList(statisticsPanel, productPanel, billPanel, customerPanel,
+                    storagePanel, supplierPanel);
+            panels.addAll(list);
+            hidePanel(panels);
+            card.show(contentPanel, "Access");
+        } else if (employeeType.equals("LNV02")) {
+            list = Arrays.asList(accessPanel, employeePanel);
+            panels.addAll(list);
+            hidePanel(panels);
+            card.show(contentPanel, "Statistics");
+        } else if (employeeType.equals("LNV03")) {
+            lblLogout.setText("Về trang bán hàng");
+            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, storagePanel, supplierPanel);
+            panels.addAll(list);
+            hidePanel(panels);
+            card.show(contentPanel, "Bill");
+        } else if (employeeType.equals("LNV04")) {
+            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, billPanel, customerPanel,
+                    supplierPanel);
+            panels.addAll(list);
+            hidePanel(panels);
+            card.show(contentPanel, "Storage");
+        }
+    }
+
+    public void hidePanel(ArrayList<JPanel> panels) {
+        for (JPanel panel : panels) {
+            panel.setVisible(false);
+        }
+    }
+
+    public void showContentListener() {
         MouseAdapter showContent = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -53,16 +123,6 @@ public class SystemGUI {
         lblCustomer.addMouseListener(showContent);
         lblStorage.addMouseListener(showContent);
         lblSupplier.addMouseListener(showContent);
-
-        lblLogout.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                frame.dispose();
-                LoginGUI loginGUI = new LoginGUI();
-                loginGUI.openLoginGUI();
-            }
-        });
     }
 
     public void intiContentPanel() {
@@ -85,18 +145,21 @@ public class SystemGUI {
         contentPanel.add("Supplier", supplierGUI.getMainPanel());
     }
 
-    public void setCurrentContent(JPanel panel, JLabel label) {
-        for (Component component : contentPanel.getComponents()) {
-            if (component.isVisible()) {
-                setColor(panel, label);
-                break;
-            }
-        }
+    public void setName() {
+        String name = employeeBUS.getNameById(employeeId);
+        lblUserName.setText(name);
     }
 
-    public void setColor(JPanel panel, JLabel label) {
-        panel.setBackground(new Color(86, 132, 242));
-        label.setForeground(new Color(255, 255, 255));
+    public void setMargin() {
+        Border border = BorderFactory.createEmptyBorder(12, 14, 12, 14);
+        lblStatistics.setBorder(border);
+        lblAccess.setBorder(border);
+        lblEmployee.setBorder(border);
+        lblProduct.setBorder(border);
+        lblBill.setBorder(border);
+        lblCustomer.setBorder(border);
+        lblStorage.setBorder(border);
+        lblSupplier.setBorder(border);
     }
 
     public void setCurrentDate() {
@@ -111,62 +174,58 @@ public class SystemGUI {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (e.getSource() == lblStatistics) {
-                    statisticsPanel.setBackground(new Color(86, 132, 242));
+                    lblStatistics.setBackground(new Color(86, 132, 242));
                     lblStatistics.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblAccess) {
-                    accessPanel.setBackground(new Color(86, 132, 242));
+                    lblAccess.setBackground(new Color(86, 132, 242));
                     lblAccess.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblEmployee) {
-                    employeePanel.setBackground(new Color(86, 132, 242));
+                    lblEmployee.setBackground(new Color(86, 132, 242));
                     lblEmployee.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblProduct) {
-                    productPanel.setBackground(new Color(86, 132, 242));
+                    lblProduct.setBackground(new Color(86, 132, 242));
                     lblProduct.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblBill) {
-                    billPanel.setBackground(new Color(86, 132, 242));
+                    lblBill.setBackground(new Color(86, 132, 242));
                     lblBill.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblCustomer) {
-                    customerPanel.setBackground(new Color(86, 132, 242));
+                    lblCustomer.setBackground(new Color(86, 132, 242));
                     lblCustomer.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblStorage) {
-                    storagePanel.setBackground(new Color(86, 132, 242));
+                    lblStorage.setBackground(new Color(86, 132, 242));
                     lblStorage.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblSupplier) {
-                    supplierPanel.setBackground(new Color(86, 132, 242));
+                    lblSupplier.setBackground(new Color(86, 132, 242));
                     lblSupplier.setForeground(new Color(255, 255, 255));
-                } else if (e.getSource() == lblLogout) {
-                    lblLogout.setForeground(new Color(255, 255, 255));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (e.getSource() == lblStatistics) {
-                    statisticsPanel.setBackground(new Color(255, 255, 255));
+                    lblStatistics.setBackground(new Color(255, 255, 255));
                     lblStatistics.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblAccess) {
-                    accessPanel.setBackground(new Color(255, 255, 255));
+                    lblAccess.setBackground(new Color(255, 255, 255));
                     lblAccess.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblEmployee) {
-                    employeePanel.setBackground(new Color(255, 255, 255));
+                    lblEmployee.setBackground(new Color(255, 255, 255));
                     lblEmployee.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblProduct) {
-                    productPanel.setBackground(new Color(255, 255, 255));
+                    lblProduct.setBackground(new Color(255, 255, 255));
                     lblProduct.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblBill) {
-                    billPanel.setBackground(new Color(255, 255, 255));
+                    lblBill.setBackground(new Color(255, 255, 255));
                     lblBill.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblCustomer) {
-                    customerPanel.setBackground(new Color(255, 255, 255));
+                    lblCustomer.setBackground(new Color(255, 255, 255));
                     lblCustomer.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblStorage) {
-                    storagePanel.setBackground(new Color(255, 255, 255));
+                    lblStorage.setBackground(new Color(255, 255, 255));
                     lblStorage.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblSupplier) {
-                    supplierPanel.setBackground(new Color(255, 255, 255));
+                    lblSupplier.setBackground(new Color(255, 255, 255));
                     lblSupplier.setForeground(new Color(0, 0, 0));
-                } else if (e.getSource() == lblLogout) {
-                    lblLogout.setForeground(new Color(255, 255, 255));
                 }
             }
         };
@@ -195,7 +254,7 @@ public class SystemGUI {
 
     public void openSystemGUI() {
         JFrame frame = new JFrame("Quản trị hệ thống");
-        frame.setContentPane(new SystemGUI().mainPanel);
+        frame.setContentPane(new SystemGUI(employeeId, employeeType).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -205,7 +264,7 @@ public class SystemGUI {
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JPanel taskbarPanel;
-    private JLabel lbUserName;
+    private JLabel lblUserName;
     private JLabel lblStatistics;
     private JLabel lblAccess;
     private JLabel lblEmployee;

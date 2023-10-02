@@ -13,15 +13,17 @@ public class SellGUI {
     private DefaultTableModel productModel;
     private DefaultTableModel sellOrderModel;
     private DefaultTableModel orderModel;
+    private String employeeId;
 
-    public SellGUI() {
+    public SellGUI(String employeeId) {
+        this.employeeId = employeeId;
         initSell();
         initOrder();
 
         menuSystem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SystemGUI systemGUI = new SystemGUI();
+                SystemGUI systemGUI = new SystemGUI(employeeId, "LNV03");
                 systemGUI.openSystemGUI();
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                 frame.dispose();
@@ -122,7 +124,7 @@ public class SellGUI {
 
     public void openSellGUI() {
         JFrame frame = new JFrame("Bán hàng");
-        frame.setContentPane(new SellGUI().mainPanel);
+        frame.setContentPane(new SellGUI(employeeId).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

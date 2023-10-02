@@ -41,6 +41,30 @@ public class EmployeeBUS {
         return true;
     }
 
+    public String getNameById(String id) {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeDTO.getEmployeeId().equals(id)) {
+                return employeeDTO.getEmployeeName();
+            }
+        }
+
+        return null;
+    }
+
+    public String getIdByEmail(String email) {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeDTO.getEmployeeEmail().equals(email)) {
+                return employeeDTO.getEmployeeId();
+            }
+        }
+
+        return null;
+    }
+
     public String getTypeByEmail(String email) {
         loadData();
 

@@ -22,11 +22,14 @@ public class LoginGUI {
                 String password = txtPassword.getText();
 
                 if (employeeBUS.login(username, password)) {
-                    if (employeeBUS.getTypeByEmail(username).equals("LNV03")) {
-                        SellGUI sellGUI = new SellGUI();
+                    String employeeId = employeeBUS.getIdByEmail(username);
+                    String employeeType = employeeBUS.getTypeByEmail(username);
+
+                    if (employeeType.equals("LNV03")) {
+                        SellGUI sellGUI = new SellGUI(employeeId);
                         sellGUI.openSellGUI();
                     } else {
-                        SystemGUI systemGUI = new SystemGUI();
+                        SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
                         systemGUI.openSystemGUI();
                     }
 
@@ -42,7 +45,7 @@ public class LoginGUI {
                 if (chkShowPassword.isSelected()) {
                     txtPassword.setEchoChar((char)0);
                 } else {
-                    txtPassword.setEchoChar('*');
+                    txtPassword.setEchoChar('•');
                 }
             }
         });

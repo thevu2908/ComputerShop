@@ -2,12 +2,12 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.SystemGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="665" height="752"/>
+      <xy x="20" y="20" width="665" height="899"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="82719" binding="taskbarPanel" layout-manager="GridLayoutManager" row-count="18" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="82719" binding="taskbarPanel" layout-manager="GridLayoutManager" row-count="11" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="10" left="12" bottom="10" right="12"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -21,8 +21,8 @@
           <title-color color="-2104859"/>
         </border>
         <children>
-          <grid id="9e4ff" binding="statisticsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="9e4ff" binding="statisticsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -36,19 +36,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/statistics_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Thống kê"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="6486c" binding="accessPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="6486c" binding="accessPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -60,19 +62,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/wrench_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý quyền"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="7c99a" binding="employeePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="7c99a" binding="employeePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -84,19 +88,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/employee_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý nhân viên"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="d9b6" binding="productPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="d9b6" binding="productPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -108,19 +114,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/product_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý sản phẩm"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="d1e" binding="billPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="d1e" binding="billPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -132,19 +140,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/bill_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý hóa đơn"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="34dec" binding="customerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="34dec" binding="customerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -156,19 +166,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/customer_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý khách hàng"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="72897" binding="storagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="72897" binding="storagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -180,19 +192,21 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/storage_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý kho"/>
                 </properties>
               </component>
             </children>
           </grid>
-          <grid id="52ff7" binding="supplierPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="12" left="14" bottom="12" right="14"/>
+          <grid id="52ff7" binding="supplierPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+            <margin top="24" left="0" bottom="24" right="0"/>
             <constraints>
-              <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -204,10 +218,12 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-1"/>
                   <font size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <icon value="images/supplier_icon.png"/>
                   <iconTextGap value="10"/>
+                  <opaque value="true"/>
                   <text value="Quản lý nhà cung cấp"/>
                 </properties>
               </component>
@@ -215,42 +231,7 @@
           </grid>
           <vspacer id="8451e">
             <constraints>
-              <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="2362b">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="4e177">
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="c6623">
-            <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="5f67a">
-            <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="918a2">
-            <constraints>
-              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="c0fd4">
-            <constraints>
-              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="7b35a">
-            <constraints>
-              <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
           <grid id="b5903" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -273,15 +254,15 @@
                   <text value="Xin chào,"/>
                 </properties>
               </component>
-              <component id="60b3b" class="javax.swing.JLabel" binding="lbUserName">
+              <component id="60b3b" class="javax.swing.JLabel" binding="lblUserName">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <enabled value="true"/>
                   <font size="22" style="1"/>
                   <foreground color="-11107086"/>
-                  <text value="Nguyễn Thế Vũ"/>
+                  <text value="Name"/>
                 </properties>
               </component>
             </children>
