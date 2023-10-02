@@ -13,6 +13,7 @@ public class MainWindowGUI {
     private AccessGUI accessGUI;
     private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
+    private BillGUI billGUI;
     private StorageGUI storageGUI;
     private SupplierGUI supplierGUI;
 
@@ -26,7 +27,6 @@ public class MainWindowGUI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 CardLayout card = (CardLayout) contentPanel.getLayout();
-
                 if (e.getSource() == lblStatistics) {
                     card.show(contentPanel, "Statistics");
                 } else if (e.getSource() == lblAccess) {
@@ -35,8 +35,8 @@ public class MainWindowGUI {
                     card.show(contentPanel, "Employee");
                 } else if (e.getSource() == lblProduct) {
                     card.show(contentPanel, "Product");
-                } else if (e.getSource() == lblOrder) {
-                    card.show(contentPanel, "Order");
+                } else if (e.getSource() == lblBill) {
+                    card.show(contentPanel, "Bill");
                 } else if (e.getSource() == lblCustomer) {
                     card.show(contentPanel, "Customer");
                 } else if (e.getSource() == lblStorage) {
@@ -50,7 +50,7 @@ public class MainWindowGUI {
         lblAccess.addMouseListener(showContent);
         lblEmployee.addMouseListener(showContent);
         lblProduct.addMouseListener(showContent);
-        lblOrder.addMouseListener(showContent);
+        lblBill.addMouseListener(showContent);
         lblCustomer.addMouseListener(showContent);
         lblStorage.addMouseListener(showContent);
         lblSupplier.addMouseListener(showContent);
@@ -61,6 +61,7 @@ public class MainWindowGUI {
         accessGUI = new AccessGUI();
         employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
+        billGUI = new BillGUI();
         storageGUI = new StorageGUI();
         supplierGUI = new SupplierGUI();
 
@@ -68,6 +69,7 @@ public class MainWindowGUI {
         contentPanel.add("Access", accessGUI.getMainPanel());
         contentPanel.add("Employee", employeeGUI.getMainPanel());
         contentPanel.add("Product", productGUI.getMainPanel());
+        contentPanel.add("Bill", billGUI.getMainPanel());
         contentPanel.add("Storage", storageGUI.getMainPanel());
         contentPanel.add("Supplier", supplierGUI.getMainPanel());
     }
@@ -109,9 +111,9 @@ public class MainWindowGUI {
                 } else if (e.getSource() == lblProduct) {
                     productPanel.setBackground(new Color(86, 132, 242));
                     lblProduct.setForeground(new Color(255, 255, 255));
-                } else if (e.getSource() == lblOrder) {
-                    orderPanel.setBackground(new Color(86, 132, 242));
-                    lblOrder.setForeground(new Color(255, 255, 255));
+                } else if (e.getSource() == lblBill) {
+                    billPanel.setBackground(new Color(86, 132, 242));
+                    lblBill.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblCustomer) {
                     customerPanel.setBackground(new Color(86, 132, 242));
                     lblCustomer.setForeground(new Color(255, 255, 255));
@@ -140,9 +142,9 @@ public class MainWindowGUI {
                 } else if (e.getSource() == lblProduct) {
                     productPanel.setBackground(new Color(255, 255, 255));
                     lblProduct.setForeground(new Color(0, 0, 0));
-                } else if (e.getSource() == lblOrder) {
-                    orderPanel.setBackground(new Color(255, 255, 255));
-                    lblOrder.setForeground(new Color(0, 0, 0));
+                } else if (e.getSource() == lblBill) {
+                    billPanel.setBackground(new Color(255, 255, 255));
+                    lblBill.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblCustomer) {
                     customerPanel.setBackground(new Color(255, 255, 255));
                     lblCustomer.setForeground(new Color(0, 0, 0));
@@ -161,7 +163,7 @@ public class MainWindowGUI {
         lblAccess.addMouseListener(hover);
         lblEmployee.addMouseListener(hover);
         lblProduct.addMouseListener(hover);
-        lblOrder.addMouseListener(hover);
+        lblBill.addMouseListener(hover);
         lblCustomer.addMouseListener(hover);
         lblStorage.addMouseListener(hover);
         lblSupplier.addMouseListener(hover);
@@ -173,7 +175,7 @@ public class MainWindowGUI {
         lblAccess.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblEmployee.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblProduct.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        lblOrder.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lblBill.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblStorage.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblSupplier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -202,7 +204,7 @@ public class MainWindowGUI {
     private JLabel lblAccess;
     private JLabel lblEmployee;
     private JLabel lblProduct;
-    private JLabel lblOrder;
+    private JLabel lblBill;
     private JLabel lblCustomer;
     private JLabel lblStorage;
     private JLabel lblSupplier;
@@ -211,7 +213,7 @@ public class MainWindowGUI {
     private JPanel accessPanel;
     private JPanel employeePanel;
     private JPanel productPanel;
-    private JPanel orderPanel;
+    private JPanel billPanel;
     private JPanel customerPanel;
     private JPanel storagePanel;
     private JPanel supplierPanel;

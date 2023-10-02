@@ -95,6 +95,14 @@ public class SellGUI {
         }
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public JPanel getOrderPanel() {
+        return orderPanel;
+    }
+
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
@@ -128,6 +136,7 @@ public class SellGUI {
     private JTextField txtProdQuantity;
     private JButton btnChooseProd;
     private JButton btnUnchooseProd;
+    private JPanel orderPanel;
     private JDateChooser orderDateFrom;
     private JDateChooser orderDateTo;
 }

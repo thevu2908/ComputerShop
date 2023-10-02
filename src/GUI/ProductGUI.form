@@ -23,7 +23,7 @@
             <properties>
               <font size="22" style="1"/>
               <foreground color="-11107086"/>
-              <text value="QUẢN LÝ SẢN PHẨM"/>
+              <text value="DANH SÁCH SẢN PHẨM"/>
             </properties>
           </component>
           <grid id="da565" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
