@@ -1,24 +1,22 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.mysql.cj.log.Log;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class MainWindowGUI {
+public class SystemGUI {
     private StatisticsGUI statisticsGUI;
     private AccessGUI accessGUI;
     private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
     private BillGUI billGUI;
+    private CustomerGUI customerGUI;
     private StorageGUI storageGUI;
     private SupplierGUI supplierGUI;
 
-    public MainWindowGUI() {
+    public SystemGUI() {
         setCursor();
         setHover();
         setCurrentDate();
@@ -73,6 +71,7 @@ public class MainWindowGUI {
         employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
         billGUI = new BillGUI();
+        customerGUI = new CustomerGUI();
         storageGUI = new StorageGUI();
         supplierGUI = new SupplierGUI();
 
@@ -81,6 +80,7 @@ public class MainWindowGUI {
         contentPanel.add("Employee", employeeGUI.getMainPanel());
         contentPanel.add("Product", productGUI.getMainPanel());
         contentPanel.add("Bill", billGUI.getMainPanel());
+        contentPanel.add("Customer", customerGUI.getMainPanel());
         contentPanel.add("Storage", storageGUI.getMainPanel());
         contentPanel.add("Supplier", supplierGUI.getMainPanel());
     }
@@ -193,23 +193,9 @@ public class MainWindowGUI {
         lblLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    public void openMainWindow() {
+    public void openSystemGUI() {
         JFrame frame = new JFrame("Quản trị hệ thống");
-        frame.setContentPane(new MainWindowGUI().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-        JFrame frame = new JFrame("Quản trị hệ thống");
-        frame.setContentPane(new MainWindowGUI().mainPanel);
+        frame.setContentPane(new SystemGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);

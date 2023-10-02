@@ -99,17 +99,8 @@ public class SellGUI {
         return mainPanel;
     }
 
-    public JPanel getOrderPanel() {
-        return orderPanel;
-    }
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-        JFrame frame = new JFrame("SellGUI");
+    public void openSellGUI() {
+        JFrame frame = new JFrame("Bán hàng");
         frame.setContentPane(new SellGUI().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
