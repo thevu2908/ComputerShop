@@ -1,5 +1,7 @@
 package GUI;
 
+import BUS.ProductBUS;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -7,9 +9,16 @@ import java.awt.*;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
+    private ProductBUS productBUS;
 
     public ProductGUI() {
+        productBUS = new ProductBUS();
         initTable();
+        initTableData();
+    }
+
+    public void initTableData() {
+        productBUS.renderToProductTable(prodModel);
     }
 
     public void initTable() {

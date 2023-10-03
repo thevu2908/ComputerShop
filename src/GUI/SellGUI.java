@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.ProductBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -15,7 +16,10 @@ public class SellGUI {
     private DefaultTableModel orderModel;
     private String employeeId;
 
+    private ProductBUS productBUS;
+
     public SellGUI(String employeeId) {
+        productBUS = new ProductBUS();
         this.employeeId = employeeId;
         initSell();
         initOrder();
@@ -44,6 +48,7 @@ public class SellGUI {
     public void initSell() {
         initProducTable();
         initSellOrderTable();
+        initProductTableData();
     }
 
     public void initOrder() {
@@ -96,6 +101,10 @@ public class SellGUI {
         for (int i = 0; i < cols.length; i++) {
             tblSellOrders.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+    }
+
+    public void initProductTableData() {
+        productBUS.renderToSellTable(productModel);
     }
 
     public void initProducTable() {

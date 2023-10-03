@@ -1,6 +1,6 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import BUS.ProductBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -13,7 +13,10 @@ public class StorageGUI {
     private DefaultTableModel importModel;
     private DefaultTableModel exportModel;
 
+    private ProductBUS productBUS;
+
     public StorageGUI() {
+        productBUS = new ProductBUS();
         initProduct();
         initImport();
         initExport();
@@ -32,6 +35,7 @@ public class StorageGUI {
 
     public void initProduct() {
         initProductTable();
+        initProductTableData();
     }
 
     public void initExportTable() {
@@ -86,6 +90,10 @@ public class StorageGUI {
         importDateFromPanel.add(importDateFrom);
         importDateTo = new JDateChooser();
         importDateToPanel.add(importDateTo);
+    }
+
+    public void initProductTableData() {
+        productBUS.renderToStorageProductTable(prodModel);
     }
 
     public void initProductTable() {
