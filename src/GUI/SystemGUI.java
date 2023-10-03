@@ -72,7 +72,7 @@ public class SystemGUI {
             card.show(contentPanel, "Statistics");
         } else if (employeeType.equals("LNV03")) {
             lblLogout.setText("Về trang bán hàng");
-            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, storagePanel, supplierPanel);
+            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, storagePanel, supplierPanel, billPanel);
             panels.addAll(list);
             hidePanel(panels);
             card.show(contentPanel, "Bill");

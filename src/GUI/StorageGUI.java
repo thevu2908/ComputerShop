@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.ImportBUS;
 import BUS.ProductBUS;
 import com.toedter.calendar.JDateChooser;
 
@@ -7,6 +8,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StorageGUI {
     private DefaultTableModel prodModel;
@@ -14,12 +19,28 @@ public class StorageGUI {
     private DefaultTableModel exportModel;
 
     private ProductBUS productBUS;
+    private ImportBUS importBUS;
 
     public StorageGUI() {
         productBUS = new ProductBUS();
+        importBUS = new ImportBUS();
         initProduct();
         initImport();
         initExport();
+
+        tblImports.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    int rowSelected = tblImports.getSelectedRow();
+                    String importId = tblImports.getValueAt(rowSelected, 0).toString();
+
+                    ImportDetailGUI importDetailGUI = new ImportDetailGUI(importId);
+                    importDetailGUI.openImportDetailGUI();
+                }
+            }
+        });
     }
 
     public void initExport() {
@@ -30,8 +51,8 @@ public class StorageGUI {
     public void initImport() {
         initImportDateChooser();
         initImportTable();
+        initImportTableData();
     }
-
 
     public void initProduct() {
         initProductTable();
@@ -63,6 +84,10 @@ public class StorageGUI {
         exportDateFromPanel.add(exportDateFrom);
         exportDateTo = new JDateChooser();
         exportDateToPanel.add(exportDateTo);
+    }
+
+    public void initImportTableData() {
+        importBUS.renderToTable(importModel);
     }
 
     public void initImportTable() {

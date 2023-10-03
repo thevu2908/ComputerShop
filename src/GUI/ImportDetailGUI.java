@@ -1,7 +1,5 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -9,8 +7,11 @@ import java.awt.*;
 
 public class ImportDetailGUI {
     private DefaultTableModel model;
+    private String importId;
 
-    public ImportDetailGUI() {
+    public ImportDetailGUI(String importId) {
+        this.importId = importId;
+        System.out.println(this.importId);
         initTable();
     }
 
@@ -34,16 +35,10 @@ public class ImportDetailGUI {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-
-        JFrame frame = new JFrame("ImportDetailGUI");
-        frame.setContentPane(new ImportDetailGUI().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void openImportDetailGUI() {
+        JFrame frame = new JFrame("Chi tiết phiếu nhập");
+        frame.setContentPane(new ImportDetailGUI(importId).mainPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
