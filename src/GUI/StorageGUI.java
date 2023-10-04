@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.ExportBUS;
 import BUS.ImportBUS;
 import BUS.ProductBUS;
 import com.toedter.calendar.JDateChooser;
@@ -8,8 +9,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -20,10 +19,12 @@ public class StorageGUI {
 
     private ProductBUS productBUS;
     private ImportBUS importBUS;
+    private ExportBUS exportBUS;
 
     public StorageGUI() {
         productBUS = new ProductBUS();
         importBUS = new ImportBUS();
+        exportBUS = new ExportBUS();
         initProduct();
         initImport();
         initExport();
@@ -36,8 +37,22 @@ public class StorageGUI {
                     int rowSelected = tblImports.getSelectedRow();
                     String importId = tblImports.getValueAt(rowSelected, 0).toString();
 
-                    ImportDetailGUI importDetailGUI = new ImportDetailGUI(importId);
+                    ImportDetailGUI importDetailGUI = new ImportDetailGUI(importId, StorageGUI.this);
                     importDetailGUI.openImportDetailGUI();
+                }
+            }
+        });
+
+        tblExports.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    int rowSelected = tblExports.getSelectedRow();
+                    String exportID = tblExports.getValueAt(rowSelected, 0).toString();
+
+                    ExportDetailGUI exportDetailGUI = new ExportDetailGUI(exportID, StorageGUI.this);
+                    exportDetailGUI.openExportDetailGUI();
                 }
             }
         });
@@ -46,6 +61,7 @@ public class StorageGUI {
     public void initExport() {
         initExportDateChooser();
         initExportTable();
+        initExportTableData();
     }
 
     public void initImport() {
@@ -57,6 +73,10 @@ public class StorageGUI {
     public void initProduct() {
         initProductTable();
         initProductTableData();
+    }
+
+    public void initExportTableData() {
+        exportBUS.renderToTable(exportModel);
     }
 
     public void initExportTable() {

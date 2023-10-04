@@ -25,6 +25,20 @@ public class ProductBUS {
         storageProductList = productDAO.getStorageData();
     }
 
+
+
+    public int getPriceById(String id) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductId().equals(id)) {
+                return productDTO.getProductPrice();
+            }
+        }
+
+        return 0;
+    }
+
     public String getNameById(String id) {
         loadProductData();
 
