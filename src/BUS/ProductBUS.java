@@ -31,18 +31,17 @@ public class ProductBUS {
                           String screen, String screenCard) {
         if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("") ||
                 oCung.equals("") || screen.equals("") || screenCard.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
+
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (checkProductIDExisted(id)){
-            JOptionPane.showMessageDialog(null, "Mã sản phẩm đã tồn tại!", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
+        if (checkExistedProductId(id)){
+            JOptionPane.showMessageDialog(null, "Mã sản phẩm đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (Validate.isValidNumber(price, "Giá")) {
+        if (!Validate.isValidNumber(price, "Giá")) {
             return;
         }
 
@@ -52,9 +51,30 @@ public class ProductBUS {
         if (productDAO.addProduct(product) == 1) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
         } else {
-            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public boolean checkExistedProductId(String productID){
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductId().equals(productID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ProductDTO showDetailProduct(String productID){
+        ProductBUS ProductList = new ProductBUS();
+        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
+        for (ProductDTO product : Products){
+            if (productID.equals(product.getProductId())){
+                return product;
+            }
+        }
+        return null;
     }
 
     public String getNameById(String id) {
@@ -106,8 +126,8 @@ public class ProductBUS {
     }
 
     public void renderToSellTable(DefaultTableModel model) {
-        loadProductData();
         model.setRowCount(0);
+        loadProductData();
 
         for (ProductDTO productDTO : productList) {
             if (productDTO.getIsDeleted() == 1) {
@@ -124,8 +144,8 @@ public class ProductBUS {
     }
 
     public void renderToProductTable(DefaultTableModel model) {
-        loadProductData();
         model.setRowCount(0);
+        loadProductData();
 
         for (ProductDTO productDTO : productList) {
             if (productDTO.getIsDeleted() == 1) {
@@ -142,8 +162,8 @@ public class ProductBUS {
     }
 
     public void renderToStorageProductTable(DefaultTableModel model) {
-        loadStorageProductData();
         model.setRowCount(0);
+        loadStorageProductData();
 
         for (ProductDTO productDTO : storageProductList) {
             if (getIsDeletedById(productDTO.getProductId()) == 1) {
@@ -157,26 +177,5 @@ public class ProductBUS {
         }
 
         model.fireTableDataChanged();
-    }
-    public boolean checkProductIDExisted(String productID){
-        ProductBUS ProductList = new ProductBUS();
-        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
-        for (ProductDTO product: Products) {
-            if (productID.equals(product.getProductId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public ProductDTO showDetailProduct(String productID){
-        ProductBUS ProductList = new ProductBUS();
-        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
-        for (ProductDTO product : Products){
-            if (productID.equals(product.getProductId())){
-                return product;
-            }
-        }
-        return null;
     }
 }
