@@ -3,6 +3,7 @@ package BUS;
 import DAO.ProductTypeDAO;
 import DTO.ProductTypeDTO;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ProductTypeBUS {
@@ -28,5 +29,15 @@ public class ProductTypeBUS {
         }
 
         return null;
+    }
+
+    public void renderToCombobox(JComboBox cbx) {
+        loadData();
+
+        for (ProductTypeDTO productTypeDTO : list) {
+            if (productTypeDTO.getIsDeleted() == 1) {
+                cbx.addItem(productTypeDTO.getTypeName());
+            }
+        }
     }
 }
