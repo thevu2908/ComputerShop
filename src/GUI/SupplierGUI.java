@@ -1,7 +1,5 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;

@@ -29,9 +29,8 @@ public class ProductBUS {
 
     public void addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
                           String screen, String screenCard) {
-        if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("") ||
-                oCung.equals("") || screen.equals("") || screenCard.equals("")) {
-
+        if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
+                || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -55,7 +54,7 @@ public class ProductBUS {
         }
     }
 
-    public boolean checkExistedProductId(String productID){
+    public boolean checkExistedProductId(String productID) {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
@@ -66,12 +65,12 @@ public class ProductBUS {
         return false;
     }
 
-    public ProductDTO showDetailProduct(String productID){
-        ProductBUS ProductList = new ProductBUS();
-        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
-        for (ProductDTO product : Products){
-            if (productID.equals(product.getProductId())){
-                return product;
+    public ProductDTO getProductById(String productID) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList){
+            if (productDTO.getProductId().equals(productID)){
+                return productDTO;
             }
         }
         return null;

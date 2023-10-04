@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
@@ -48,17 +47,18 @@ public class ProductGUI {
                 productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard);
             }
         });
+
         tblProducts.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int index = tblProducts.getSelectedRow();
-                String productDTO = tblProducts.getModel().getValueAt(index,0).toString();
-                ProductBUS productBus = new ProductBUS();
-                ProductDTO product = productBus.showDetailProduct(productDTO);
+                int rowSelected = tblProducts.getSelectedRow();
+                String productId = tblProducts.getValueAt(rowSelected, 0).toString();
+                ProductDTO product = productBUS.getProductById(productId);
+
                 txtProductID.setText(product.getProductId());
                 txtProductName.setText(product.getProductName());
-                cbxProductType.setSelectedItem(product.getProductType());
-                txtProductPrice.setText(product.getProductPrice()+"");
+                cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
+                txtProductPrice.setText(product.getProductPrice() + "");
                 txtCPU.setText(product.getProductCPU());
                 txtRAM.setText(product.getProductRAM());
                 txtOCung.setText(product.getProductDisk());
