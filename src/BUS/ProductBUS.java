@@ -69,6 +69,18 @@ public class ProductBUS {
         return null;
     }
 
+    public int getPriceById(String id) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductId().equals(id)) {
+                return productDTO.getProductPrice();
+            }
+        }
+
+        return 0;
+    }
+
     public int getIsDeletedById(String id) {
         loadProductData();
 
