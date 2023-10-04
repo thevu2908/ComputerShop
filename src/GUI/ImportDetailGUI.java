@@ -1,5 +1,7 @@
 package GUI;
 
+import BUS.ImportDetailBUS;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -8,11 +10,29 @@ import java.awt.*;
 public class ImportDetailGUI {
     private DefaultTableModel model;
     private String importId;
+    private ImportDetailBUS importDetailBUS;
+    private StorageGUI storageGUI;
 
-    public ImportDetailGUI(String importId) {
+    public ImportDetailGUI(String importId, StorageGUI storageGUI) {
         this.importId = importId;
-        System.out.println(this.importId);
+        this.storageGUI = storageGUI;
+        importDetailBUS = new ImportDetailBUS();
+
         initTable();
+        initTableData();
+        setTotalPrice();
+    }
+
+    public void setTotalPrice() {
+        int total = importDetailBUS.calculateImportTotal(importId);
+        if (total > 0) {
+            txtTotal.setText(total + "");
+            storageGUI.initImportTableData();
+        }
+    }
+
+    public void initTableData() {
+        importDetailBUS.renderToTable(model, importId);
     }
 
     public void initTable() {
@@ -37,7 +57,7 @@ public class ImportDetailGUI {
 
     public void openImportDetailGUI() {
         JFrame frame = new JFrame("Chi tiết phiếu nhập");
-        frame.setContentPane(new ImportDetailGUI(importId).mainPanel);
+        frame.setContentPane(new ImportDetailGUI(importId, storageGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -53,4 +73,5 @@ public class ImportDetailGUI {
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
     private JTextField txtTotal;
+    private JLabel lblTitle;
 }

@@ -245,10 +245,10 @@ CREATE TABLE `san_pham` (
 --
 
 INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
-('SP01', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 1),
-('SP02', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 1),
-('SP03', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 1),
-('SP04', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 1);
+('SP001', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 1),
+('SP002', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 1),
+('SP003', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 1),
+('SP004', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 1);
 
 --
 -- Table structure for table `san_pham_kho`
@@ -264,10 +264,10 @@ CREATE TABLE `san_pham_kho` (
 --
 
 INSERT INTO `san_pham_kho` (`ma_sp`, `so_luong`) VALUES
-('SP01', 200),
-('SP02', 250),
-('SP03', 150),
-('SP04', 50);
+('SP001', 200),
+('SP002', 250),
+('SP003', 150),
+('SP004', 50);
 
 --
 -- Indexes for table `chi_tiet_hoa_don`

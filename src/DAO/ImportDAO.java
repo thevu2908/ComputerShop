@@ -4,6 +4,7 @@ import DTO.ImportDTO;
 import connection.MyConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -32,6 +33,22 @@ public class ImportDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int setImportTotal(String id, int total) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `phieu_nhap` set tong_tien = ? where ma_pn = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, total);
+            ptmt.setString(2, id);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

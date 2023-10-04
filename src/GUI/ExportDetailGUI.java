@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.ExportDetailBUS;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
@@ -9,9 +10,20 @@ import java.awt.*;
 
 public class ExportDetailGUI {
     private DefaultTableModel model;
+    private String exportId;
+    private StorageGUI storageGUI;
+    private ExportDetailBUS exportDetailBUS;
 
-    public ExportDetailGUI() {
+    public ExportDetailGUI(String exportId, StorageGUI storageGUI) {
+        this.exportId = exportId;
+        this.storageGUI = storageGUI;
+        exportDetailBUS = new ExportDetailBUS();
         initTable();
+        initTableData();
+    }
+
+    public void initTableData() {
+        exportDetailBUS.renderToTable(model, exportId);
     }
 
     public void initTable() {
@@ -34,15 +46,10 @@ public class ExportDetailGUI {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
-        JFrame frame = new JFrame("ExportDetailGUI");
-        frame.setContentPane(new ExportDetailGUI().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void openExportDetailGUI() {
+        JFrame frame = new JFrame("Chi tiết phiếu xuất");
+        frame.setContentPane(new ExportDetailGUI(exportId, storageGUI).mainPanel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

@@ -18,19 +18,25 @@ public class ImportBUS {
         importList = importDAO.getData();
     }
 
+    public int setImportTotal(String id, int total) {
+        return importDAO.setImportTotal(id, total);
+    }
+
     public void renderToTable(DefaultTableModel model) {
         model.setRowCount(0);
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            model.addRow(new Object[]{
-                    importDTO.getImportId(),
-                    importDTO.getEmployeeId(),
-                    importDTO.getSupplierId(),
-                    importDTO.getImportDate(),
-                    importDTO.getImportTotalPrice(),
-                    importDTO.getImportStatus()
-            });
+            if (importDTO.getIsDeleted() == 1) {
+                model.addRow(new Object[]{
+                        importDTO.getImportId(),
+                        importDTO.getEmployeeId(),
+                        importDTO.getSupplierId(),
+                        importDTO.getImportDate(),
+                        importDTO.getImportTotalPrice(),
+                        importDTO.getImportStatus()
+                });
+            }
         }
 
         model.fireTableDataChanged();
