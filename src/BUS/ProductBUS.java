@@ -2,7 +2,9 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
+import Validation.Validate;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
@@ -25,18 +27,34 @@ public class ProductBUS {
         storageProductList = productDAO.getStorageData();
     }
 
-
-
-    public int getPriceById(String id) {
-        loadProductData();
-
-        for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(id)) {
-                return productDTO.getProductPrice();
-            }
+    public void addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+                          String screen, String screenCard) {
+        if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("") ||
+                oCung.equals("") || screen.equals("") || screenCard.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        return 0;
+        if (checkProductIDExisted(id)){
+            JOptionPane.showMessageDialog(null, "Mã sản phẩm đã tồn tại!", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (Validate.isValidNumber(price, "Giá")) {
+            return;
+        }
+
+        int intPrice = Integer.parseInt(price);
+        ProductDTO product = new ProductDTO(id, name, type, intPrice, cpu, ram, oCung, screen, screenCard, 0, 1);
+
+        if (productDAO.addProduct(product) == 1) {
+            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public String getNameById(String id) {
@@ -127,5 +145,26 @@ public class ProductBUS {
         }
 
         model.fireTableDataChanged();
+    }
+    public boolean checkProductIDExisted(String productID){
+        ProductBUS ProductList = new ProductBUS();
+        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
+        for (ProductDTO product: Products) {
+            if (productID.equals(product.getProductId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ProductDTO showDetailProduct(String productID){
+        ProductBUS ProductList = new ProductBUS();
+        ArrayList<ProductDTO> Products = ProductList.productDAO.getData();
+        for (ProductDTO product : Products){
+            if (productID.equals(product.getProductId())){
+                return product;
+            }
+        }
+        return null;
     }
 }

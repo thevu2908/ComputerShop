@@ -4,6 +4,7 @@ import DTO.ProductDTO;
 import connection.MyConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -57,6 +58,31 @@ public class ProductDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int addProduct(ProductDTO product) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `san_pham` values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, product.getProductId());
+            ptmt.setString(2, product.getProductType());
+            ptmt.setString(3,product.getProductName());
+            ptmt.setInt(4,product.getProductPrice());
+            ptmt.setString(5,product.getProductCPU());
+            ptmt.setString(6,product.getProductRAM());
+            ptmt.setString(7,product.getProductDisk());
+            ptmt.setString(8,product.getProductScreen());
+            ptmt.setString(9,product.getProductScreenCard());
+            ptmt.setInt(10,product.getProductQuantity());
+            ptmt.setInt(11,1);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

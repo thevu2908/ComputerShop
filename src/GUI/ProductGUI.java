@@ -1,20 +1,75 @@
 package GUI;
 
 import BUS.ProductBUS;
+import BUS.ProductTypeBUS;
+import DTO.ProductDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
     private ProductBUS productBUS;
+    private ProductTypeBUS productTypeBUS;
 
     public ProductGUI() {
         productBUS = new ProductBUS();
+        productTypeBUS = new ProductTypeBUS();
         initTable();
         initTableData();
+        initComboboxTypeData();
+
+        btnCreateId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtProductID.setText(ProductDTO.newProductID());
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtProductID.getText();
+                String name = txtProductName.getText();
+                String type = cbxProductType.getSelectedItem().toString();
+                String price = txtProductPrice.getText();
+                String cpu = txtCPU.getText();
+                String ram = txtRAM.getText();
+                String oCung = txtOCung.getText();
+                String screen = txtScreen.getText();
+                String screenCard = txtScreenCard.getText();
+                productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard);
+            }
+        });
+        tblProducts.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int index = tblProducts.getSelectedRow();
+                String productDTO = tblProducts.getModel().getValueAt(index,0).toString();
+                ProductBUS productBus = new ProductBUS();
+                ProductDTO product = productBus.showDetailProduct(productDTO);
+                txtProductID.setText(product.getProductId());
+                txtProductName.setText(product.getProductName());
+                cbxProductType.setSelectedItem(product.getProductType());
+                txtProductPrice.setText(product.getProductPrice()+"");
+                txtCPU.setText(product.getProductCPU());
+                txtRAM.setText(product.getProductRAM());
+                txtOCung.setText(product.getProductDisk());
+                txtScreen.setText(product.getProductScreen());
+                txtScreenCard.setText(product.getProductScreenCard());
+            }
+        });
+    }
+
+    public void initComboboxTypeData(){
+        productTypeBUS.renderToCombobox(cbxProductType);
     }
 
     public void initTableData() {
@@ -39,6 +94,7 @@ public class ProductGUI {
         for (int i = 0; i < cols.length; i++) {
             tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
     }
 
     public JPanel getMainPanel() {
@@ -66,4 +122,6 @@ public class ProductGUI {
     private JTextField txtRAM;
     private JTextField txtScreen;
     private JTextField txtScreenCard;
+    private JComboBox cbxPrice;
+    private JPanel cbxFilterPrice;
 }
