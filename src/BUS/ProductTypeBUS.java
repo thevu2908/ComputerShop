@@ -19,6 +19,18 @@ public class ProductTypeBUS {
         list = productTypeDAO.getData();
     }
 
+    public String getIdByName(String name) {
+        loadData();
+
+        for (ProductTypeDTO productTypeDTO : list) {
+            if (productTypeDTO.getTypeName().equals(name)) {
+                return productTypeDTO.getTypeId();
+            }
+        }
+
+        return null;
+    }
+
     public String getNameById(String id) {
         loadData();
 

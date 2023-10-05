@@ -44,7 +44,10 @@ public class ProductGUI {
                 String oCung = txtOCung.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
-                productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard);
+
+                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                    initTableData();
+                }
             }
         });
 

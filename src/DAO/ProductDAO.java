@@ -69,15 +69,15 @@ public class ProductDAO {
 
             ptmt.setString(1, product.getProductId());
             ptmt.setString(2, product.getProductType());
-            ptmt.setString(3,product.getProductName());
-            ptmt.setInt(4,product.getProductPrice());
-            ptmt.setString(5,product.getProductCPU());
-            ptmt.setString(6,product.getProductRAM());
-            ptmt.setString(7,product.getProductDisk());
-            ptmt.setString(8,product.getProductScreen());
-            ptmt.setString(9,product.getProductScreenCard());
-            ptmt.setInt(10,product.getProductQuantity());
-            ptmt.setInt(11,1);
+            ptmt.setString(3, product.getProductName());
+            ptmt.setInt(4, product.getProductPrice());
+            ptmt.setString(5, product.getProductCPU());
+            ptmt.setString(6, product.getProductRAM());
+            ptmt.setString(7, product.getProductDisk());
+            ptmt.setString(8, product.getProductScreen());
+            ptmt.setString(9, product.getProductScreenCard());
+            ptmt.setInt(10, product.getProductQuantity());
+            ptmt.setInt(11, 1);
 
             return ptmt.executeUpdate();
         } catch (Exception e) {

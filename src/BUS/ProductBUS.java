@@ -27,30 +27,33 @@ public class ProductBUS {
         storageProductList = productDAO.getStorageData();
     }
 
-    public void addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+    public boolean addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
                           String screen, String screenCard) {
         if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
                 || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
         if (checkExistedProductId(id)){
             JOptionPane.showMessageDialog(null, "Mã sản phẩm đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
         if (!Validate.isValidNumber(price, "Giá")) {
-            return;
+            return false;
         }
 
         int intPrice = Integer.parseInt(price);
-        ProductDTO product = new ProductDTO(id, name, type, intPrice, cpu, ram, oCung, screen, screenCard, 0, 1);
+        String typeId = productTypeBUS.getIdByName(type);
+        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 1);
 
         if (productDAO.addProduct(product) == 1) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
