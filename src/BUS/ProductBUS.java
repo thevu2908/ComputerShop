@@ -68,6 +68,12 @@ public class ProductBUS {
         return false;
     }
 
+    public String createNewProductID() {
+        loadProductData();
+        int id = productList.size() + 1;
+        return "SP" + String.format("%03d", id);
+    }
+
     public ProductDTO getProductById(String productID) {
         loadProductData();
 

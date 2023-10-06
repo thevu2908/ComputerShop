@@ -28,7 +28,7 @@ public class ProductGUI {
         btnCreateId.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtProductID.setText(ProductDTO.newProductID());
+                txtProductID.setText(productBUS.createNewProductID());
             }
         });
 
