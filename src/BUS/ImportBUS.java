@@ -25,6 +25,12 @@ public class ImportBUS {
         return importDAO.setTotalPrice(id, total);
     }
 
+    public String createNewId() {
+        loadData();
+        int id = importList.size() + 1;
+        return "PN" + String.format("%03d", id);
+    }
+
     public void renderToTable(DefaultTableModel model, String employeeId) {
         model.setRowCount(0);
         loadData();

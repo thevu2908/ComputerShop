@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class ExportBUS {
-    private ArrayList<ExportDTO> exportDetailList;
+    private ArrayList<ExportDTO> exportList;
     private ExportDAO exportDAO;
     private EmployeeBUS employeeBUS;
 
@@ -18,18 +18,24 @@ public class ExportBUS {
     }
 
     public void loadData() {
-        exportDetailList = exportDAO.getData();
+        exportList = exportDAO.getData();
     }
 
     public int setTotalQuantity(String id, int total) {
         return exportDAO.setTotalQuantity(id, total);
     }
 
+    public String createNewId() {
+        loadData();
+        int id = exportList.size() + 1;
+        return "PX" + String.format("%03d", id);
+    }
+
     public void renderToTable(DefaultTableModel model, String employeeId) {
         model.setRowCount(0);
         loadData();
 
-        for (ExportDTO exportDTO : exportDetailList) {
+        for (ExportDTO exportDTO : exportList) {
             if (exportDTO.getIsDeleted() == 0 && (employeeBUS.getTypeById(employeeId).equals("LNV02")
                     || exportDTO.getEmployeeId().equals(employeeId))) {
                 model.addRow(new Object[]{

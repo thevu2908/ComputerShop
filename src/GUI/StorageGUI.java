@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -36,7 +38,6 @@ public class StorageGUI {
         tblImports.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     int rowSelected = tblImports.getSelectedRow();
 
@@ -52,7 +53,6 @@ public class StorageGUI {
         tblExports.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     int rowSelected = tblExports.getSelectedRow();
 
@@ -62,6 +62,22 @@ public class StorageGUI {
                         exportDetailGUI.openExportDetailGUI();
                     }
                 }
+            }
+        });
+
+        btnAddImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu nhập", employeeId, StorageGUI.this);
+                addInvoiceGUI.openAddInvoiceGUI();
+            }
+        });
+
+        btnAddExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu xuất", employeeId, StorageGUI.this);
+                addInvoiceGUI.openAddInvoiceGUI();
             }
         });
     }
