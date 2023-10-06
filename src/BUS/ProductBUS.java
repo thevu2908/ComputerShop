@@ -27,6 +27,15 @@ public class ProductBUS {
         storageProductList = productDAO.getStorageData();
     }
 
+    public ArrayList<ProductDTO> getProductListClone(){
+        loadProductData();
+        ArrayList<ProductDTO> productListClone = new ArrayList<ProductDTO>();
+        for(ProductDTO productDTO : productList){
+            productListClone.add(productDTO);
+        }
+        return productListClone;
+    }
+
     public String getNameById(String id) {
         loadProductData();
 
