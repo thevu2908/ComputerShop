@@ -115,7 +115,7 @@ public class StorageGUI {
     }
 
     public void initImportTableData() {
-        importBUS.renderToTable(importModel);
+        importBUS.renderToTable(importModel, employeeId);
     }
 
     public void initImportTable() {

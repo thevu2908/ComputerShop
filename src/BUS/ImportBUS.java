@@ -8,11 +8,13 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class ImportBUS {
-    private ImportDAO importDAO;
     private ArrayList<ImportDTO> importList;
+    private ImportDAO importDAO;
+    private EmployeeBUS employeeBUS;
 
     public ImportBUS() {
         importDAO = new ImportDAO();
+        employeeBUS = new EmployeeBUS();
     }
 
     public void loadData() {
@@ -23,12 +25,13 @@ public class ImportBUS {
         return importDAO.setTotalPrice(id, total);
     }
 
-    public void renderToTable(DefaultTableModel model) {
+    public void renderToTable(DefaultTableModel model, String employeeId) {
         model.setRowCount(0);
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            if (importDTO.getIsDeleted() == 0) {
+            if (importDTO.getIsDeleted() == 0 && (employeeBUS.getTypeById(employeeId).equals("LNV02")
+                    || importDTO.getEmployeeId().equals(employeeId))) {
                 model.addRow(new Object[]{
                         importDTO.getImportId(),
                         importDTO.getEmployeeId(),

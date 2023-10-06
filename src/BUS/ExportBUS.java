@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class ExportBUS {
     private ArrayList<ExportDTO> exportDetailList;
     private ExportDAO exportDAO;
-    private EmployeeTypeBUS employeeTypeBUS;
+    private EmployeeBUS employeeBUS;
 
     public ExportBUS() {
         exportDAO = new ExportDAO();
-        employeeTypeBUS = new EmployeeTypeBUS();
+        employeeBUS = new EmployeeBUS();
     }
 
     public void loadData() {
@@ -30,9 +30,7 @@ public class ExportBUS {
         loadData();
 
         for (ExportDTO exportDTO : exportDetailList) {
-            System.out.println(exportDTO.getIsDeleted() == 0 && (employeeTypeBUS.getTypeNameById(employeeId).equals("Quản lý")
-                    || exportDTO.getEmployeeId().equals(employeeId)));
-            if (exportDTO.getIsDeleted() == 0 && (employeeTypeBUS.getTypeNameById(employeeId).equals("Quản lý")
+            if (exportDTO.getIsDeleted() == 0 && (employeeBUS.getTypeById(employeeId).equals("LNV02")
                     || exportDTO.getEmployeeId().equals(employeeId))) {
                 model.addRow(new Object[]{
                         exportDTO.getExportId(),
