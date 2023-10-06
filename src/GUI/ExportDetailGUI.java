@@ -64,5 +64,5 @@ public class ExportDetailGUI {
     private JButton btnDelete;
     private JButton btnReset;
     private JPanel cbxQuantity;
-    private JTextField textField1;
+    private JTextField txtTotalQuantity;
 }

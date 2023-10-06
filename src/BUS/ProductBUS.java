@@ -180,4 +180,9 @@ public class ProductBUS {
 
         model.fireTableDataChanged();
     }
+
+    public ArrayList<ProductDTO> getProductList() {
+        loadProductData();
+        return productList;
+    }
 }

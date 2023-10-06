@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class SellGUI {
     private DefaultTableModel productModel;
@@ -21,7 +20,6 @@ public class SellGUI {
 
     private ProductBUS productBUS;
     private SellBUS sellBUS;
-
 
     private final String ERROR_EMPTY_SELECT_ITEM = "Vui lòng chọn sản phẩm";
     private final String ERROR_EMPTY_QUANTITY = "Vui lòng chọn số lượng trước khi thêm vào hóa đơn";
@@ -57,7 +55,6 @@ public class SellGUI {
             }
         });
 
-//        handle event select product
         btnChooseProd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,7 +82,9 @@ public class SellGUI {
                     return;
                 }
 
-                BillSellDTO billSellDTO = new BillSellDTO(productId,productName,productPrice,Integer.parseInt(quantityBuy),sellBUS.calculateTotalBillSellItem(productPrice,Integer.parseInt(quantityBuy)));
+                BillSellDTO billSellDTO = new BillSellDTO(productId,productName,productPrice,Integer.parseInt(quantityBuy),
+                        sellBUS.calculateTotalBillSellItem(productPrice,Integer.parseInt(quantityBuy)));
+
                 if(sellBUS.insertBillSellItem(billSellDTO)){
                     JOptionPane.showMessageDialog(null, SUCCESS_CHOOSE, "Thành công", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -122,7 +121,7 @@ public class SellGUI {
     }
 
     public void initSell() {
-        initProducTable();
+        initProductTable();
         initSellOrderTable();
         initProductTableData();
     }
@@ -191,9 +190,7 @@ public class SellGUI {
         txtTotal.setText(String.valueOf(sellBUS.calculateTotalBillSell()));
     }
 
-
-
-    public void initProducTable() {
+    public void initProductTable() {
         productModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {

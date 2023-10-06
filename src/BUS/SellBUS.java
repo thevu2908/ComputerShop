@@ -9,9 +9,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class SellBUS {
-    private ArrayList<BillSellDTO> billSellList = new ArrayList<>();
-    ProductBUS productBUS = new ProductBUS();
-    private ArrayList<ProductDTO> productList = productBUS.getProductListClone();
+        private ArrayList<BillSellDTO> billSellList = new ArrayList<>();
+        ProductBUS productBUS = new ProductBUS();
+        private ArrayList<ProductDTO> productList = productBUS.getProductList();
 
     public SellBUS() {
 
@@ -78,8 +78,6 @@ public class SellBUS {
         String productId = billSellDTO.getProductId();
         int quantityInsert = billSellDTO.getQuantity(); // Này là số lượng sản phẩm thêm vào
 
-
-
         // vòng lặp để kiểm tra số lượng sản phẩm mua có vượt quá số lượng sản phẩm hiện có của cửa hàng nếu có thì báo lỗi và return
         for(ProductDTO item : productList){
             if(item.getProductId().equals(productId)){
@@ -89,6 +87,7 @@ public class SellBUS {
                 }
             }
         }
+
         // vòng lặp kiểm tra sản phẩm thêm vào hóa đơn đã có trong hóa đơn chưa, nếu có thì tăng số lượng lên và kèm theo số lượng không vượt quá 10
         for (BillSellDTO item : billSellList) {
             if(item.getProductId().equals(productId)){
@@ -152,5 +151,4 @@ public class SellBUS {
 
         model.fireTableDataChanged();
     }
-
 }
