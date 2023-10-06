@@ -88,7 +88,7 @@ public class ProductBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public int getPriceById(String id) {
@@ -124,7 +124,7 @@ public class ProductBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public void renderToSellTable(DefaultTableModel model) {

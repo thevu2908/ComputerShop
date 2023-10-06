@@ -28,7 +28,7 @@ public class ProductTypeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getNameById(String id) {
@@ -40,7 +40,7 @@ public class ProductTypeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public void renderToCombobox(JComboBox cbx) {

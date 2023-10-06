@@ -27,6 +27,6 @@ public class EmployeeTypeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 }

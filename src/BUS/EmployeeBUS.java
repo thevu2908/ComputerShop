@@ -50,7 +50,7 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getIdByEmail(String email) {
@@ -62,7 +62,7 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getTypeByEmail(String email) {
@@ -74,7 +74,7 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public boolean checkPassword(String username, String password) {
