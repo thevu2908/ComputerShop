@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ImportDAO;
 import DTO.ImportDTO;
+import utils.DateFormat;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class ImportBUS {
         importList = importDAO.getData();
     }
 
-    public int setImportTotal(String id, int total) {
-        return importDAO.setImportTotal(id, total);
+    public int setTotalPrice(String id, int total) {
+        return importDAO.setTotalPrice(id, total);
     }
 
     public void renderToTable(DefaultTableModel model) {
@@ -32,7 +33,7 @@ public class ImportBUS {
                         importDTO.getImportId(),
                         importDTO.getEmployeeId(),
                         importDTO.getSupplierId(),
-                        importDTO.getImportDate(),
+                        DateFormat.formatDate(importDTO.getImportDate()),
                         importDTO.getImportTotalPrice(),
                         importDTO.getImportStatus()
                 });

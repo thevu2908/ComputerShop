@@ -82,7 +82,7 @@ public class ProductDAO {
             return ptmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            return 0;
         }
     }
 }

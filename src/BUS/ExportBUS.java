@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ExportDAO;
 import DTO.ExportDTO;
+import utils.DateFormat;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ public class ExportBUS {
         exportDetailList = exportDAO.getData();
     }
 
+    public int setTotalQuantity(String id, int total) {
+        return exportDAO.setTotalQuantity(id, total);
+    }
+
     public void renderToTable(DefaultTableModel model) {
         model.setRowCount(0);
         loadData();
@@ -27,7 +32,7 @@ public class ExportBUS {
                 model.addRow(new Object[]{
                         exportDetailDTO.getExportId(),
                         exportDetailDTO.getEmployeeId(),
-                        exportDetailDTO.getExportDate(),
+                        DateFormat.formatDate(exportDetailDTO.getExportDate()),
                         exportDetailDTO.getTotalQuantity(),
                         exportDetailDTO.getStatus()
                 });

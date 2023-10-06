@@ -35,10 +35,12 @@ public class StorageGUI {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     int rowSelected = tblImports.getSelectedRow();
-                    String importId = tblImports.getValueAt(rowSelected, 0).toString();
 
-                    ImportDetailGUI importDetailGUI = new ImportDetailGUI(importId, StorageGUI.this);
-                    importDetailGUI.openImportDetailGUI();
+                    if (rowSelected >= 0) {
+                        String importId = tblImports.getValueAt(rowSelected, 0).toString();
+                        ImportDetailGUI importDetailGUI = new ImportDetailGUI(importId, StorageGUI.this);
+                        importDetailGUI.openImportDetailGUI();
+                    }
                 }
             }
         });
@@ -49,10 +51,12 @@ public class StorageGUI {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     int rowSelected = tblExports.getSelectedRow();
-                    String exportID = tblExports.getValueAt(rowSelected, 0).toString();
 
-                    ExportDetailGUI exportDetailGUI = new ExportDetailGUI(exportID, StorageGUI.this);
-                    exportDetailGUI.openExportDetailGUI();
+                    if (rowSelected >= 0) {
+                        String exportID = tblExports.getValueAt(rowSelected, 0).toString();
+                        ExportDetailGUI exportDetailGUI = new ExportDetailGUI(exportID, StorageGUI.this);
+                        exportDetailGUI.openExportDetailGUI();
+                    }
                 }
             }
         });

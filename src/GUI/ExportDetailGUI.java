@@ -1,7 +1,6 @@
 package GUI;
 
 import BUS.ExportDetailBUS;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,6 +19,15 @@ public class ExportDetailGUI {
         exportDetailBUS = new ExportDetailBUS();
         initTable();
         initTableData();
+        setTotalQuantity();
+    }
+
+    public void setTotalQuantity() {
+        int total = exportDetailBUS.calculateTotalQuantity(exportId);
+        if (total > 0) {
+            txtTotalQuantity.setText(total + "");
+            storageGUI.initExportTableData();
+        }
     }
 
     public void initTableData() {
@@ -64,5 +72,5 @@ public class ExportDetailGUI {
     private JButton btnDelete;
     private JButton btnReset;
     private JPanel cbxQuantity;
-    private JTextField textField1;
+    private JTextField txtTotalQuantity;
 }
