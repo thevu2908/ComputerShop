@@ -2,7 +2,7 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
-import Validation.Validate;
+import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
