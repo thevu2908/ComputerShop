@@ -2,7 +2,9 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
+import Validation.Validate;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
@@ -35,6 +37,18 @@ public class ProductBUS {
         }
 
         return null;
+    }
+
+    public int getPriceById(String id) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductId().equals(id)) {
+                return productDTO.getProductPrice();
+            }
+        }
+
+        return -1;
     }
 
     public int getIsDeletedById(String id) {
