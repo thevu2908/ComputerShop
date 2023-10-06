@@ -2,28 +2,30 @@ package BUS;
 
 import DTO.BillSellDTO;
 import DTO.ProductDTO;
-import BUS.ProductBUS;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class SellBUS {
-        private ArrayList<BillSellDTO> billSellList = new ArrayList<>();
-        ProductBUS productBUS = new ProductBUS();
-        private ArrayList<ProductDTO> productList = productBUS.getProductList();
+    private ArrayList<BillSellDTO> billSellList;
+    private ProductBUS productBUS;
+    private ArrayList<ProductDTO> productList;
 
     public SellBUS() {
-
+        billSellList = new ArrayList<>();
+        productBUS = new ProductBUS();
+        productList = productBUS.getProductList();
     }
 
     public int calculateTotalBillSellItem(int price, int quantity){
         return price * quantity;
     }
+
     public int calculateTotalBillSell(){
-        int total=0;
+        int total = 0;
         for (BillSellDTO billSellDTO : billSellList) {
-            total+= billSellDTO.getTotalPrice();
+            total += billSellDTO.getTotalPrice();
         }
         return total;
     }
@@ -36,7 +38,6 @@ public class SellBUS {
         }
         return null;
     }
-
 
     public int getIndexBillSellItemById(String productId){
         for (BillSellDTO billSellDTO : billSellList) {
@@ -63,15 +64,6 @@ public class SellBUS {
             }
         }
         return -1;
-    }
-
-
-    public void increaseProductList(String productId,int quantityInsert){
-        ProductDTO product = getProductById(productId); // biến này dùng để trừ đi số lượng sản phẩm chọn mua vào trong danh sách số lượng sản phẩm của cửa hàng
-        int indexProduct = getIndexProductById(productId); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
-        int quantityProductRemain = product.getProductQuantity(); // này là số lượng sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
-        product.setProductQuantity(quantityProductRemain - quantityInsert);
-        productList.set(indexProduct,product);
     }
 
     public boolean insertBillSellItem(BillSellDTO billSellDTO){
@@ -105,22 +97,30 @@ public class SellBUS {
                 }
             }
         }
+
         billSellList.add(billSellDTO);
         increaseProductList(productId,quantityInsert);
-//        product.setProductQuantity(quantityProductRemain - quantityInsert);
-//        productList.set(indexProduct,product);
         return true;
     }
-    public void decreaseProductList(String productId,int quantityRemove){
+
+    public void increaseProductList(String productId,int quantityInsert){
         ProductDTO product = getProductById(productId); // biến này dùng để trừ đi số lượng sản phẩm chọn mua vào trong danh sách số lượng sản phẩm của cửa hàng
+        int indexProduct = getIndexProductById(productId); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
+        int quantityProductRemain = product.getProductQuantity(); // này là số lượng sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
+        product.setProductQuantity(quantityProductRemain - quantityInsert);
+        productList.set(indexProduct,product);
+    }
+
+    public void decreaseProductList(String productId, int quantityRemove){
+        ProductDTO product = getProductById(productId); // biến này dùng để trừ đi số lượng sản phẩm  chọn mua vào trong danh sách số lượng sản phẩm của cửa hàng
         int indexProduct = getIndexProductById(productId); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
         int quantityProductRemain = product.getProductQuantity(); // này là số lượng sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
         product.setProductQuantity(quantityProductRemain + quantityRemove);
         productList.set(indexProduct,product);
     }
+
     public boolean removeBillSellItem(String productId){
         BillSellDTO billSellDTO = getBillSellItemById(productId);
-
         int quantityRemove = billSellDTO.getQuantity(); // Này là số lượng sản phẩm bỏ chọn
 
         boolean resultRemove = billSellList.remove(billSellDTO);
@@ -131,12 +131,7 @@ public class SellBUS {
         return false;
     }
 
-    public ArrayList<BillSellDTO> getBillSellList(){
-        return billSellList;
-    }
-
     public void renderSellOrderTable(DefaultTableModel model){
-//        loadProductData();
         model.setRowCount(0);
 
         for (BillSellDTO billSellDTO : billSellList) {
