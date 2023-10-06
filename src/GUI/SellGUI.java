@@ -21,11 +21,7 @@ public class SellGUI {
     private ProductBUS productBUS;
     private SellBUS sellBUS;
 
-    private final String ERROR_EMPTY_SELECT_ITEM = "Vui lòng chọn sản phẩm";
-    private final String ERROR_EMPTY_QUANTITY = "Vui lòng chọn số lượng trước khi thêm vào hóa đơn";
-    private final String ERROR_EXCEED_QUANTITY_REMAIN = "Sản phẩm còn lại không đủ";
-    private final String ERROR_EXCEED_QUANTITY = "Chỉ có thể mua 10 sản phẩm một lần";
-    private final String SUCCESS_CHOOSE = "Sản phẩm đã được thêm vào hóa đơn";
+
 
 
     public SellGUI(String employeeId) {
@@ -60,7 +56,7 @@ public class SellGUI {
             public void actionPerformed(ActionEvent e) {
                 int row = tblProducts.getSelectedRow();
                 if(row == -1){
-                    JOptionPane.showMessageDialog(null, ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String quantityBuy = txtProdQuantity.getText();
@@ -70,15 +66,15 @@ public class SellGUI {
                 int productPrice = productBUS.getPriceById(productId);
 
                 if(quantityBuy.equals("")){
-                    JOptionPane.showMessageDialog(null, ERROR_EMPTY_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(Integer.parseInt(quantityBuy) > 10){
-                    JOptionPane.showMessageDialog(null, ERROR_EXCEED_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+//                if(Integer.parseInt(quantityBuy) > 10){
+//                    JOptionPane.showMessageDialog(null, ERROR_EXCEED_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                    return;
+//                }
                 if(Integer.parseInt(quantityBuy) > Integer.parseInt(quantityRemain)){
-                    JOptionPane.showMessageDialog(null, ERROR_EXCEED_QUANTITY_REMAIN, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EXCEED_QUANTITY_REMAIN, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -86,7 +82,7 @@ public class SellGUI {
                         sellBUS.calculateTotalBillSellItem(productPrice,Integer.parseInt(quantityBuy)));
 
                 if(sellBUS.insertBillSellItem(billSellDTO)){
-                    JOptionPane.showMessageDialog(null, SUCCESS_CHOOSE, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.SUCCESS_CHOOSE, "Thành công", JOptionPane.INFORMATION_MESSAGE);
                 }
                 initSellOrderTableData();
                 resetSellOrderTotalPrice();
@@ -100,13 +96,13 @@ public class SellGUI {
             public void actionPerformed(ActionEvent e) {
                 int row = tblSellOrders.getSelectedRow();
                 if(row == -1){
-                    JOptionPane.showMessageDialog(null, ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String productId = String.valueOf(tblSellOrders.getValueAt(row,0));
 
                 if(row == -1){
-                    JOptionPane.showMessageDialog(null, ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int qes= JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn bỏ chọn sản phẩm này ?", "Question",JOptionPane.YES_NO_OPTION);

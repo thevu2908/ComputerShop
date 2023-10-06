@@ -22,13 +22,13 @@ public class ImportDetailBUS {
         importDetailList = importDetailDAO.getData();
     }
 
-    public int calculateImportTotal(String importId) {
+    public int calculateTotalPrice(String importId) {
         int total = 0;
         for (ImportDetailDTO importDetailDTO : importDetailList) {
             int price = productBUS.getPriceById(importDetailDTO.getProductId());
             total += price * importDetailDTO.getQuantity();
         }
-        importBUS.setImportTotal(importId, total);
+        importBUS.setTotalPrice(importId, total);
         return total;
     }
 

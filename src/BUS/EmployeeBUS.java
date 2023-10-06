@@ -50,7 +50,7 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getIdByEmail(String email) {
@@ -62,7 +62,19 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
+    }
+
+    public String getTypeById(String id) {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeDTO.getEmployeeId().equals(id)) {
+                return employeeDTO.getEmployeeType();
+            }
+        }
+
+        return "";
     }
 
     public String getTypeByEmail(String email) {
@@ -74,7 +86,7 @@ public class EmployeeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public boolean checkPassword(String username, String password) {
@@ -108,7 +120,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (!employeeDTO.getEmployeeId().equals("NV00") && employeeDTO.getIsDeleted() == 1) {
+            if (employeeDTO.getIsDeleted() == 0 && !employeeDTO.getEmployeeId().equals("NV00")) {
                 model.addRow(new Object[]{
                         employeeDTO.getEmployeeId(),
                         employeeDTO.getEmployeeName(),

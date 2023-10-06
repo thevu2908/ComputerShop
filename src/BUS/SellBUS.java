@@ -12,6 +12,12 @@ public class SellBUS {
     private ProductBUS productBUS;
     private ArrayList<ProductDTO> productList;
 
+    public final String ERROR_EMPTY_SELECT_ITEM = "Vui lòng chọn sản phẩm";
+    public final String ERROR_EMPTY_QUANTITY = "Vui lòng chọn số lượng trước khi thêm vào hóa đơn";
+    public final String ERROR_EXCEED_QUANTITY_REMAIN = "Sản phẩm còn lại không đủ";
+    public final String ERROR_EXCEED_QUANTITY = "Chỉ có thể mua 10 sản phẩm một lần";
+    public final String SUCCESS_CHOOSE = "Sản phẩm đã được thêm vào hóa đơn";
+
     public SellBUS() {
         billSellList = new ArrayList<>();
         productBUS = new ProductBUS();
@@ -48,6 +54,7 @@ public class SellBUS {
         return -1;
     }
 
+
     public ProductDTO getProductById(String productId){
         for(ProductDTO item : productList){
             if(item.getProductId().equals(productId)){
@@ -57,46 +64,44 @@ public class SellBUS {
         return null;
     }
 
-    public int getIndexProductById(String productId){
-        for(ProductDTO item : productList){
-            if(item.getProductId().equals(productId)){
-                return productList.indexOf(item);
-            }
-        }
-        return -1;
-    }
-
     public boolean insertBillSellItem(BillSellDTO billSellDTO){
         String productId = billSellDTO.getProductId();
         int quantityInsert = billSellDTO.getQuantity(); // Này là số lượng sản phẩm thêm vào
 
-        // vòng lặp để kiểm tra số lượng sản phẩm mua có vượt quá số lượng sản phẩm hiện có của cửa hàng nếu có thì báo lỗi và return
-        for(ProductDTO item : productList){
-            if(item.getProductId().equals(productId)){
-                if(quantityInsert > item.getProductQuantity()){
-                    JOptionPane.showMessageDialog(null, "Sản phẩm còn lại không đủ để thực hiện mua hàng", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return false;
-                }
-            }
+        // Lấy sản phẩm trong productList dựa vào productId của sản phẩm chọn thêm vào hóa đơn
+        ProductDTO product = getProductById(productId);
+
+        // kiểm tra số lượng sản phẩm mua có vượt quá số lượng sản phẩm hiện có của cửa hàng nếu có thì báo lỗi và return
+        if(quantityInsert > product.getProductQuantity()){
+            JOptionPane.showMessageDialog(null, ERROR_EXCEED_QUANTITY_REMAIN, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
 
-        // vòng lặp kiểm tra sản phẩm thêm vào hóa đơn đã có trong hóa đơn chưa, nếu có thì tăng số lượng lên và kèm theo số lượng không vượt quá 10
-        for (BillSellDTO item : billSellList) {
-            if(item.getProductId().equals(productId)){
-                int indexBillSellItem = getIndexBillSellItemById(productId); // này là chỉ số của phần tử trong hóa đơn thanh toán
-                int quantityExist = getBillSellItemById(productId).getQuantity(); // Này là số lượng sản phẩm đã tồn tại trong hóa đơn thanh toán
-                if(quantityExist + quantityInsert > 10){
-                    JOptionPane.showMessageDialog(null, "Chỉ có thể mua 10 sản phẩm một lần", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return false;
-                }else{
-                    billSellDTO.setQuantity(quantityExist + quantityInsert);
-                    billSellDTO.setTotalPrice(calculateTotalBillSellItem(billSellDTO.getProductPrice(),billSellDTO.getQuantity()));
-                    increaseProductList(productId,quantityInsert);
-                    billSellList.set(indexBillSellItem,billSellDTO);
-                    return true;
-                }
-            }
+        // Điều kiện nếu tiền sản phẩm thêm vào + với tổng tiền trong hóa đơn lớn hơn max value thì bắt tạo hóa đơn mới
+        if(calculateTotalBillSell() + calculateTotalBillSellItem(billSellDTO.getProductPrice(),quantityInsert) > Long.MAX_VALUE ){
+            JOptionPane.showMessageDialog(null, "Giá trị hóa đơn đã tối đa vui lòng tạo hóa đơn mới", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+
+
+        // kiểm tra sản phẩm thêm vào hóa đơn đã có trong hóa đơn chưa, nếu có thì tăng số lượng lên và kèm theo số lượng không vượt quá 10
+        BillSellDTO billSellItem = getBillSellItemById(productId);
+
+        if(billSellItem != null){
+            int indexBillSellItem = getIndexBillSellItemById(productId); // này là chỉ số của phần tử trong hóa đơn thanh toán
+            int quantityExist = getBillSellItemById(productId).getQuantity(); // Này là số lượng sản phẩm đã tồn tại trong hóa đơn thanh toán
+//            if(quantityExist + quantityInsert > 10){
+//                JOptionPane.showMessageDialog(null, "Chỉ có thể mua 10 sản phẩm một lần", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }else{
+                billSellDTO.setQuantity(quantityExist + quantityInsert);
+                billSellDTO.setTotalPrice(calculateTotalBillSellItem(billSellDTO.getProductPrice(),billSellDTO.getQuantity()));
+                increaseProductList(productId,quantityInsert);
+                billSellList.set(indexBillSellItem,billSellDTO);
+                return true;
+//            }
+        }
+
 
         billSellList.add(billSellDTO);
         increaseProductList(productId,quantityInsert);
@@ -104,16 +109,19 @@ public class SellBUS {
     }
 
     public void increaseProductList(String productId,int quantityInsert){
+
         ProductDTO product = getProductById(productId); // biến này dùng để trừ đi số lượng sản phẩm chọn mua vào trong danh sách số lượng sản phẩm của cửa hàng
-        int indexProduct = getIndexProductById(productId); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
+        int indexProduct = productList.indexOf(product); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
+        System.out.println(productList.get(indexProduct).getProductQuantity());
         int quantityProductRemain = product.getProductQuantity(); // này là số lượng sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
         product.setProductQuantity(quantityProductRemain - quantityInsert);
         productList.set(indexProduct,product);
+        System.out.println(productList.get(indexProduct).getProductQuantity());
     }
 
     public void decreaseProductList(String productId, int quantityRemove){
         ProductDTO product = getProductById(productId); // biến này dùng để trừ đi số lượng sản phẩm  chọn mua vào trong danh sách số lượng sản phẩm của cửa hàng
-        int indexProduct = getIndexProductById(productId); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
+        int indexProduct = productList.indexOf(product); // này là chỉ số của phần tử sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
         int quantityProductRemain = product.getProductQuantity(); // này là số lượng sản phẩm nằm trong danh sách sản phẩm hiện có của cửa hàng
         product.setProductQuantity(quantityProductRemain + quantityRemove);
         productList.set(indexProduct,product);

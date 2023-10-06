@@ -24,9 +24,9 @@ public class ImportDetailGUI {
     }
 
     public void setTotalPrice() {
-        int total = importDetailBUS.calculateImportTotal(importId);
+        int total = importDetailBUS.calculateTotalPrice(importId);
         if (total > 0) {
-            txtTotal.setText(total + "");
+            txtTotalPrice.setText(total + "");
             storageGUI.initImportTableData();
         }
     }
@@ -72,6 +72,6 @@ public class ImportDetailGUI {
     private JButton btnReset;
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
-    private JTextField txtTotal;
+    private JTextField txtTotalPrice;
     private JLabel lblTitle;
 }

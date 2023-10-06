@@ -28,7 +28,7 @@ public class ProductTypeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getNameById(String id) {
@@ -40,14 +40,14 @@ public class ProductTypeBUS {
             }
         }
 
-        return null;
+        return "";
     }
 
     public void renderToCombobox(JComboBox cbx) {
         loadData();
 
         for (ProductTypeDTO productTypeDTO : list) {
-            if (productTypeDTO.getIsDeleted() == 1) {
+            if (productTypeDTO.getIsDeleted() == 0) {
                 cbx.addItem(productTypeDTO.getTypeName());
             }
         }

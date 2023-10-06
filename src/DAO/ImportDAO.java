@@ -36,7 +36,7 @@ public class ImportDAO {
         }
     }
 
-    public int setImportTotal(String id, int total) {
+    public int setTotalPrice(String id, int total) {
         try {
             Connection connection = MyConnection.getConnect();
             String query = "update `phieu_nhap` set tong_tien = ? where ma_pn = ?";
@@ -48,7 +48,7 @@ public class ImportDAO {
             return ptmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            return 0;
         }
     }
 }

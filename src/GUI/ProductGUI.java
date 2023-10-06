@@ -28,7 +28,7 @@ public class ProductGUI {
         btnCreateId.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtProductID.setText(ProductDTO.newProductID());
+                txtProductID.setText(productBUS.createNewProductID());
             }
         });
 
@@ -55,18 +55,21 @@ public class ProductGUI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int rowSelected = tblProducts.getSelectedRow();
-                String productId = tblProducts.getValueAt(rowSelected, 0).toString();
-                ProductDTO product = productBUS.getProductById(productId);
 
-                txtProductID.setText(product.getProductId());
-                txtProductName.setText(product.getProductName());
-                cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
-                txtProductPrice.setText(product.getProductPrice() + "");
-                txtCPU.setText(product.getProductCPU());
-                txtRAM.setText(product.getProductRAM());
-                txtOCung.setText(product.getProductDisk());
-                txtScreen.setText(product.getProductScreen());
-                txtScreenCard.setText(product.getProductScreenCard());
+                if (rowSelected >= 0) {
+                    String productId = tblProducts.getValueAt(rowSelected, 0).toString();
+                    ProductDTO product = productBUS.getProductById(productId);
+
+                    txtProductID.setText(product.getProductId());
+                    txtProductName.setText(product.getProductName());
+                    cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
+                    txtProductPrice.setText(product.getProductPrice() + "");
+                    txtCPU.setText(product.getProductCPU());
+                    txtRAM.setText(product.getProductRAM());
+                    txtOCung.setText(product.getProductDisk());
+                    txtScreen.setText(product.getProductScreen());
+                    txtScreenCard.setText(product.getProductScreenCard());
+                }
             }
         });
     }
