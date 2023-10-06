@@ -46,7 +46,7 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 1);
+        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.addProduct(product) == 1) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
@@ -132,7 +132,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getIsDeleted() == 1) {
+            if (productDTO.getIsDeleted() == 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),
                         productDTO.getProductName(),
@@ -150,7 +150,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getIsDeleted() == 1) {
+            if (productDTO.getIsDeleted() == 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),
                         productDTO.getProductName(),
@@ -168,7 +168,7 @@ public class ProductBUS {
         loadStorageProductData();
 
         for (ProductDTO productDTO : storageProductList) {
-            if (getIsDeletedById(productDTO.getProductId()) == 1) {
+            if (getIsDeletedById(productDTO.getProductId()) == 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),
                         getNameById(productDTO.getProductId()),

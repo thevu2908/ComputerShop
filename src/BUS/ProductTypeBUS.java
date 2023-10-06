@@ -47,7 +47,7 @@ public class ProductTypeBUS {
         loadData();
 
         for (ProductTypeDTO productTypeDTO : list) {
-            if (productTypeDTO.getIsDeleted() == 1) {
+            if (productTypeDTO.getIsDeleted() == 0) {
                 cbx.addItem(productTypeDTO.getTypeName());
             }
         }

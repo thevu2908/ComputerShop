@@ -108,7 +108,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (!employeeDTO.getEmployeeId().equals("NV00") && employeeDTO.getIsDeleted() == 1) {
+            if (employeeDTO.getIsDeleted() == 0 && !employeeDTO.getEmployeeId().equals("NV00")) {
                 model.addRow(new Object[]{
                         employeeDTO.getEmployeeId(),
                         employeeDTO.getEmployeeName(),

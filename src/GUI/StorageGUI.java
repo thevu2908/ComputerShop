@@ -21,10 +21,14 @@ public class StorageGUI {
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
 
-    public StorageGUI() {
+    private String employeeId;
+
+    public StorageGUI(String employeeId) {
         productBUS = new ProductBUS();
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
+        this.employeeId = employeeId;
+
         initProduct();
         initImport();
         initExport();
@@ -80,7 +84,7 @@ public class StorageGUI {
     }
 
     public void initExportTableData() {
-        exportBUS.renderToTable(exportModel);
+        exportBUS.renderToTable(exportModel, employeeId);
     }
 
     public void initExportTable() {

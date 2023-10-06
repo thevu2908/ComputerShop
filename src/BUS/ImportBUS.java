@@ -28,7 +28,7 @@ public class ImportBUS {
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            if (importDTO.getIsDeleted() == 1) {
+            if (importDTO.getIsDeleted() == 0) {
                 model.addRow(new Object[]{
                         importDTO.getImportId(),
                         importDTO.getEmployeeId(),

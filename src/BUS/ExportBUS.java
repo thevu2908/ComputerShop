@@ -23,18 +23,18 @@ public class ExportBUS {
         return exportDAO.setTotalQuantity(id, total);
     }
 
-    public void renderToTable(DefaultTableModel model) {
+    public void renderToTable(DefaultTableModel model, String employeeId) {
         model.setRowCount(0);
         loadData();
 
-        for (ExportDTO exportDetailDTO : exportDetailList) {
-            if (exportDetailDTO.getIsDeleted() == 1) {
+        for (ExportDTO exportDTO : exportDetailList) {
+            if (exportDTO.getIsDeleted() == 0 && exportDTO.getEmployeeId().equals(employeeId)) {
                 model.addRow(new Object[]{
-                        exportDetailDTO.getExportId(),
-                        exportDetailDTO.getEmployeeId(),
-                        DateFormat.formatDate(exportDetailDTO.getExportDate()),
-                        exportDetailDTO.getTotalQuantity(),
-                        exportDetailDTO.getStatus()
+                        exportDTO.getExportId(),
+                        exportDTO.getEmployeeId(),
+                        DateFormat.formatDate(exportDTO.getExportDate()),
+                        exportDTO.getTotalQuantity(),
+                        exportDTO.getStatus()
                 });
             }
         }

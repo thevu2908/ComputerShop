@@ -71,14 +71,14 @@ CREATE TABLE `hang_san_pham` (
 --
 
 INSERT INTO `hang_san_pham` (`ma_hsp`, `ten_hsp`, `trang_thai`) VALUES
-('HSP01', 'Dell', 1),
-('HSP02', 'HP', 1),
-('HSP03', 'Acer', 1),
-('HSP04', 'Asus', 1),
-('HSP05', 'MSI', 1),
-('HSP06', 'Apple', 1),
-('HSP07', 'Lenovo', 1),
-('HSP08', 'Razer', 1);
+('HSP01', 'Dell', 0),
+('HSP02', 'HP', 0),
+('HSP03', 'Acer', 0),
+('HSP04', 'Asus', 0),
+('HSP05', 'MSI', 0),
+('HSP06', 'Apple', 0),
+('HSP07', 'Lenovo', 0),
+('HSP08', 'Razer', 0);
 
 -- --------------------------------------------------------
 
@@ -115,9 +115,9 @@ CREATE TABLE `khach_hang` (
 --
 
 INSERT INTO `khach_hang` (`ma_kh`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `ngay_sinh`, `gioi_tinh`, `diem_tich_luy`, `trang_thai`) VALUES
-('KH01', 'Trần Quốc Tuấn', '29 Phạm Ngọc Thạch ', '0978572812', '2000-07-03', 'Nam', 14100, 1),
-('KH02', 'Nguyễn Xuân Thùy', '112 Lý Chính Thắng', '0894728493', '1999-04-09', 'Nữ', 12400, 1),
-('KH03', 'Đỗ Hoàng Đạt', '956 Phạm Thế Hiển', '0983648214', '1998-02-13', 'Nam', 2300, 1);
+('KH01', 'Trần Quốc Tuấn', '29 Phạm Ngọc Thạch ', '0978572812', '2000-07-03', 'Nam', 14100, 0),
+('KH02', 'Nguyễn Xuân Thùy', '112 Lý Chính Thắng', '0894728493', '1999-04-09', 'Nữ', 12400, 0),
+('KH03', 'Đỗ Hoàng Đạt', '956 Phạm Thế Hiển', '0983648214', '1998-02-13', 'Nam', 2300, 0);
 
 -- --------------------------------------------------------
 
@@ -136,10 +136,10 @@ CREATE TABLE `loai_nhan_vien` (
 --
 
 INSERT INTO `loai_nhan_vien` (`ma_lnv`, `ten_lnv`, `trang_thai`) VALUES
-('LNV01', 'Admin', 1),
-('LNV02', 'Quản lý', 1),
-('LNV03', 'Nhân viên bán hàng', 1),
-('LNV04', 'Nhân viên thủ kho', 1);
+('LNV01', 'Admin', 0),
+('LNV02', 'Quản lý', 0),
+('LNV03', 'Nhân viên bán hàng', 0),
+('LNV04', 'Nhân viên thủ kho', 0);
 
 -- --------------------------------------------------------
 
@@ -165,11 +165,11 @@ CREATE TABLE `nhan_vien` (
 --
 
 INSERT INTO `nhan_vien` (`ma_nv`, `ma_lnv`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `ngay_sinh`, `gioi_tinh`, `email`, `mat_khau`, `trang_thai`) VALUES
-('NV00', 'LNV01', 'Admin', 'Admin', '0123456789', '2003-01-01', 'Nam', 'admin@gmail.com', 'admin', 1),
-('NV01', 'LNV02', 'Nguyễn Thế Vũ', '1080 CMT8', '0975842194', '2003-01-01', 'Nam', 'thevu29@gmail.com', '123', 1),
-('NV02', 'LNV02', 'Vương Huy Hoàng', '79 Trần Phú', '0974638593', '2003-09-10', 'Nam', 'huyhoang1910@gmail.com', '123', 1),
-('NV03', 'LNV03', 'Trần Kim Phú', '523 Xóm Đất', '0975638294', '2003-04-15', 'Nam', 'kimphutran@gmail.com', '123', 1),
-('NV04', 'LNV04', 'Huỳnh Ngọc Diễm Ly', '456 An Dương Vương', '0987563892', '2003-04-05', 'Nữ', 'diemly123@gmail.com', '123', 1);
+('NV00', 'LNV01', 'Admin', 'Admin', '0123456789', '2003-01-01', 'Nam', 'admin@gmail.com', 'admin', 0),
+('NV01', 'LNV02', 'Nguyễn Thế Vũ', '1080 CMT8', '0975842194', '2003-01-01', 'Nam', 'thevu29@gmail.com', '123', 0),
+('NV02', 'LNV02', 'Vương Huy Hoàng', '79 Trần Phú', '0974638593', '2003-09-10', 'Nam', 'huyhoang1910@gmail.com', '123', 0),
+('NV03', 'LNV03', 'Trần Kim Phú', '523 Xóm Đất', '0975638294', '2003-04-15', 'Nam', 'kimphutran@gmail.com', '123', 0),
+('NV04', 'LNV04', 'Huỳnh Ngọc Diễm Ly', '456 An Dương Vương', '0987563892', '2003-04-05', 'Nữ', 'diemly123@gmail.com', '123', 0);
 
 -- --------------------------------------------------------
 
@@ -190,12 +190,12 @@ CREATE TABLE `nha_cung_cap` (
 --
 
 INSERT INTO `nha_cung_cap` (`ma_ncc`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `trang_thai`) VALUES
-('NCC01', 'Công ty TNHH Thịnh Vượng', '420 Phạm Phú Thứ', '0964728237', 1),
-('NCC02', 'Công ty TNHH Phát Tài', '820 CMT8', '0953678213', 1),
-('NCC03', 'Thế Giới Di Động', '920 Nam Kỳ Khởi Nghĩa', '0974826312', 1),
-('NCC04', 'Cellphones', '230 Bình Trị Đông', '0984753129', 1),
-('NCC05', 'Phong Vũ', '651 Lạc Long Quân', '0965738245', 1),
-('NCC06', 'GearVN', '213 Cao Thắng', '0974826532', 1);
+('NCC01', 'Công ty TNHH Thịnh Vượng', '420 Phạm Phú Thứ', '0964728237', 0),
+('NCC02', 'Công ty TNHH Phát Tài', '820 CMT8', '0953678213', 0),
+('NCC03', 'Thế Giới Di Động', '920 Nam Kỳ Khởi Nghĩa', '0974826312', 0),
+('NCC04', 'Cellphones', '230 Bình Trị Đông', '0984753129', 0),
+('NCC05', 'Phong Vũ', '651 Lạc Long Quân', '0965738245', 0),
+('NCC06', 'GearVN', '213 Cao Thắng', '0974826532', 0);
 
 -- --------------------------------------------------------
 
@@ -245,10 +245,10 @@ CREATE TABLE `san_pham` (
 --
 
 INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
-('SP001', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 1),
-('SP002', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 1),
-('SP003', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 1),
-('SP004', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 1);
+('SP001', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 0),
+('SP002', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 0),
+('SP003', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 0),
+('SP004', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 0);
 
 --
 -- Table structure for table `san_pham_kho`

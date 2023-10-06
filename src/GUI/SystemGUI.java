@@ -21,10 +21,9 @@ public class SystemGUI {
     private CustomerGUI customerGUI;
     private StorageGUI storageGUI;
     private SupplierGUI supplierGUI;
+    private EmployeeBUS employeeBUS;
     private String employeeId;
     private String employeeType;
-
-    private EmployeeBUS employeeBUS;
 
     public SystemGUI(String employeeId, String employeeType) {
         employeeBUS = new EmployeeBUS();
@@ -58,7 +57,7 @@ public class SystemGUI {
     public void giveAccess() {
         CardLayout card = (CardLayout) contentPanel.getLayout();
         ArrayList<JPanel> panels = new ArrayList<>();
-        List<JPanel> list = null;
+        List<JPanel> list;
         if (employeeType.equals("LNV01")) {
             list = Arrays.asList(statisticsPanel, productPanel, billPanel, customerPanel,
                     storagePanel, supplierPanel);
@@ -132,7 +131,7 @@ public class SystemGUI {
         productGUI = new ProductGUI();
         billGUI = new BillGUI();
         customerGUI = new CustomerGUI();
-        storageGUI = new StorageGUI();
+        storageGUI = new StorageGUI(employeeId);
         supplierGUI = new SupplierGUI();
 
         contentPanel.add("Statistics", statisticsGUI.getMainPanel());
@@ -283,5 +282,4 @@ public class SystemGUI {
     private JPanel storagePanel;
     private JPanel supplierPanel;
     private JLabel lblCurrentDate;
-    private JPanel logoutPanel;
 }
