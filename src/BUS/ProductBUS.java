@@ -2,7 +2,7 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
-import Validation.Validate;
+import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,13 +27,56 @@ public class ProductBUS {
         storageProductList = productDAO.getStorageData();
     }
 
-    public ArrayList<ProductDTO> getProductListClone(){
-        loadProductData();
-        ArrayList<ProductDTO> productListClone = new ArrayList<ProductDTO>();
-        for(ProductDTO productDTO : productList){
-            productListClone.add(productDTO);
+    public boolean addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+                          String screen, String screenCard) {
+        if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
+                || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-        return productListClone;
+
+        if (checkExistedProductId(id)){
+            JOptionPane.showMessageDialog(null, "Mã sản phẩm đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!Validate.isValidNumber(price, "Giá")) {
+            return false;
+        }
+
+        int intPrice = Integer.parseInt(price);
+        String typeId = productTypeBUS.getIdByName(type);
+        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 1);
+
+        if (productDAO.addProduct(product) == 1) {
+            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public boolean checkExistedProductId(String productID) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductId().equals(productID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ProductDTO getProductById(String productID) {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList){
+            if (productDTO.getProductId().equals(productID)){
+                return productDTO;
+            }
+        }
+        return null;
     }
 
     public String getNameById(String id) {
@@ -57,7 +100,7 @@ public class ProductBUS {
             }
         }
 
-        return -1;
+        return 0;
     }
 
     public int getIsDeletedById(String id) {
@@ -85,8 +128,8 @@ public class ProductBUS {
     }
 
     public void renderToSellTable(DefaultTableModel model) {
-        loadProductData();
         model.setRowCount(0);
+        loadProductData();
 
         for (ProductDTO productDTO : productList) {
             if (productDTO.getIsDeleted() == 1) {
@@ -103,8 +146,8 @@ public class ProductBUS {
     }
 
     public void renderToProductTable(DefaultTableModel model) {
-        loadProductData();
         model.setRowCount(0);
+        loadProductData();
 
         for (ProductDTO productDTO : productList) {
             if (productDTO.getIsDeleted() == 1) {
@@ -121,8 +164,8 @@ public class ProductBUS {
     }
 
     public void renderToStorageProductTable(DefaultTableModel model) {
-        loadStorageProductData();
         model.setRowCount(0);
+        loadStorageProductData();
 
         for (ProductDTO productDTO : storageProductList) {
             if (getIsDeletedById(productDTO.getProductId()) == 1) {

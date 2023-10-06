@@ -1,5 +1,8 @@
 package DTO;
 
+import DAO.ProductDAO;
+import java.util.ArrayList;
+
 public class ProductDTO {
     private String productId;
     private String productType;
@@ -123,5 +126,29 @@ public class ProductDTO {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public static String newProductID(){
+        ProductDAO Products = new ProductDAO();
+        ArrayList<ProductDTO> products = Products.getData();
+        String ProductID =null;
+        for (ProductDTO product : products){
+            ProductID = product.getProductId();
+        }
+        String code = "";
+        for (String codeSP : ProductID.split("",3)){
+            code = codeSP;
+        }
+        int codeNew = Integer.parseInt(code);
+        codeNew +=1;
+        if (codeNew < 10){
+            return "SP00"+ codeNew;
+        }
+        else if(codeNew <100){
+            return "SP0" + codeNew;
+        }
+        else {
+            return "SP"+codeNew;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package Validation;
+package validation;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class Validate {
     private static Pattern emailPattern = Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+");
+
     public static boolean isValidEmail(String email) {
         return email.matches(emailPattern.pattern());
     }
