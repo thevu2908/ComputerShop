@@ -5,8 +5,7 @@ public class BillDetailDTO {
     private String productId;
     private int quantity;
 
-    public BillDetailDTO(){
-
+    public BillDetailDTO() {
     }
 
     public BillDetailDTO(String billId, String productId, int quantity) {

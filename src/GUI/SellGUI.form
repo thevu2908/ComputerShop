@@ -58,7 +58,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="33f25" class="javax.swing.JTable" binding="tblSellOrders">
+                          <component id="33f25" class="javax.swing.JTable" binding="tblSellBills">
                             <constraints/>
                             <properties/>
                           </component>

@@ -2,8 +2,8 @@ package GUI;
 
 import BUS.ProductBUS;
 import BUS.SellBUS;
-import DTO.BillSellDTO;
 import com.toedter.calendar.JDateChooser;
+import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,22 +14,19 @@ import java.awt.event.ActionListener;
 
 public class SellGUI {
     private DefaultTableModel productModel;
-    private DefaultTableModel sellOrderModel;
-    private DefaultTableModel orderModel;
+    private DefaultTableModel sellBillModel;
+    private DefaultTableModel billModel;
     private String employeeId;
 
     private ProductBUS productBUS;
     private SellBUS sellBUS;
 
-
-
-
     public SellGUI(String employeeId) {
         productBUS = new ProductBUS();
-        sellBUS =  new SellBUS();
+        sellBUS = new SellBUS();
         this.employeeId = employeeId;
         initSell();
-        initOrder();
+        initBill();
 
         menuSystem.addActionListener(new ActionListener() {
             @Override
@@ -54,62 +51,70 @@ public class SellGUI {
         btnChooseProd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = tblProducts.getSelectedRow();
-                if(row == -1){
-                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String quantityBuy = txtProdQuantity.getText();
-                String quantityRemain = String.valueOf(tblProducts.getValueAt(row,3));
-                String productId = String.valueOf(tblProducts.getValueAt(row,0));
-                String productName = String.valueOf(tblProducts.getValueAt(row,1));
-                int productPrice = productBUS.getPriceById(productId);
-
-                if(quantityBuy.equals("")){
-                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-//                if(Integer.parseInt(quantityBuy) > 10){
-//                    JOptionPane.showMessageDialog(null, ERROR_EXCEED_QUANTITY, "Lỗi", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-                if(Integer.parseInt(quantityBuy) > Integer.parseInt(quantityRemain)){
-                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EXCEED_QUANTITY_REMAIN, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                int rowSelected = tblProducts.getSelectedRow();
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                BillSellDTO billSellDTO = new BillSellDTO(productId,productName,productPrice,Integer.parseInt(quantityBuy),
-                        sellBUS.calculateTotalBillSellItem(productPrice,Integer.parseInt(quantityBuy)));
-
-                if(sellBUS.insertBillSellItem(billSellDTO)){
-                    JOptionPane.showMessageDialog(null, sellBUS.SUCCESS_CHOOSE, "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                if (txtProdQuantity.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                initSellOrderTableData();
-                resetSellOrderTotalPrice();
 
+                if (!Validate.isValidNumber(txtProdQuantity.getText(), "Số lượng")) {
+                    return;
+                }
 
+                String productId = tblProducts.getValueAt(rowSelected, 0).toString();
+                int quantity = Integer.parseInt(txtProdQuantity.getText());
+
+                int boughtQuantity = 0;
+                for (int i = 0; i < tblSellBills.getRowCount(); i++) {
+                    if (tblSellBills.getValueAt(i, 0).equals(productId)) {
+                        boughtQuantity = Integer.parseInt(tblSellBills.getValueAt(i, 3).toString());
+                        break;
+                    }
+                }
+
+                if (quantity > Integer.parseInt(tblProducts.getValueAt(rowSelected, 3).toString()) - boughtQuantity) {
+                    JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm không đủ", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                sellBUS.chooseProduct(sellBillModel, productId, quantity);
+
+                int total = sellBUS.calculateTotalPrice();
+                if (total > 0) {
+                    txtTotal.setText(total + "");
+                }
+
+                txtProdQuantity.setText("");
             }
         });
 
         btnUnchooseProd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = tblSellOrders.getSelectedRow();
-                if(row == -1){
-                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
+                int rowSelected = tblProducts.getSelectedRow();
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String productId = String.valueOf(tblSellOrders.getValueAt(row,0));
 
-                if(row == -1){
-                    JOptionPane.showMessageDialog(null, sellBUS.ERROR_EMPTY_SELECT_ITEM, "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                int qes= JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn bỏ chọn sản phẩm này ?", "Question",JOptionPane.YES_NO_OPTION);
-                if(qes == JOptionPane.YES_OPTION){
-                    boolean resultRemove = sellBUS.removeBillSellItem(productId);
-                    initSellOrderTableData();
-                    resetSellOrderTotalPrice();
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn bỏ chọn sản phẩm này ?", "Hỏi",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    sellBUS.unchooseProduct(sellBillModel, tblProducts.getValueAt(rowSelected, 0).toString());
+                    JOptionPane.showMessageDialog(null, "Bỏ chọn sản phẩm thành công");
+
+                    int total = sellBUS.calculateTotalPrice();
+                    if (total > 0) {
+                        txtTotal.setText(total + "");
+                    } else {
+                        txtTotal.setText("");
+                    }
                 }
             }
         });
@@ -118,11 +123,11 @@ public class SellGUI {
 
     public void initSell() {
         initProductTable();
-        initSellOrderTable();
+        initSellBillTable();
         initProductTableData();
     }
 
-    public void initOrder() {
+    public void initBill() {
         initOrderDateChooser();
         initOrderTable();
     }
@@ -135,7 +140,7 @@ public class SellGUI {
     }
 
     public void initOrderTable() {
-        orderModel = new DefaultTableModel() {
+        billModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -143,8 +148,8 @@ public class SellGUI {
         };
 
         String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày lập", "Tổng tiền"};
-        orderModel.setColumnIdentifiers(cols);
-        tblOrders.setModel(orderModel);
+        billModel.setColumnIdentifiers(cols);
+        tblOrders.setModel(billModel);
         tblOrders.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -154,8 +159,8 @@ public class SellGUI {
         }
     }
 
-    public void initSellOrderTable() {
-        sellOrderModel = new DefaultTableModel() {
+    public void initSellBillTable() {
+        sellBillModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -163,27 +168,19 @@ public class SellGUI {
         };
 
         String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"};
-        sellOrderModel.setColumnIdentifiers(cols);
-        tblSellOrders.setModel(sellOrderModel);
-        tblSellOrders.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        sellBillModel.setColumnIdentifiers(cols);
+        tblSellBills.setModel(sellBillModel);
+        tblSellBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < cols.length; i++) {
-            tblSellOrders.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            tblSellBills.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
     public void initProductTableData() {
         productBUS.renderToSellTable(productModel);
-    }
-
-    public void initSellOrderTableData() {
-        sellBUS.renderSellOrderTable(sellOrderModel);
-    }
-
-    public void resetSellOrderTotalPrice(){
-        txtTotal.setText(String.valueOf(sellBUS.calculateTotalBillSell()));
     }
 
     public void initProductTable() {
@@ -221,7 +218,7 @@ public class SellGUI {
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
-    private JTable tblSellOrders;
+    private JTable tblSellBills;
     private JTable tblProducts;
     private JComboBox cbxSearchProdType;
     private JTextField txtSearchProd;

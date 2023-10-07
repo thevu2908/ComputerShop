@@ -8,7 +8,7 @@ public class BillDTO {
     private int totalQuantity;
     private int isDeleted;
 
-    public BillDTO(){
+    public BillDTO() {
 
     }
 
