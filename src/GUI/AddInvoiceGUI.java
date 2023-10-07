@@ -2,17 +2,24 @@ package GUI;
 
 import BUS.ExportBUS;
 import BUS.ImportBUS;
+import BUS.SupplierBUS;
+import utils.AutoSuggestComboBox;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AddInvoiceGUI {
     private String invoiceName;
     private String employeeId;
+    private StorageGUI storageGUI;
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
-    private StorageGUI storageGUI;
+    private SupplierBUS supplierBUS;
+
+    private JTextField txtSupplierId;
 
     public AddInvoiceGUI(String invoiceName, String employeeId, StorageGUI storageGUI) {
         this.invoiceName = invoiceName;
@@ -20,7 +27,10 @@ public class AddInvoiceGUI {
         this.storageGUI = storageGUI;
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
+        supplierBUS = new SupplierBUS();
         setComponentsInfo();
+
+        txtSupplierId = AutoSuggestComboBox.createAutoSuggest(cbxSupplierId, 0, supplierBUS::initSupplierSuggestion);
 
         btnSave.addActionListener(new ActionListener() {
             @Override
@@ -37,6 +47,22 @@ public class AddInvoiceGUI {
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                 frame.dispose();
+            }
+        });
+
+        cbxSupplierId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = supplierBUS.getNameById(cbxSupplierId.getSelectedItem().toString());
+                txtSupplierName.setText(name);
+            }
+        });
+
+        txtSupplierId.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String name = supplierBUS.getNameById(cbxSupplierId.getSelectedItem().toString());
+                txtSupplierName.setText(name);
             }
         });
     }
