@@ -48,7 +48,7 @@ public class ProductBUS {
         String typeId = productTypeBUS.getIdByName(type);
         ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
-        if (productDAO.addProduct(product) == 1) {
+        if (productDAO.addProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
             return true;
         } else {
@@ -65,6 +65,7 @@ public class ProductBUS {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -131,6 +132,17 @@ public class ProductBUS {
         }
 
         return "";
+    }
+
+    public ArrayList<String> initProductIdSuggestion(int col) {
+        loadProductData();;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (ProductDTO productDTO : productList) {
+            list.add(productDTO.getProductId());
+        }
+
+        return list;
     }
 
     public void renderToSellTable(DefaultTableModel model) {

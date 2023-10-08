@@ -18,11 +18,9 @@ public class StorageGUI {
     private DefaultTableModel prodModel;
     private DefaultTableModel importModel;
     private DefaultTableModel exportModel;
-
     private ProductBUS productBUS;
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
-
     private String employeeId;
 
     public StorageGUI(String employeeId) {
@@ -68,16 +66,33 @@ public class StorageGUI {
         btnAddImport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu nhập", employeeId, StorageGUI.this);
-                addInvoiceGUI.openAddInvoiceGUI();
+                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu nhập", employeeId, StorageGUI.this);
+                addInvoiceGUI.openInvoiceGUI();
             }
         });
 
         btnAddExport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu xuất", employeeId, StorageGUI.this);
-                addInvoiceGUI.openAddInvoiceGUI();
+                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu xuất", employeeId, StorageGUI.this);
+                addInvoiceGUI.openInvoiceGUI();
+            }
+        });
+
+        btnUpdateImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblImports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String importId = tblImports.getValueAt(rowSelected, 0).toString();
+
+                InvoiceInformationGUI editInvoiceGUI = new InvoiceInformationGUI(importId, "phiếu nhập", employeeId, StorageGUI.this);
+                editInvoiceGUI.openInvoiceGUI();
             }
         });
     }

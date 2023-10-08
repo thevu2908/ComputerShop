@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ImportDetailGUI {
     private DefaultTableModel model;
@@ -21,6 +23,38 @@ public class ImportDetailGUI {
         initTable();
         initTableData();
         setTotalPrice();
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddProductGUI addProductGUI = new AddProductGUI(importId, ImportDetailGUI.this);
+                addProductGUI.openAddProductGUI();
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblImportDetails.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi tiết phiếu nhập muốn xóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa chi tiết phiếu nhập này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String productId = tblImportDetails.getValueAt(rowSelected, 0).toString();
+
+                    if (importDetailBUS.deleteImportDetail(importId, productId)) {
+                        initTableData();
+                        setTotalPrice();
+                    }
+                }
+            }
+        });
     }
 
     public void setTotalPrice() {
@@ -66,7 +100,6 @@ public class ImportDetailGUI {
 
     private JPanel mainPanel;
     private JTable tblImportDetails;
-    private JComboBox cbxPrice;
     private JButton btnAdd;
     private JButton btnDelete;
     private JButton btnReset;

@@ -67,10 +67,8 @@ public class ExportDetailGUI {
     private JTable tblExportDetails;
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
-    private JComboBox comboBox2;
     private JButton btnAdd;
     private JButton btnDelete;
     private JButton btnReset;
-    private JPanel cbxQuantity;
     private JTextField txtTotalQuantity;
 }
