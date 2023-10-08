@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ExportDetailGUI {
     private DefaultTableModel model;
@@ -20,6 +22,21 @@ public class ExportDetailGUI {
         initTable();
         initTableData();
         setTotalQuantity();
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddProductGUI addProductGUI = new AddProductGUI(exportId, null, ExportDetailGUI.this);
+                addProductGUI.openAddProductGUI();
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void setTotalQuantity() {
