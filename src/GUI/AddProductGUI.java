@@ -72,7 +72,7 @@ public class AddProductGUI {
     public void openAddProductGUI() {
         JFrame frame = new JFrame("Thêm sản phẩm");
         frame.setContentPane(new AddProductGUI(invoiceId, importDetailGUI).mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
