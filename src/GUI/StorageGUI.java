@@ -223,7 +223,6 @@ public class StorageGUI {
     private JButton btnResetImport;
     private JButton btnPrintImport;
     private JButton btnAddExport;
-    private JButton btnUpdateExport;
     private JButton btnResetExport;
     private JButton btnPrintExport;
     private JTable tblExports;
