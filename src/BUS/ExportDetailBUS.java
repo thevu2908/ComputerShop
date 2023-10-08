@@ -74,6 +74,21 @@ public class ExportDetailBUS {
         return exportDetailDAO.updateExportDetailQuantity(exportDetail) > 0;
     }
 
+    public boolean deleteExportDetail(String exportId, String productId) {
+        if (exportBUS.getStatusById(exportId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Không thể xóa chi tiết phiếu xuất đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (exportDetailDAO.deleteExportDetail(exportId, productId) > 0) {
+            JOptionPane.showMessageDialog(null, "Xóa chi tiết phiếu xuất thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Xóa chi tiết phiếu xuất thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
     public ExportDetailDTO getExportDetailById(String exportId, String productId) {
         loadData();
 

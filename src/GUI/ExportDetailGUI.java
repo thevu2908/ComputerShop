@@ -34,7 +34,25 @@ public class ExportDetailGUI {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblExportDetails.getSelectedRow();
 
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi tiết phiếu xuất muốn xóa", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa chi tiết phiếu xuất này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String productId = tblExportDetails.getValueAt(rowSelected, 0).toString();
+
+                    if (exportDetailBUS.deleteExportDetail(exportId, productId)) {
+                        initTableData();
+                        setTotalQuantity();
+                    }
+                }
             }
         });
     }

@@ -65,4 +65,20 @@ public class ExportDetailDAO {
             return 0;
         }
     }
+
+    public int deleteExportDetail(String exportId, String productId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "delete from `chi_tiet_phieu_xuat` where ma_px = ? and ma_sp = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, exportId);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }
