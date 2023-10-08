@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.ExportDetailBUS;
 import BUS.ImportDetailBUS;
 import BUS.ProductBUS;
 import utils.AutoSuggestComboBox;
@@ -13,17 +14,22 @@ import java.awt.event.KeyEvent;
 public class AddProductGUI {
     private String invoiceId;
     private ImportDetailGUI importDetailGUI;
+    private ExportDetailGUI exportDetailGUI;
     private JTextField txtProductId;
     private ProductBUS productBUS;
     private ImportDetailBUS importDetailBUS;
+    private ExportDetailBUS exportDetailBUS;
 
-    public AddProductGUI(String invoiceId, ImportDetailGUI importDetailGUI) {
+    public AddProductGUI(String invoiceId, ImportDetailGUI importDetailGUI, ExportDetailGUI exportDetailGUI) {
         this.invoiceId = invoiceId;
         this.importDetailGUI = importDetailGUI;
+        this.exportDetailGUI = exportDetailGUI;
         productBUS = new ProductBUS();
         importDetailBUS = new ImportDetailBUS();
+        exportDetailBUS = new ExportDetailBUS();
 
         txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initProductIdSuggestion);
+        setComponent();
 
         cbxProductId.addActionListener(new ActionListener() {
             @Override
@@ -51,11 +57,18 @@ public class AddProductGUI {
                 String productId = txtProductId.getText();
                 String quantity = txtProductQuantity.getText();
 
-                if (importDetailBUS.addImportDetail(invoiceId, productId, quantity)) {
+                // add importDetail
+                if (importDetailGUI != null && importDetailBUS.addImportDetail(invoiceId, productId, quantity)) {
                     importDetailGUI.initTableData();
                     importDetailGUI.setTotalPrice();
-                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                    frame.dispose();
+                    closeAddProductGUI();
+                }
+
+                // add exportDetail
+                if (exportDetailGUI != null && exportDetailBUS.addExportDetail(invoiceId, productId, quantity)) {
+                    exportDetailGUI.initTableData();
+                    exportDetailGUI.setTotalQuantity();
+                    closeAddProductGUI();
                 }
             }
         });
@@ -63,19 +76,29 @@ public class AddProductGUI {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                frame.dispose();
+                closeAddProductGUI();
             }
         });
     }
 
+    public void setComponent() {
+        if (exportDetailGUI != null) {
+            txtProductPrice.setVisible(false);
+        }
+    }
+
     public void openAddProductGUI() {
         JFrame frame = new JFrame("Thêm sản phẩm");
-        frame.setContentPane(new AddProductGUI(invoiceId, importDetailGUI).mainPanel);
+        frame.setContentPane(new AddProductGUI(invoiceId, importDetailGUI, exportDetailGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void closeAddProductGUI() {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+        frame.dispose();
     }
 
     private JPanel mainPanel;

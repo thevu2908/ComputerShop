@@ -35,6 +35,26 @@ public class ExportDAO {
         }
     }
 
+    public int addExport(ExportDTO exportDTO) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `phieu_xuat` values (?, ?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, exportDTO.getExportId());
+            ptmt.setString(2, exportDTO.getEmployeeId());
+            ptmt.setString(3, exportDTO.getExportDate());
+            ptmt.setInt(4, exportDTO.getTotalQuantity());
+            ptmt.setString(5, exportDTO.getStatus());
+            ptmt.setInt(6, exportDTO.getIsDeleted());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int setTotalQuantity(String id, int total) {
         try {
             Connection connection = MyConnection.getConnect();

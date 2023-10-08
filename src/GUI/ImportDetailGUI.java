@@ -27,7 +27,7 @@ public class ImportDetailGUI {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddProductGUI addProductGUI = new AddProductGUI(importId, ImportDetailGUI.this);
+                AddProductGUI addProductGUI = new AddProductGUI(importId, ImportDetailGUI.this, null);
                 addProductGUI.openAddProductGUI();
             }
         });

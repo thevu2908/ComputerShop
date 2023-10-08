@@ -56,10 +56,17 @@ public class InvoiceInformationGUI {
                     }
                 }
                 else if (invoiceName.equals("phiếu xuất")) {
-                    ExportDetailGUI exportDetailGUI = new ExportDetailGUI(txtInvoiceId.getText(), storageGUI);
-                    exportDetailGUI.openExportDetailGUI();
-                    storageGUI.initExportTableData();
-                    closeInvoiceGUI();
+                    String exportId = txtInvoiceId.getText();
+                    String employeeId = txtEmployeeId.getText();
+
+                    if (invoiceId.equals("")) {
+                        if (exportBUS.addExport(exportId, employeeId)) {
+                            ExportDetailGUI exportDetailGUI = new ExportDetailGUI(txtInvoiceId.getText(), storageGUI);
+                            exportDetailGUI.openExportDetailGUI();
+                            storageGUI.initExportTableData();
+                            closeInvoiceGUI();
+                        }
+                    }
                 }
             }
         });

@@ -4,6 +4,7 @@ import DAO.ExportDAO;
 import DTO.ExportDTO;
 import utils.DateTime;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
@@ -19,6 +20,36 @@ public class ExportBUS {
 
     public void loadData() {
         exportList = exportDAO.getData();
+    }
+
+    public boolean addExport(String exportId, String employeeId) {
+        if (exportId.equals("") || employeeId.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        String currentDate = DateTime.getCurrentDate();
+        ExportDTO exportDTO = new ExportDTO(exportId, employeeId, currentDate, 0, "Chưa duyệt", 0);
+
+        if (exportDAO.addExport(exportDTO) > 0) {
+            JOptionPane.showMessageDialog(null, "Thêm phiếu xuất thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "VThêm phiếu xuất thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public String getStatusById(String exportId) {
+        loadData();
+
+        for (ExportDTO exportDTO : exportList) {
+            if (exportDTO.getExportId().equals(exportId)) {
+                return exportDTO.getStatus();
+            }
+        }
+
+        return "";
     }
 
     public int setTotalQuantity(String id, int total) {
