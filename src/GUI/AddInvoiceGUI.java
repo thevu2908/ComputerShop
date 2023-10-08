@@ -18,7 +18,6 @@ public class AddInvoiceGUI {
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
     private SupplierBUS supplierBUS;
-
     private JTextField txtSupplierId;
 
     public AddInvoiceGUI(String invoiceName, String employeeId, StorageGUI storageGUI) {
@@ -36,17 +35,22 @@ public class AddInvoiceGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (invoiceName.equals("phiếu nhập")) {
-                    ImportDetailGUI importDetailGUI = new ImportDetailGUI(txtInvoiceId.getText(), storageGUI);
-                    importDetailGUI.openImportDetailGUI();
-                    storageGUI.initImportTableData();
+                    if (importBUS.addImport(txtInvoiceId.getText(), txtEmployeeId.getText(), txtSupplierId.getText())) {
+                        ImportDetailGUI importDetailGUI = new ImportDetailGUI(txtInvoiceId.getText(), storageGUI);
+                        importDetailGUI.openImportDetailGUI();
+                        storageGUI.initImportTableData();
+
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                        frame.dispose();
+                    }
                 } else if (invoiceName.equals("phiếu xuất")) {
                     ExportDetailGUI exportDetailGUI = new ExportDetailGUI(txtInvoiceId.getText(), storageGUI);
                     exportDetailGUI.openExportDetailGUI();
                     storageGUI.initExportTableData();
-                }
 
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                frame.dispose();
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                    frame.dispose();
+                }
             }
         });
 

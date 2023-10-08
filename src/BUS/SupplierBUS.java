@@ -4,7 +4,6 @@ import DAO.SupplierDAO;
 import DTO.SupplierDTO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SupplierBUS {
     private ArrayList<SupplierDTO> supplierList;
@@ -29,6 +28,18 @@ public class SupplierBUS {
         }
 
         return "";
+    }
+
+    public boolean checkExistedId(String id) {
+        loadData();
+
+        for (SupplierDTO supplierDTO : supplierList) {
+            if (supplierDTO.getSupplierId().equals(id)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public ArrayList<String> initSupplierSuggestion(int col) {

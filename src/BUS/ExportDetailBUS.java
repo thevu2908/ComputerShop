@@ -26,7 +26,9 @@ public class ExportDetailBUS {
     public int calculateTotalQuantity(String exportId) {
         int total = 0;
         for (ExportDetailDTO exportDetailDTO : exportDetailList) {
-            total += exportDetailDTO.getQuantity();
+            if (exportDetailDTO.getExportId().equals(exportId)) {
+               total += exportDetailDTO.getQuantity();
+            }
         }
         exportBUS.setTotalQuantity(exportId, total);
         return total;

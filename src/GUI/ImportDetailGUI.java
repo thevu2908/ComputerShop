@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ImportDetailGUI {
     private DefaultTableModel model;
@@ -21,6 +23,14 @@ public class ImportDetailGUI {
         initTable();
         initTableData();
         setTotalPrice();
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddProductGUI addProductGUI = new AddProductGUI(importId, ImportDetailGUI.this);
+                addProductGUI.openAddProductGUI();
+            }
+        });
     }
 
     public void setTotalPrice() {
@@ -66,7 +76,6 @@ public class ImportDetailGUI {
 
     private JPanel mainPanel;
     private JTable tblImportDetails;
-    private JComboBox cbxPrice;
     private JButton btnAdd;
     private JButton btnDelete;
     private JButton btnReset;
