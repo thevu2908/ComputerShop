@@ -25,6 +25,11 @@ public class ImportDetailBUS {
     }
 
     public boolean addImportDetail(String importId, String productId, String quantity) {
+        if (importBUS.getStatusById(importId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Không thể thêm chi tiết phiếu nhập đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (importId.equals("") || productId.equals("") || quantity.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -67,6 +72,21 @@ public class ImportDetailBUS {
 
     public boolean updateImportDetailQuantity(ImportDetailDTO importDetail) {
         return importDetailDAO.updateImportDetailQuantity(importDetail) > 0;
+    }
+
+    public boolean deleteImportDetail(String importId, String productId) {
+        if (importBUS.getStatusById(importId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Không thể xóa chi tiết phiếu nhập đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (importDetailDAO.deleteImportDetail(importId, productId) > 0) {
+            JOptionPane.showMessageDialog(null, "Xóa chi tiết phiếu nhập thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Xóa chi tiết phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
 
     public ImportDetailDTO getImportDetailById(String importId, String productId) {

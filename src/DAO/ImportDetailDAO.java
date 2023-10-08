@@ -65,4 +65,20 @@ public class ImportDetailDAO {
             return 0;
         }
     }
+
+    public int deleteImportDetail(String importId, String productId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "delete from `chi_tiet_phieu_nhap` where ma_pn = ? and ma_sp = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, importId);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

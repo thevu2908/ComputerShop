@@ -49,6 +49,11 @@ public class ImportBUS {
     }
 
     public boolean updateImportSupplier(String importId, String supplierId) {
+        if (getStatusById(importId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Không thể sửa phiếu nhập đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (supplierId.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập mã nhà cung cấp", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -67,6 +72,18 @@ public class ImportBUS {
             JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    public String getStatusById(String importId) {
+        loadData();
+
+        for (ImportDTO importDTO : importList) {
+            if (importDTO.getImportId().equals(importId)) {
+                return importDTO.getImportStatus();
+            }
+        }
+
+        return "";
     }
 
     public String getSupplierById(String importId) {
