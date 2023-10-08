@@ -11,7 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AddInvoiceGUI {
+public class InvoiceInformationGUI {
+    private String invoiceId;
     private String invoiceName;
     private String employeeId;
     private StorageGUI storageGUI;
@@ -20,36 +21,45 @@ public class AddInvoiceGUI {
     private SupplierBUS supplierBUS;
     private JTextField txtSupplierId;
 
-    public AddInvoiceGUI(String invoiceName, String employeeId, StorageGUI storageGUI) {
+    public InvoiceInformationGUI(String invoiceId, String invoiceName, String employeeId, StorageGUI storageGUI) {
         this.invoiceName = invoiceName;
         this.employeeId = employeeId;
         this.storageGUI = storageGUI;
+        this.invoiceId = invoiceId;
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
         supplierBUS = new SupplierBUS();
-        setComponentsInfo();
 
         txtSupplierId = AutoSuggestComboBox.createAutoSuggest(cbxSupplierId, 0, supplierBUS::initSupplierSuggestion);
+        setComponentsInfo();
 
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (invoiceName.equals("phiếu nhập")) {
-                    if (importBUS.addImport(txtInvoiceId.getText(), txtEmployeeId.getText(), txtSupplierId.getText())) {
-                        ImportDetailGUI importDetailGUI = new ImportDetailGUI(txtInvoiceId.getText(), storageGUI);
-                        importDetailGUI.openImportDetailGUI();
-                        storageGUI.initImportTableData();
+                    String importId = txtInvoiceId.getText();
+                    String employeeId = txtEmployeeId.getText();
+                    String supplierId = txtSupplierId.getText();
 
-                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                        frame.dispose();
+                    if (invoiceId.equals("")) {
+                        if (importBUS.addImport(importId, employeeId, supplierId)) {
+                            ImportDetailGUI importDetailGUI = new ImportDetailGUI(txtInvoiceId.getText(), storageGUI);
+                            importDetailGUI.openImportDetailGUI();
+                            storageGUI.initImportTableData();
+                            closeInvoiceGUI();
+                        }
+                    } else {
+                        if (importBUS.updateImportSupplier(importId, supplierId)) {
+                            storageGUI.initImportTableData();
+                            closeInvoiceGUI();
+                        }
                     }
-                } else if (invoiceName.equals("phiếu xuất")) {
+                }
+                else if (invoiceName.equals("phiếu xuất")) {
                     ExportDetailGUI exportDetailGUI = new ExportDetailGUI(txtInvoiceId.getText(), storageGUI);
                     exportDetailGUI.openExportDetailGUI();
                     storageGUI.initExportTableData();
-
-                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                    frame.dispose();
+                    closeInvoiceGUI();
                 }
             }
         });
@@ -69,6 +79,13 @@ public class AddInvoiceGUI {
                 txtSupplierName.setText(name);
             }
         });
+
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                closeInvoiceGUI();
+            }
+        });
     }
 
     public void setComponentsInfo() {
@@ -83,18 +100,31 @@ public class AddInvoiceGUI {
             cbxSupplierId.setVisible(false);
             lblSupplierName.setVisible(false);
             txtSupplierName.setVisible(false);
-        } else if (invoiceName.equals("phiếu nhập")) {
-            txtInvoiceId.setText(importBUS.createNewId());
         }
+        else if (invoiceName.equals("phiếu nhập")) {
+            txtInvoiceId.setText(importBUS.createNewId());
+
+            if (!invoiceId.equals("")) {
+                txtInvoiceId.setText(invoiceId);
+                txtSupplierId.setText(importBUS.getSupplierById(invoiceId));
+                txtSupplierName.setText(supplierBUS.getNameById(txtSupplierId.getText()));
+            }
+        }
+
     }
 
-    public void openAddInvoiceGUI() {
+    public void openInvoiceGUI() {
         JFrame frame = new JFrame(invoiceName.toUpperCase());
-        frame.setContentPane(new AddInvoiceGUI(invoiceName, employeeId, storageGUI).mainPanel);
+        frame.setContentPane(new InvoiceInformationGUI(invoiceId, invoiceName, employeeId, storageGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void closeInvoiceGUI() {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+        frame.dispose();
     }
 
     private JPanel mainPanel;

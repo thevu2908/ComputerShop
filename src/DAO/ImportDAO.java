@@ -57,6 +57,22 @@ public class ImportDAO {
         }
     }
 
+    public int updateImportSupplier(String importId, String supplierId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `phieu_nhap` set ma_ncc = ? where ma_pn = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, supplierId);
+            ptmt.setString(2, importId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int setTotalPrice(String id, int total) {
         try {
             Connection connection = MyConnection.getConnect();

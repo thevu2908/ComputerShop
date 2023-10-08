@@ -48,6 +48,39 @@ public class ImportBUS {
         }
     }
 
+    public boolean updateImportSupplier(String importId, String supplierId) {
+        if (supplierId.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập mã nhà cung cấp", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!supplierBUS.checkExistedId(supplierId)) {
+            JOptionPane.showMessageDialog(null, "Nhà cung cấp không tồn tại \nVui lòng nhập lại mã nhà cung cấp", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (importDAO.updateImportSupplier(importId, supplierId) > 0) {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public String getSupplierById(String importId) {
+        loadData();
+
+        for (ImportDTO importDTO : importList) {
+            if (importDTO.getImportId().equals(importId)) {
+                return importDTO.getSupplierId();
+            }
+        }
+
+        return "";
+    }
+
     public int setTotalPrice(String id, int total) {
         return importDAO.setTotalPrice(id, total);
     }

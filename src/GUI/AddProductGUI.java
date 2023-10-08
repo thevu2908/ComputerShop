@@ -45,7 +45,6 @@ public class AddProductGUI {
             }
         });
 
-
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +57,14 @@ public class AddProductGUI {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                     frame.dispose();
                 }
+            }
+        });
+
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                frame.dispose();
             }
         });
     }
