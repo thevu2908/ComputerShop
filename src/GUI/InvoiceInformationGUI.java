@@ -110,7 +110,6 @@ public class InvoiceInformationGUI {
                 txtSupplierName.setText(supplierBUS.getNameById(txtSupplierId.getText()));
             }
         }
-
     }
 
     public void openInvoiceGUI() {

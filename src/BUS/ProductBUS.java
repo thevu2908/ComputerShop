@@ -134,6 +134,17 @@ public class ProductBUS {
         return "";
     }
 
+    public ArrayList<String> initProductIdSuggestion(int col) {
+        loadProductData();;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (ProductDTO productDTO : productList) {
+            list.add(productDTO.getProductId());
+        }
+
+        return list;
+    }
+
     public void renderToSellTable(DefaultTableModel model) {
         model.setRowCount(0);
         loadProductData();
@@ -150,17 +161,6 @@ public class ProductBUS {
         }
 
         model.fireTableDataChanged();
-    }
-
-    public ArrayList<String> initProductIdSuggestion(int col) {
-        loadProductData();;
-        ArrayList<String> list = new ArrayList<>();
-
-        for (ProductDTO productDTO : productList) {
-            list.add(productDTO.getProductId());
-        }
-
-        return list;
     }
 
     public void renderToProductTable(DefaultTableModel model) {
