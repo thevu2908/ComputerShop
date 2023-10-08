@@ -57,6 +57,7 @@ public class SupplierBUS {
         return list;
     }
 
+
     public void renderToSupplierTable(DefaultTableModel model) {
         model.setRowCount(0);
         loadData();
