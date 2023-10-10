@@ -29,4 +29,18 @@ public class EmployeeTypeBUS {
 
         return "";
     }
+    public String getIDByTypeName(String name)
+    {
+        loadData();
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getTypeName().equals(name)) {
+                return employeeTypeDTO.getTypeId();
+            }
+        }
+
+        return "";
+
+    }
+
+
 }
