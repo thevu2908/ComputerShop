@@ -212,7 +212,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice()
+                        productDTO.getProductQuantity()
                 });
             }
         }
