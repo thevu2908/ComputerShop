@@ -3,28 +3,30 @@ package GUI;
 import BUS.ExportBUS;
 import BUS.ImportBUS;
 import BUS.ProductBUS;
+import BUS.ProductTypeBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class StorageGUI {
     private DefaultTableModel prodModel;
     private DefaultTableModel importModel;
     private DefaultTableModel exportModel;
+    private TableRowSorter<DefaultTableModel> productSorter;
     private ProductBUS productBUS;
+    private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
     private String employeeId;
 
     public StorageGUI(String employeeId) {
         productBUS = new ProductBUS();
+        productTypeBUS = new ProductTypeBUS();
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
         this.employeeId = employeeId;
@@ -95,6 +97,27 @@ public class StorageGUI {
                 editInvoiceGUI.openInvoiceGUI();
             }
         });
+
+        txtSearchProd.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxProductType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxProductQuantity.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
     }
 
     public void initExport() {
@@ -112,6 +135,7 @@ public class StorageGUI {
     public void initProduct() {
         initProductTable();
         initProductTableData();
+        initProductTypeComboboxData();
     }
 
     public void initExportTableData() {
@@ -176,6 +200,61 @@ public class StorageGUI {
         importDateToPanel.add(importDateTo);
     }
 
+    public void filterProduct() {
+        String searchType = cbxSearchProdType.getSelectedItem().toString();
+        String productInfo = txtSearchProd.getText().toLowerCase();
+        String productType = cbxProductType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxProductType.getSelectedItem().toString().toLowerCase();
+
+        String quantityText = cbxProductQuantity.getSelectedItem().toString();
+        int minQuantity = 0;
+        int maxQuantity = 999999999;
+
+        if (quantityText.equals("Dưới 50")) {
+            maxQuantity = 50;
+        } else if (quantityText.equals("Từ 50 đến 200")) {
+            minQuantity = 50;
+            maxQuantity = 200;
+        } else if (quantityText.equals("Trên 200")) {
+            minQuantity = 200;
+        }
+
+        int finalMinQuantity = minQuantity;
+        int finalMaxQuantity = maxQuantity;
+
+        productSorter = new TableRowSorter<>(prodModel);
+        tblProducts.setRowSorter(productSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                int rowQuantity = Integer.parseInt(entry.getStringValue(3));
+
+                switch (searchType) {
+                    case "Mã sản phẩm":
+                        return rowId.contains(productInfo) && rowType.contains(productType)
+                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                    case "Tên sản phẩm":
+                        return rowName.contains(productInfo) && rowType.contains(productType)
+                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        productSorter.setRowFilter(filter);
+    }
+
+    public void initProductTypeComboboxData() {
+        cbxProductType.addItem("Tất cả");
+        productTypeBUS.renderToCombobox(cbxProductType);
+    }
+
     public void initProductTableData() {
         productBUS.renderToStorageProductTable(prodModel);
     }
@@ -208,7 +287,7 @@ public class StorageGUI {
     private JTabbedPane tabbedPane1;
     private JComboBox cbxSearchProdType;
     private JComboBox cbxProductType;
-    private JComboBox cbxProductPrice;
+    private JComboBox cbxProductQuantity;
     private JTable tblProducts;
     private JPanel importDatePanel;
     private JPanel importDateFromPanel;
