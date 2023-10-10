@@ -162,6 +162,11 @@ public class SellGUI {
     private JPanel orderPanel;
     private JMenuItem menuSystem;
     private JMenuItem menuLogout;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JButton đổiButton;
+    private JTextField txtDiscount;
+    private JTextField txtFinalTotal;
     private JDateChooser orderDateFrom;
     private JDateChooser orderDateTo;
 }
