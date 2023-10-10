@@ -43,8 +43,9 @@ public class ProductGUI {
                 String oCung = txtOCung.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
-                if(productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)==true) {
-                    refresh();
+
+                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                    reset();
                 }
             }
         });
@@ -67,12 +68,14 @@ public class ProductGUI {
                 txtScreenCard.setText(product.getProductScreenCard());
             }
         });
+
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                refresh();
+                reset();
             }
         });
+
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,23 +88,23 @@ public class ProductGUI {
                 String oCung = txtOCung.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
-                if(productBUS.fixProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)==true) {
-                    refresh();
+
+                if
+                (productBUS.fixProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                    reset();
                 }
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = txtProductID.getText();
-                if(productBUS.deleteProduct(id) == true){
-                    refresh();
+                if (productBUS.deleteProduct(id)) {
+                    reset();
                 }
             }
         });
-
-
-
     }
 
     public void initComboboxTypeData(){
@@ -132,7 +135,7 @@ public class ProductGUI {
         }
     }
 
-    public void refresh(){
+    public void reset() {
         txtProductID.setText("");
         txtProductName.setText("");
         txtProductPrice.setText("");
