@@ -157,7 +157,45 @@ public class StorageGUI {
         btnResetImport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                restImportData();
+                resetImportData();
+            }
+        });
+
+        txtSearchExport.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterExport();
+            }
+        });
+
+        cbxExportStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterExport();
+            }
+        });
+
+        btnFilterDateExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exportDateFrom.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (exportDateTo.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                filterExport();
+            }
+        });
+
+        btnResetExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetExportData();
             }
         });
     }
@@ -178,6 +216,72 @@ public class StorageGUI {
         initProductTable();
         initProductTableData();
         initProductTypeComboboxData();
+    }
+
+    public void resetExportData() {
+        cbxExportSearchType.setSelectedIndex(0);
+        txtSearchExport.setText("");
+        cbxExportStatus.setSelectedIndex(0);
+        exportDateFrom.setDate(null);
+        exportDateTo.setDate(null);
+        exportSorter.setRowFilter(null);
+    }
+
+    public void filterExport() {
+        try {
+            String searchType = cbxExportSearchType.getSelectedItem().toString();
+            String importInfo = txtSearchExport.getText().toLowerCase();
+            String importStatus = cbxExportStatus.getSelectedItem().toString().equals("Tất cả")
+                    ? ""
+                    : cbxExportStatus.getSelectedItem().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateFrom = exportDateFrom.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : exportDateFrom.getDate();
+
+            Date dateTo = exportDateTo.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : exportDateTo.getDate();
+
+            if (dateTo.compareTo(dateFrom) < 0) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            exportSorter = new TableRowSorter<>(exportModel);
+            tblExports.setRowSorter(exportSorter);
+
+            RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                    try {
+                        String rowImportId = entry.getStringValue(0).toLowerCase();
+                        String rowEmployeeId = entry.getStringValue(1).toLowerCase();
+                        Date rowDate = formatter.parse(entry.getStringValue(2));
+                        String rowStatus = entry.getStringValue(4);
+
+                        switch (searchType) {
+                            case "Mã phiếu xuất":
+                                return rowImportId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhân viên":
+                                return rowEmployeeId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            default:
+                                return true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+            };
+
+            exportSorter.setRowFilter(filter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initExportTableData() {
@@ -211,12 +315,12 @@ public class StorageGUI {
         exportDateToPanel.add(exportDateTo);
     }
 
-    public void restImportData() {
+    public void resetImportData() {
         cbxImportSearchType.setSelectedIndex(0);
         txtSearchImport.setText("");
         cbxImportStatus.setSelectedIndex(0);
-        importDateTo.setDate(null);
         importDateFrom.setDate(null);
+        importDateTo.setDate(null);
         importSorter.setRowFilter(null);
     }
 
@@ -423,7 +527,7 @@ public class StorageGUI {
     private JComboBox cbxImportStatus;
     private JComboBox cbxExportStatus;
     private JComboBox cbxExportSearchType;
-    private JTextField txtSearchExports;
+    private JTextField txtSearchExport;
     private JDateChooser importDateFrom;
     private JDateChooser importDateTo;
     private JDateChooser exportDateFrom;
