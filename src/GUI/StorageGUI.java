@@ -12,12 +12,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StorageGUI {
     private DefaultTableModel prodModel;
     private DefaultTableModel importModel;
     private DefaultTableModel exportModel;
     private TableRowSorter<DefaultTableModel> productSorter;
+    private TableRowSorter<DefaultTableModel> importSorter;
+    private TableRowSorter<DefaultTableModel> exportSorter;
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
@@ -118,6 +122,44 @@ public class StorageGUI {
                 filterProduct();
             }
         });
+
+        txtSearchImport.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterImport();
+            }
+        });
+
+        cbxImportStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterImport();
+            }
+        });
+
+        btnFilterDateImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (importDateFrom.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (importDateTo.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                filterImport();
+            }
+        });
+
+        btnResetImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restImportData();
+            }
+        });
     }
 
     public void initExport() {
@@ -169,6 +211,76 @@ public class StorageGUI {
         exportDateToPanel.add(exportDateTo);
     }
 
+    public void restImportData() {
+        cbxImportSearchType.setSelectedIndex(0);
+        txtSearchImport.setText("");
+        cbxImportStatus.setSelectedIndex(0);
+        importDateTo.setDate(null);
+        importDateFrom.setDate(null);
+        importSorter.setRowFilter(null);
+    }
+
+    public void filterImport() {
+        try {
+            String searchType = cbxImportSearchType.getSelectedItem().toString();
+            String importInfo = txtSearchImport.getText().toLowerCase();
+            String importStatus = cbxImportStatus.getSelectedItem().toString().equals("Tất cả")
+                    ? ""
+                    : cbxImportStatus.getSelectedItem().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateFrom = importDateFrom.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : importDateFrom.getDate();
+
+            Date dateTo = importDateTo.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : importDateTo.getDate();
+
+            if (dateTo.compareTo(dateFrom) < 0) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            importSorter = new TableRowSorter<>(importModel);
+            tblImports.setRowSorter(importSorter);
+
+            RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                    try {
+                        String rowImportId = entry.getStringValue(0).toLowerCase();
+                        String rowEmployeeId = entry.getStringValue(1).toLowerCase();
+                        String rowSupplierId = entry.getStringValue(2).toLowerCase();
+                        Date rowDate = formatter.parse(entry.getStringValue(3));
+                        String rowStatus = entry.getStringValue(5);
+
+                        switch (searchType) {
+                            case "Mã phiếu nhập":
+                                return rowImportId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhân viên":
+                                return rowEmployeeId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhà cung cấp":
+                                return rowSupplierId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            default:
+                                return true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+            };
+
+            importSorter.setRowFilter(filter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void initImportTableData() {
         importBUS.renderToTable(importModel, employeeId);
     }
@@ -201,7 +313,7 @@ public class StorageGUI {
     }
 
     public void filterProduct() {
-        String searchType = cbxSearchProdType.getSelectedItem().toString();
+        String searchType = cbxProdSearchType.getSelectedItem().toString();
         String productInfo = txtSearchProd.getText().toLowerCase();
         String productType = cbxProductType.getSelectedItem().toString().equals("Tất cả")
                 ? ""
@@ -285,7 +397,7 @@ public class StorageGUI {
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
-    private JComboBox cbxSearchProdType;
+    private JComboBox cbxProdSearchType;
     private JComboBox cbxProductType;
     private JComboBox cbxProductQuantity;
     private JTable tblProducts;
@@ -308,6 +420,10 @@ public class StorageGUI {
     private JButton btnFilterDateExport;
     private JPanel exportDateFromPanel;
     private JPanel exportDateToPanel;
+    private JComboBox cbxImportStatus;
+    private JComboBox cbxExportStatus;
+    private JComboBox cbxExportSearchType;
+    private JTextField txtSearchExports;
     private JDateChooser importDateFrom;
     private JDateChooser importDateTo;
     private JDateChooser exportDateFrom;
