@@ -16,7 +16,7 @@ public class EmployeeDAO {
         try {
             Connection connection = MyConnection.getConnect();
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from `nhan_vien`");
+            ResultSet rs = stmt.executeQuery("select * from `nhan_vien` where trang_thai = 0");
 
             while (rs.next()) {
                 String id = rs.getString("ma_nv");
@@ -54,7 +54,7 @@ public class EmployeeDAO {
             ptmt.setString(7, t.getEmployeeGender());
             ptmt.setString(8, t.getEmployeeEmail());
             ptmt.setString(9, t.getEmployeePassword());
-            ptmt.setInt(10, 1);
+            ptmt.setInt(10, 0);
 
             return ptmt.executeUpdate();
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class EmployeeDAO {
         int kq = 0;
        try {
                 Connection connection = MyConnection.getConnect();
-                String sql = "UPDATE nhan_vien set  ho_ten=?, dia_chi=?, so_dien_thoai=?,ngay_sinh=?, gioi_tinh=?, email=?, mat_khau=? where ma_nv=?";
+                String sql = "UPDATE nhan_vien set   ho_ten=?, dia_chi=?, so_dien_thoai=?,ngay_sinh=?, gioi_tinh=?, email=?, mat_khau=?,ma_lnv=?  where ma_nv=?";
 
                 PreparedStatement pst = connection.prepareStatement(sql);
                 pst.setString(1, t.getEmployeeName());
@@ -76,8 +76,11 @@ public class EmployeeDAO {
                 pst.setString(5, t.getEmployeeGender());
                 pst.setString(6, t.getEmployeeEmail());
                 pst.setString(7, t.getEmployeePassword());
+                pst.setString(8, t.getEmployeeType());
+                pst.setString(9, t.getEmployeeId());
 
-                kq = pst.executeUpdate();
+
+           kq = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -90,7 +93,7 @@ public class EmployeeDAO {
         int ketQua = 0;
        try {
             Connection connection = MyConnection.getConnect();
-            String sql = "update nhanvien set trang_thai=0 where ma_nv=?";
+            String sql = "delete from nhan_vien where  ma_nv=?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, t);
 

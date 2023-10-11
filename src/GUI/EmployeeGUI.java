@@ -111,6 +111,7 @@ public class EmployeeGUI {
                 String id = txtEmpId.getText();
                 if (employeeBUS.deleteEmployee(id)) {
                     resetValues();
+                    initTableData();
                 }
             }
         });
