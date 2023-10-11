@@ -5,8 +5,6 @@ import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -94,8 +92,7 @@ public class ProductGUI {
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if
-                (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                if (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
                     reset();
                 }
             }
