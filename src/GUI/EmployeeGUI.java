@@ -48,8 +48,8 @@ public class EmployeeGUI {
     }
 
     public void initComboBoxData() {
-        employeeTypeBUS.renderToComboBox(cbxEmpType);
-        employeeTypeBUS.renderToComboBox(cbxFilterEmpType);
+        employeeTypeBUS.renderToComboBox(cbxFilterEmpType, "filter");
+        employeeTypeBUS.renderToComboBox(cbxEmpType, "");
     }
 
     public void intiDateChooser() {

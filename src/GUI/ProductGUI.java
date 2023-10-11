@@ -124,6 +124,7 @@ public class ProductGUI {
     }
 
     public void initComboBoxTypeData(){
+        cbxProductType.removeAllItems();
         productTypeBUS.renderToComboBox(cbxProductType);
     }
 

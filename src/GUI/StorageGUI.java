@@ -230,7 +230,8 @@ public class StorageGUI {
         try {
             String searchType = cbxExportSearchType.getSelectedItem().toString();
             String importInfo = txtSearchExport.getText().toLowerCase();
-            String importStatus = cbxExportStatus.getSelectedItem().toString().equals("Tất cả")
+            String importStatus = cbxExportStatus.getSelectedItem() == null
+                    || cbxExportStatus.getSelectedItem().toString().equals("Tất cả")
                     ? ""
                     : cbxExportStatus.getSelectedItem().toString();
 
@@ -418,7 +419,8 @@ public class StorageGUI {
     public void filterProduct() {
         String searchType = cbxProdSearchType.getSelectedItem().toString();
         String productInfo = txtSearchProd.getText().toLowerCase();
-        String productType = cbxProductType.getSelectedItem().toString().equals("Tất cả")
+        String productType = cbxProductType.getSelectedItem() == null
+                || cbxProductType.getSelectedItem().toString().equals("Tất cả")
                 ? ""
                 : cbxProductType.getSelectedItem().toString().toLowerCase();
 
@@ -466,6 +468,7 @@ public class StorageGUI {
     }
 
     public void initProductTypeComboBoxData() {
+        cbxProductType.removeAllItems();
         cbxProductType.addItem("Tất cả");
         productTypeBUS.renderToComboBox(cbxProductType);
     }

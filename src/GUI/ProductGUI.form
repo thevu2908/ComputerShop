@@ -239,7 +239,9 @@
                         <preferred-size width="-1" height="35"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <model/>
+                    </properties>
                   </component>
                   <component id="62911" class="javax.swing.JLabel">
                     <constraints>

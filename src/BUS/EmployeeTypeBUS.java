@@ -13,7 +13,6 @@ public class EmployeeTypeBUS {
 
     public EmployeeTypeBUS() {
         employeeTypeDAO = new EmployeeTypeDAO();
-        loadData();
     }
 
     public void loadData() {
@@ -32,8 +31,13 @@ public class EmployeeTypeBUS {
         return "";
     }
 
-    public void renderToComboBox(JComboBox cbx) {
+    public void renderToComboBox(JComboBox cbx, String type) {
         loadData();
+        cbx.removeAllItems();
+
+        if (type.equals("filter")) {
+            cbx.addItem("Loại nhân viên");
+        }
 
         for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
             if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
@@ -44,6 +48,7 @@ public class EmployeeTypeBUS {
 
     public void renderToTable(DefaultTableModel model) {
         loadData();
+        model.setRowCount(0);
 
         for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
             if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
