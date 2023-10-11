@@ -92,6 +92,9 @@
                         <properties>
                           <model>
                             <item value="Tất cả"/>
+                            <item value="Dưới 2000"/>
+                            <item value="Từ 2000 tới 5000"/>
+                            <item value="Trên 5000"/>
                           </model>
                         </properties>
                       </component>
@@ -308,7 +311,6 @@
                         <item value="Mã khách hàng"/>
                         <item value="Tên khách hàng"/>
                         <item value="Số điện thoại"/>
-                        <item value="Email"/>
                       </model>
                     </properties>
                   </component>

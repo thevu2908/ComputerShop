@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.CustomerBUS;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.toedter.calendar.JDateChooser;
 
@@ -10,10 +11,17 @@ import java.awt.*;
 
 public class CustomerGUI {
     private DefaultTableModel model;
+    private CustomerBUS customerBUS;
 
     public CustomerGUI() {
+        customerBUS = new CustomerBUS();
         initDateChooser();
         initProductTable();
+        initProductTableData();
+    }
+
+    public void initProductTableData() {
+        customerBUS.renderToTable(model);
     }
 
     public void initProductTable() {
@@ -24,7 +32,7 @@ public class CustomerGUI {
             }
         };
 
-        String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Điểm tích lũy"};
+        String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Giới tính", "Điểm tích lũy"};
         model.setColumnIdentifiers(cols);
         tblCustomers.setModel(model);
         tblCustomers.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));

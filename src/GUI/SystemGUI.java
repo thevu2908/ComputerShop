@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SystemGUI {
     private StatisticsGUI statisticsGUI;
-    private AccessGUI accessGUI;
+    private EmployeeTypeGUI accessGUI;
     private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
     private BillGUI billGUI;
@@ -126,7 +126,7 @@ public class SystemGUI {
 
     public void intiContentPanel() {
         statisticsGUI = new StatisticsGUI();
-        accessGUI = new AccessGUI();
+        accessGUI = new EmployeeTypeGUI();
         employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
         billGUI = new BillGUI();

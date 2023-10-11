@@ -1,7 +1,7 @@
 package GUI;
 
 import BUS.EmployeeBUS;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import BUS.EmployeeTypeBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -12,12 +12,15 @@ import java.awt.*;
 public class EmployeeGUI {
     private DefaultTableModel employeeModel;
     private EmployeeBUS employeeBUS;
+    private EmployeeTypeBUS employeeTypeBUS;
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
+        employeeTypeBUS = new EmployeeTypeBUS();
         intiDateChooser();
         initTable();
         initTableData();
+        initComboBoxData();
     }
 
     public void initTableData() {
@@ -44,8 +47,14 @@ public class EmployeeGUI {
         }
     }
 
+    public void initComboBoxData() {
+        employeeTypeBUS.renderToComboBox(cbxEmpType);
+        employeeTypeBUS.renderToComboBox(cbxFilterEmpType);
+    }
+
     public void intiDateChooser() {
         employeeDOB = new JDateChooser();
+        employeeDOB.setPreferredSize(new Dimension(-1, 30));
         datePanel.add(employeeDOB);
     }
 

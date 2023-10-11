@@ -3,6 +3,8 @@ package BUS;
 import DAO.EmployeeTypeDAO;
 import DTO.EmployeeTypeDTO;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class EmployeeTypeBUS {
@@ -28,5 +30,30 @@ public class EmployeeTypeBUS {
         }
 
         return "";
+    }
+
+    public void renderToComboBox(JComboBox cbx) {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
+                cbx.addItem(employeeTypeDTO.getTypeName());
+            }
+        }
+    }
+
+    public void renderToTable(DefaultTableModel model) {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
+                model.addRow(new Object[]{
+                        employeeTypeDTO.getTypeId(),
+                        employeeTypeDTO.getTypeName()
+                });
+            }
+        }
+
+        model.fireTableDataChanged();
     }
 }

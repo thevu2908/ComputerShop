@@ -215,7 +215,7 @@ public class StorageGUI {
     public void initProduct() {
         initProductTable();
         initProductTableData();
-        initProductTypeComboboxData();
+        initProductTypeComboBoxData();
     }
 
     public void resetExportData() {
@@ -466,9 +466,9 @@ public class StorageGUI {
         productSorter.setRowFilter(filter);
     }
 
-    public void initProductTypeComboboxData() {
+    public void initProductTypeComboBoxData() {
         cbxProductType.addItem("Tất cả");
-        productTypeBUS.renderToCombobox(cbxProductType);
+        productTypeBUS.renderToComboBox(cbxProductType);
     }
 
     public void initProductTableData() {

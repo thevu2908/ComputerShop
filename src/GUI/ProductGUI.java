@@ -22,7 +22,7 @@ public class ProductGUI {
         productTypeBUS = new ProductTypeBUS();
         initTable();
         initTableData();
-        initComboboxTypeData();
+        initComboBoxTypeData();
 
         btnCreateId.addActionListener(new ActionListener() {
             @Override
@@ -123,8 +123,8 @@ public class ProductGUI {
         });
     }
 
-    public void initComboboxTypeData(){
-        productTypeBUS.renderToCombobox(cbxProductType);
+    public void initComboBoxTypeData(){
+        productTypeBUS.renderToComboBox(cbxProductType);
     }
 
     public void initTableData() {
