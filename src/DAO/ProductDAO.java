@@ -32,7 +32,7 @@ public class ProductDAO {
 
                 list.add(new ProductDTO(id, type, name, price, cpu, ram, oCung, screen, screenCard, quantity, isDeleted));
             }
-
+            connection.close();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,10 +77,49 @@ public class ProductDAO {
             ptmt.setString(8, product.getProductScreen());
             ptmt.setString(9, product.getProductScreenCard());
             ptmt.setInt(10, product.getProductQuantity());
-            ptmt.setInt(11, 1);
+            ptmt.setInt(11, product.getIsDeleted());
 
             return ptmt.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int fixProduct(ProductDTO product){
+        try{
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?,`gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, `man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+            ptmt.setString(1, product.getProductType());
+            ptmt.setString(2, product.getProductName());
+            ptmt.setInt(3, product.getProductPrice());
+            ptmt.setString(4, product.getProductCPU());
+            ptmt.setString(5, product.getProductRAM());
+            ptmt.setString(6, product.getProductDisk());
+            ptmt.setString(7, product.getProductScreen());
+            ptmt.setString(8, product.getProductScreenCard());
+            ptmt.setString(9, product.getProductId());
+
+            return ptmt.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int deleteProduct(String productID){
+        try{
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set `trang_thai` = 1 where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1,productID);
+
+            return ptmt.executeUpdate();
+        }
+        catch(Exception e){
             e.printStackTrace();
             return 0;
         }
