@@ -57,17 +57,16 @@ public class ProductBUS {
         }
     }
 
-    public boolean deleteProduct(String id){
-        if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xoá!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    public boolean deleteProduct(String id) {
+        if (id.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if(checkExistedProductId(id) == false){
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        int i = JOptionPane.showConfirmDialog(null,"Bạn có muốn xoá sản phẩm "+id+" không?","Quyết định của bạn.",JOptionPane.YES_NO_OPTION);
-        if (i == 0){
+
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá sản phẩm " + id + " không ?", "Câu hỏi",
+                JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
             if (productDAO.deleteProduct(id) > 0) {
                 JOptionPane.showMessageDialog(null, "Xoá sản phẩm thành công");
                 return true;
@@ -76,19 +75,18 @@ public class ProductBUS {
                 return false;
             }
         }
-        else{
-            return false;
-        }
+
+        return false;
     }
 
     public boolean fixProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
-                              String screen, String screenCard){
+                              String screen, String screenCard) {
         if (id.equals("")){
             JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if ( name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
+        if (name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
                 || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -98,7 +96,7 @@ public class ProductBUS {
             return false;
         }
 
-        if(checkExistedProductId(id) == false){
+        if (checkExistedProductId(id) == false) {
             JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -106,7 +104,8 @@ public class ProductBUS {
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
         ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard);
-        if (productDAO.fixProduct(product) > 0) {
+
+        if (productDAO.updateProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
             return true;
         } else {
@@ -213,7 +212,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice()
+                        productDTO.getProductQuantity()
                 });
             }
         }
@@ -249,13 +248,11 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         getNameById(productDTO.getProductId()),
                         productTypeBUS.getNameById(getTypeNameById(productDTO.getProductId())),
-                        productDTO.getProductPrice()
+                        productDTO.getProductQuantity()
                 });
             }
         }
 
         model.fireTableDataChanged();
     }
-
-
 }
