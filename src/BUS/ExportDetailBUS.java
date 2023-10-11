@@ -45,8 +45,14 @@ public class ExportDetailBUS {
             return false;
         }
 
-        boolean flag = false;
         int numQuantity = Integer.parseInt(quantity);
+        if (productBUS.getStorageProductQuantityById(productId) < numQuantity) {
+            JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm trong kho không đủ", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        boolean flag = false;
         ExportDetailDTO exportDetail = getExportDetailById(exportId, productId);
 
         if (exportDetail != null) { // case importDetail have already existed in list

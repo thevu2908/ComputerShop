@@ -41,7 +41,7 @@
                     <properties/>
                     <border type="etched" title="Tìm kiếm theo"/>
                     <children>
-                      <component id="3e9da" class="javax.swing.JComboBox" binding="cbxSearchProdType">
+                      <component id="3e9da" class="javax.swing.JComboBox" binding="cbxProdSearchType">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -146,7 +146,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="8f2a" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="8f2a" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -173,7 +173,6 @@
                                 <item value="Mã phiếu nhập"/>
                                 <item value="Mã nhân viên"/>
                                 <item value="Mã nhà cung cấp"/>
-                                <item value="Tình trạng"/>
                               </model>
                             </properties>
                           </component>
@@ -190,7 +189,7 @@
                       <grid id="61e25" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
                         <border type="none"/>
@@ -241,6 +240,28 @@
                               <background color="-11107086"/>
                               <foreground color="-1"/>
                               <text value="In"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="8c579" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="etched" title="Tình trạng"/>
+                        <children>
+                          <component id="b7a2e" class="javax.swing.JComboBox" binding="cbxImportStatus">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <model>
+                                <item value="Tất cả"/>
+                                <item value="Chưa duyệt"/>
+                                <item value="Đã duyệt"/>
+                              </model>
                             </properties>
                           </component>
                         </children>
@@ -328,7 +349,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="b569c" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="b569c" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -336,7 +357,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <grid id="9c99f" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="9c99f" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -346,7 +367,7 @@
                               <title-color color="-15132391"/>
                             </border>
                             <children>
-                              <component id="f23ca" class="javax.swing.JComboBox">
+                              <component id="f23ca" class="javax.swing.JComboBox" binding="cbxExportSearchType">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
@@ -354,13 +375,12 @@
                                   <model>
                                     <item value="Mã phiếu xuất"/>
                                     <item value="Mã nhân viên"/>
-                                    <item value="Tình trạng"/>
                                   </model>
                                 </properties>
                               </component>
-                              <component id="d676" class="javax.swing.JTextField">
+                              <component id="d676" class="javax.swing.JTextField" binding="txtSearchExport">
                                 <constraints>
-                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="-1"/>
                                   </grid>
                                 </constraints>
@@ -371,7 +391,7 @@
                           <grid id="e68cf" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
-                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties/>
                             <border type="none"/>
@@ -410,6 +430,28 @@
                                   <background color="-11107086"/>
                                   <foreground color="-1"/>
                                   <text value="In"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="cc746" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="Tình trạng"/>
+                            <children>
+                              <component id="cebd9" class="javax.swing.JComboBox" binding="cbxExportStatus">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <model>
+                                    <item value="Tất cả"/>
+                                    <item value="Chưa duyệt"/>
+                                    <item value="Đã duyệt"/>
+                                  </model>
                                 </properties>
                               </component>
                             </children>

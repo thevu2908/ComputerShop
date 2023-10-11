@@ -191,6 +191,31 @@ public class ProductBUS {
         return "";
     }
 
+    public int getStorageProductQuantityById(String productId) {
+        loadStorageProductData();
+
+        for (ProductDTO productDTO : storageProductList) {
+            if (productDTO.getProductId().equals(productId)) {
+                return productDTO.getProductQuantity();
+            }
+        }
+
+        return 0;
+    }
+
+    public ArrayList<String> initAvailableProductIdSuggestion(int col) {
+        loadProductData();;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductQuantity() > 0) {
+                list.add(productDTO.getProductId());
+            }
+        }
+
+        return list;
+    }
+
     public ArrayList<String> initProductIdSuggestion(int col) {
         loadProductData();;
         ArrayList<String> list = new ArrayList<>();
@@ -212,7 +237,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice()
+                        productDTO.getProductQuantity()
                 });
             }
         }
