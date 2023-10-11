@@ -9,11 +9,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
+    private TableRowSorter<DefaultTableModel> productSorter;
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
 
@@ -54,18 +56,21 @@ public class ProductGUI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int rowSelected = tblProducts.getSelectedRow();
-                String productId = tblProducts.getValueAt(rowSelected, 0).toString();
-                ProductDTO product = productBUS.getProductById(productId);
 
-                txtProductID.setText(product.getProductId());
-                txtProductName.setText(product.getProductName());
-                cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
-                txtProductPrice.setText(product.getProductPrice() + "");
-                txtCPU.setText(product.getProductCPU());
-                txtRAM.setText(product.getProductRAM());
-                txtOCung.setText(product.getProductDisk());
-                txtScreen.setText(product.getProductScreen());
-                txtScreenCard.setText(product.getProductScreenCard());
+                if (rowSelected >= 0) {
+                    String productId = tblProducts.getValueAt(rowSelected, 0).toString();
+                    ProductDTO product = productBUS.getProductById(productId);
+
+                    txtProductID.setText(product.getProductId());
+                    txtProductName.setText(product.getProductName());
+                    cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
+                    txtProductPrice.setText(product.getProductPrice() + "");
+                    txtCPU.setText(product.getProductCPU());
+                    txtRAM.setText(product.getProductRAM());
+                    txtOCung.setText(product.getProductDisk());
+                    txtScreen.setText(product.getProductScreen());
+                    txtScreenCard.setText(product.getProductScreenCard());
+                }
             }
         });
 
@@ -103,6 +108,20 @@ public class ProductGUI {
                 if (productBUS.deleteProduct(id)) {
                     reset();
                 }
+            }
+        });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxPrice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
             }
         });
     }
@@ -148,7 +167,60 @@ public class ProductGUI {
         cbxProductType.setSelectedIndex(0);
         cbSearchType.setSelectedIndex(0);
         cbxPrice.setSelectedIndex(0);
-        initTableData();
+        productSorter.setRowFilter(null);
+    }
+
+    public void filterProduct() {
+        String searchType = cbSearchType.getSelectedItem().toString();
+        String productInfo = txtSearch.getText().toLowerCase();
+        int productPrice = cbxPrice.getSelectedIndex();
+
+        int minPrice = 0;
+        int maxPrice = 1999999999;
+
+        if (productPrice == 1) {
+            minPrice = 0;
+            maxPrice = 20000000 - 1;
+        } else if (productPrice == 2) {
+            minPrice = 20000000;
+            maxPrice = 40000000;
+        }
+        else if (productPrice == 3){
+            minPrice = 40000000 + 1;
+            maxPrice = 1999999999;
+        }
+
+        int finalMinPrice = minPrice;
+        int finalMaxPrice = maxPrice;
+
+        productSorter = new TableRowSorter<>(prodModel);
+        tblProducts.setRowSorter(productSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                int rowPrice = Integer.parseInt(entry.getStringValue(3));
+
+                switch (searchType) {
+                    case "Mã sản phẩm":
+                        return rowId.contains(productInfo)
+                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
+                    case "Tên sản phẩm":
+                        return rowName.contains(productInfo)
+                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
+                    case "Hãng sản phẩm":
+                        return rowType.contains(productInfo)
+                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        productSorter.setRowFilter(filter);
     }
 
     public JPanel getMainPanel() {

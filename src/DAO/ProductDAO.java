@@ -32,7 +32,7 @@ public class ProductDAO {
 
                 list.add(new ProductDTO(id, type, name, price, cpu, ram, oCung, screen, screenCard, quantity, isDeleted));
             }
-            connection.close();
+
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class ProductDAO {
     }
 
     public int updateProduct(ProductDTO product){
-        try{
+        try {
             Connection connection = MyConnection.getConnect();
             String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?,`gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, `man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
@@ -110,7 +110,7 @@ public class ProductDAO {
     }
 
     public int deleteProduct(String productID) {
-        try{
+        try {
             Connection connection = MyConnection.getConnect();
             String query = "update `san_pham` set `trang_thai` = 1 where `ma_sp` = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
