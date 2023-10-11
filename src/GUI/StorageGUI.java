@@ -1,9 +1,6 @@
 package GUI;
 
-import BUS.ExportBUS;
-import BUS.ImportBUS;
-import BUS.ProductBUS;
-import BUS.ProductTypeBUS;
+import BUS.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -22,19 +19,21 @@ public class StorageGUI {
     private TableRowSorter<DefaultTableModel> productSorter;
     private TableRowSorter<DefaultTableModel> importSorter;
     private TableRowSorter<DefaultTableModel> exportSorter;
+    private String employeeId;
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
-    private String employeeId;
+    private EmployeeBUS employeeBUS;
 
     public StorageGUI(String employeeId) {
+        this.employeeId = employeeId;
         productBUS = new ProductBUS();
         productTypeBUS = new ProductTypeBUS();
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
-        this.employeeId = employeeId;
-
+        employeeBUS = new EmployeeBUS();
+        showHideConfirmButton();
         initProduct();
         initImport();
         initExport();
@@ -495,6 +494,13 @@ public class StorageGUI {
         }
     }
 
+    public void showHideConfirmButton() {
+        if (!employeeBUS.getTypeById(employeeId).equals("LNV02")) {
+            btnConfirmImport.setVisible(false);
+            btnConfirmExport.setVisible(false);
+        }
+    }
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
@@ -528,6 +534,8 @@ public class StorageGUI {
     private JComboBox cbxExportStatus;
     private JComboBox cbxExportSearchType;
     private JTextField txtSearchExport;
+    private JButton btnConfirmImport;
+    private JButton btnConfirmExport;
     private JDateChooser importDateFrom;
     private JDateChooser importDateTo;
     private JDateChooser exportDateFrom;

@@ -186,8 +186,8 @@
                           </component>
                         </children>
                       </grid>
-                      <grid id="61e25" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <grid id="61e25" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="4" bottom="0" right="4"/>
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -197,7 +197,7 @@
                           <component id="294f3" class="javax.swing.JButton" binding="btnAddImport">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="-1" height="35"/>
+                                <preferred-size width="100" height="35"/>
                               </grid>
                             </constraints>
                             <properties>
@@ -209,7 +209,7 @@
                           <component id="c6ae4" class="javax.swing.JButton" binding="btnUpdateImport">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="-1" height="35"/>
+                                <preferred-size width="100" height="35"/>
                               </grid>
                             </constraints>
                             <properties>
@@ -221,7 +221,7 @@
                           <component id="8fc12" class="javax.swing.JButton" binding="btnResetImport">
                             <constraints>
                               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="-1" height="35"/>
+                                <preferred-size width="100" height="35"/>
                               </grid>
                             </constraints>
                             <properties>
@@ -233,13 +233,25 @@
                           <component id="16642" class="javax.swing.JButton" binding="btnPrintImport">
                             <constraints>
                               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="-1" height="35"/>
+                                <preferred-size width="100" height="35"/>
                               </grid>
                             </constraints>
                             <properties>
                               <background color="-11107086"/>
                               <foreground color="-1"/>
                               <text value="In"/>
+                            </properties>
+                          </component>
+                          <component id="7702b" class="javax.swing.JButton" binding="btnConfirmImport">
+                            <constraints>
+                              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="100" height="35"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <background color="-11107086"/>
+                              <foreground color="-1"/>
+                              <text value="Duyệt phiếu nhập"/>
                             </properties>
                           </component>
                         </children>
@@ -388,8 +400,8 @@
                               </component>
                             </children>
                           </grid>
-                          <grid id="e68cf" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="0" left="0" bottom="0" right="0"/>
+                          <grid id="e68cf" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="4" bottom="0" right="4"/>
                             <constraints>
                               <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -399,7 +411,7 @@
                               <component id="69cb5" class="javax.swing.JButton" binding="btnAddExport">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="-1" height="35"/>
+                                    <preferred-size width="100" height="35"/>
                                   </grid>
                                 </constraints>
                                 <properties>
@@ -411,7 +423,7 @@
                               <component id="d9d6d" class="javax.swing.JButton" binding="btnResetExport">
                                 <constraints>
                                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="-1" height="35"/>
+                                    <preferred-size width="100" height="35"/>
                                   </grid>
                                 </constraints>
                                 <properties>
@@ -423,13 +435,25 @@
                               <component id="54d52" class="javax.swing.JButton" binding="btnPrintExport">
                                 <constraints>
                                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                                    <preferred-size width="-1" height="35"/>
+                                    <preferred-size width="100" height="35"/>
                                   </grid>
                                 </constraints>
                                 <properties>
                                   <background color="-11107086"/>
                                   <foreground color="-1"/>
                                   <text value="In"/>
+                                </properties>
+                              </component>
+                              <component id="9d285" class="javax.swing.JButton" binding="btnConfirmExport">
+                                <constraints>
+                                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="100" height="35"/>
+                                  </grid>
+                                </constraints>
+                                <properties>
+                                  <background color="-11107086"/>
+                                  <foreground color="-1"/>
+                                  <text value="Duyệt phiếu xuất"/>
                                 </properties>
                               </component>
                             </children>
