@@ -16,15 +16,15 @@ public class CustomerGUI {
     public CustomerGUI() {
         customerBUS = new CustomerBUS();
         initDateChooser();
-        initProductTable();
-        initProductTableData();
+        initTable();
+        initTableData();
     }
 
-    public void initProductTableData() {
+    public void initTableData() {
         customerBUS.renderToTable(model);
     }
 
-    public void initProductTable() {
+    public void initTable() {
         model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
