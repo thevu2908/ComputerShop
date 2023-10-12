@@ -31,6 +31,18 @@ public class EmployeeTypeBUS {
         return "";
     }
 
+    public String getIDByTypeName(String name)  {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getTypeName().equals(name)) {
+                return employeeTypeDTO.getTypeId();
+            }
+        }
+
+        return "";
+    }
+
     public void renderToComboBox(JComboBox cbx, String type) {
         loadData();
         cbx.removeAllItems();
@@ -60,17 +72,5 @@ public class EmployeeTypeBUS {
         }
 
         model.fireTableDataChanged();
-    }
-    public String getIDByTypeName(String name)
-    {
-        loadData();
-
-        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-            if (employeeTypeDTO.getTypeName().equals(name)) {
-                return employeeTypeDTO.getTypeId();
-            }
-        }
-
-        return "";
     }
 }
