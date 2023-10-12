@@ -5,19 +5,19 @@ public class BillDTO {
     private String customerId;
     private String employeeId;
     private String billDate;
-    private int totalQuantity;
+    private int total;
     private int isDeleted;
 
     public BillDTO() {
 
     }
 
-    public BillDTO(String billId, String customerId, String employeeId, String billDate, int totalQuantity, int isDeleted) {
+    public BillDTO(String billId, String customerId, String employeeId, String billDate, int total, int isDeleted) {
         this.billId = billId;
         this.customerId = customerId;
         this.employeeId = employeeId;
         this.billDate = billDate;
-        this.totalQuantity = totalQuantity;
+        this.total = total;
         this.isDeleted = isDeleted;
     }
 
@@ -53,12 +53,12 @@ public class BillDTO {
         this.billDate = billDate;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public int getTotal() {
+        return total;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public int getIsDeleted() {

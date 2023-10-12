@@ -1,6 +1,7 @@
 package BUS;
 
 import DAO.ProductDAO;
+import DTO.BillDetailDTO;
 import DTO.ProductDTO;
 import validation.Validate;
 
@@ -255,7 +256,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice()
+                        productDTO.getProductQuantity()
                 });
             }
         }
@@ -268,7 +269,7 @@ public class ProductBUS {
         loadStorageProductData();
 
         for (ProductDTO productDTO : storageProductList) {
-            if (getIsDeletedById(productDTO.getProductId()) == 0) {
+            if (getIsDeletedById(productDTO.getProductId()) == 0 && productDTO.getProductQuantity() > 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),
                         getNameById(productDTO.getProductId()),
@@ -285,4 +286,19 @@ public class ProductBUS {
         loadProductData();
         return productList;
     }
+
+    public boolean decreaseQuantityProduct(ArrayList<BillDetailDTO> billDetailList){
+        boolean flag = true;
+        for(BillDetailDTO billDetailDTO : billDetailList){
+            ProductDTO productDTO = getProductById(billDetailDTO.getProductId());
+            if(productDAO.decreaseQuantityProduct(billDetailDTO.getProductId(),productDTO.getProductQuantity() - billDetailDTO.getQuantity()) == 1){
+                continue;
+            }else{
+                flag=false;
+            }
+        }
+        return flag;
+    }
+
+
 }
