@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SystemGUI {
     private StatisticsGUI statisticsGUI;
-    private AccessGUI accessGUI;
+    private EmployeeTypeGUI accessGUI;
     private EmployeeGUI employeeGUI;
     private ProductGUI productGUI;
     private BillGUI billGUI;
@@ -98,16 +98,26 @@ public class SystemGUI {
                 if (e.getSource() == lblStatistics) {
                     card.show(contentPanel, "Statistics");
                 } else if (e.getSource() == lblAccess) {
+                    accessGUI.initTableData();
                     card.show(contentPanel, "Access");
                 } else if (e.getSource() == lblEmployee) {
+                    employeeGUI.initComboBoxData();
+                    employeeGUI.initTableData();
                     card.show(contentPanel, "Employee");
                 } else if (e.getSource() == lblProduct) {
+                    productGUI.initComboBoxTypeData();
+                    productGUI.initTableData();
                     card.show(contentPanel, "Product");
                 } else if (e.getSource() == lblBill) {
                     card.show(contentPanel, "Bill");
                 } else if (e.getSource() == lblCustomer) {
+                    customerGUI.initTableData();
                     card.show(contentPanel, "Customer");
                 } else if (e.getSource() == lblStorage) {
+                    storageGUI.initProductTypeComboBoxData();
+                    storageGUI.initProductTableData();
+                    storageGUI.initExportTableData();
+                    storageGUI.initImportTableData();
                     card.show(contentPanel, "Storage");
                 } else if (e.getSource() == lblSupplier) {
                     card.show(contentPanel, "Supplier");
@@ -126,7 +136,7 @@ public class SystemGUI {
 
     public void intiContentPanel() {
         statisticsGUI = new StatisticsGUI();
-        accessGUI = new AccessGUI();
+        accessGUI = new EmployeeTypeGUI();
         employeeGUI = new EmployeeGUI();
         productGUI = new ProductGUI();
         billGUI = new BillGUI();

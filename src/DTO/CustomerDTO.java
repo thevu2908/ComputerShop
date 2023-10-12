@@ -5,23 +5,24 @@ public class CustomerDTO {
     private String customerName;
     private String customerAddress;
     private String customerPhone;
-    private String customerDate;
-    private String customerSex;
+    private String customerDOB;
+    private String customerGender;
     private int customerPoint;
-    private int isDeleted;
+    private int isDelete;
 
     public CustomerDTO() {
-    }
 
-    public CustomerDTO(String customerId, String customerName, String customerAddress, String customerPhone, String customerDate, String customerSex, int customerPoint, int isDeleted) {
+    }
+    public CustomerDTO(String customerId, String customerName, String customerAddress, String customerPhone,
+                       String customerDOB,String customerGender, int customerPoint, int isDelete) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerPhone = customerPhone;
-        this.customerDate = customerDate;
-        this.customerSex = customerSex;
+        this.customerDOB = customerDOB;
+        this.customerGender = customerGender;
         this.customerPoint = customerPoint;
-        this.isDeleted = isDeleted;
+        this.isDelete = isDelete;
     }
 
     public String getCustomerId() {
@@ -56,35 +57,35 @@ public class CustomerDTO {
         this.customerPhone = customerPhone;
     }
 
-    public String getCustomerDate() {
-        return customerDate;
+    public String getCustomerGender() {
+        return customerGender;
     }
 
-    public void setCustomerDate(String customerDate) {
-        this.customerDate = customerDate;
+    public void setCustomerGender(String customerGender) {
+        this.customerGender = customerGender;
     }
 
-    public String getCustomerSex() {
-        return customerSex;
+    public String getCustomerDOB() {
+        return customerDOB;
     }
 
-    public void setCustomerSex(String customerSex) {
-        this.customerSex = customerSex;
+    public void setCustomerBOB(String customerDOB) {
+        this.customerDOB = customerDOB;
     }
 
     public int getCustomerPoint() {
         return customerPoint;
     }
 
-    public void setCustomerPoint(int customerPoint) {
-        this.customerPoint = customerPoint;
+    public void setCustomerPoint(int customerAccumulatedPoints) {
+        this.customerPoint = customerAccumulatedPoints;
     }
 
-    public int getIsDeleted() {
-        return isDeleted;
+    public int getIsDelete() {
+        return isDelete;
     }
 
-    public void setIsDeleted(int isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
     }
 }

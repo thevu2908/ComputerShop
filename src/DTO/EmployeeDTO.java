@@ -1,5 +1,7 @@
 package DTO;
 
+import javax.swing.plaf.PanelUI;
+
 public class EmployeeDTO {
     private String employeeId;
     private String employeeType;
@@ -69,12 +71,13 @@ public class EmployeeDTO {
         this.employeePhone = employeePhone;
     }
 
-    public String getEmployeeDOB() {
-        return employeeDOB;
-    }
 
     public void setEmployeeDOB(String employeeDOB) {
         this.employeeDOB = employeeDOB;
+    }
+
+    public String getEmployeeDOB() {
+        return employeeDOB;
     }
 
     public String getEmployeeGender() {
@@ -108,4 +111,6 @@ public class EmployeeDTO {
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+
 }

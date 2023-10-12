@@ -165,7 +165,7 @@ CREATE TABLE `nhan_vien` (
 --
 
 INSERT INTO `nhan_vien` (`ma_nv`, `ma_lnv`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `ngay_sinh`, `gioi_tinh`, `email`, `mat_khau`, `trang_thai`) VALUES
-('NV00', 'LNV01', 'Admin', 'Admin', '0123456789', '2003-01-01', 'Nam', 'admin@gmail.com', 'admin', 0),
+('NV00', 'LNV01', 'Admin', 'Admin', 'Admin', '2003-01-01', 'Nam', 'admin', 'admin', 0),
 ('NV01', 'LNV02', 'Nguyễn Thế Vũ', '1080 CMT8', '0975842194', '2003-01-01', 'Nam', 'thevu29@gmail.com', '123', 0),
 ('NV02', 'LNV02', 'Vương Huy Hoàng', '79 Trần Phú', '0974638593', '2003-09-10', 'Nam', 'huyhoang1910@gmail.com', '123', 0),
 ('NV03', 'LNV03', 'Trần Kim Phú', '523 Xóm Đất', '0975638294', '2003-04-15', 'Nam', 'kimphutran@gmail.com', '123', 0),

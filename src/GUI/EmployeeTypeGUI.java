@@ -1,24 +1,24 @@
 package GUI;
 
-import BUS.AccessBUS;
+import BUS.EmployeeTypeBUS;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class AccessGUI {
+public class EmployeeTypeGUI {
     private DefaultTableModel accessModel;
-    private AccessBUS accessBUS;
+    private EmployeeTypeBUS employeeTypeBUS;
 
-    public AccessGUI() {
-        accessBUS = new AccessBUS();
+    public EmployeeTypeGUI() {
+        employeeTypeBUS = new EmployeeTypeBUS();
         initTable();
         initTableData();
     }
 
     public void initTableData() {
-        accessBUS.renderToTable(accessModel);
+        employeeTypeBUS.renderToTable(accessModel);
     }
 
     public void initTable() {
