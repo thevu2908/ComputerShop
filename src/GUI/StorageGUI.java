@@ -1,36 +1,39 @@
 package GUI;
 
-import BUS.ExportBUS;
-import BUS.ImportBUS;
-import BUS.ProductBUS;
+import BUS.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StorageGUI {
     private DefaultTableModel prodModel;
     private DefaultTableModel importModel;
     private DefaultTableModel exportModel;
-
+    private TableRowSorter<DefaultTableModel> productSorter;
+    private TableRowSorter<DefaultTableModel> importSorter;
+    private TableRowSorter<DefaultTableModel> exportSorter;
+    private String employeeId;
     private ProductBUS productBUS;
+    private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
     private ExportBUS exportBUS;
-
-    private String employeeId;
+    private EmployeeBUS employeeBUS;
 
     public StorageGUI(String employeeId) {
+        this.employeeId = employeeId;
         productBUS = new ProductBUS();
+        productTypeBUS = new ProductTypeBUS();
         importBUS = new ImportBUS();
         exportBUS = new ExportBUS();
-        this.employeeId = employeeId;
-
+        employeeBUS = new EmployeeBUS();
+        showHideConfirmButton();
         initProduct();
         initImport();
         initExport();
@@ -68,16 +71,130 @@ public class StorageGUI {
         btnAddImport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu nhập", employeeId, StorageGUI.this);
-                addInvoiceGUI.openAddInvoiceGUI();
+                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu nhập", employeeId, StorageGUI.this);
+                addInvoiceGUI.openInvoiceGUI();
             }
         });
 
         btnAddExport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("phiếu xuất", employeeId, StorageGUI.this);
-                addInvoiceGUI.openAddInvoiceGUI();
+                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu xuất", employeeId, StorageGUI.this);
+                addInvoiceGUI.openInvoiceGUI();
+            }
+        });
+
+        btnUpdateImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblImports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String importId = tblImports.getValueAt(rowSelected, 0).toString();
+
+                InvoiceInformationGUI editInvoiceGUI = new InvoiceInformationGUI(importId, "phiếu nhập", employeeId, StorageGUI.this);
+                editInvoiceGUI.openInvoiceGUI();
+            }
+        });
+
+        txtSearchProd.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxProductType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxProductQuantity.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
+
+        txtSearchImport.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterImport();
+            }
+        });
+
+        cbxImportStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterImport();
+            }
+        });
+
+        btnFilterDateImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (importDateFrom.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (importDateTo.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                filterImport();
+            }
+        });
+
+        btnResetImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetImportData();
+            }
+        });
+
+        txtSearchExport.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterExport();
+            }
+        });
+
+        cbxExportStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterExport();
+            }
+        });
+
+        btnFilterDateExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exportDateFrom.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (exportDateTo.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày kết thúc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                filterExport();
+            }
+        });
+
+        btnResetExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetExportData();
             }
         });
     }
@@ -97,6 +214,74 @@ public class StorageGUI {
     public void initProduct() {
         initProductTable();
         initProductTableData();
+        initProductTypeComboBoxData();
+    }
+
+    public void resetExportData() {
+        cbxExportSearchType.setSelectedIndex(0);
+        txtSearchExport.setText("");
+        cbxExportStatus.setSelectedIndex(0);
+        exportDateFrom.setDate(null);
+        exportDateTo.setDate(null);
+        exportSorter.setRowFilter(null);
+    }
+
+    public void filterExport() {
+        try {
+            String searchType = cbxExportSearchType.getSelectedItem().toString();
+            String importInfo = txtSearchExport.getText().toLowerCase();
+            String importStatus = cbxExportStatus.getSelectedItem() == null
+                    || cbxExportStatus.getSelectedItem().toString().equals("Tất cả")
+                    ? ""
+                    : cbxExportStatus.getSelectedItem().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateFrom = exportDateFrom.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : exportDateFrom.getDate();
+
+            Date dateTo = exportDateTo.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : exportDateTo.getDate();
+
+            if (dateTo.compareTo(dateFrom) < 0) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            exportSorter = new TableRowSorter<>(exportModel);
+            tblExports.setRowSorter(exportSorter);
+
+            RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                    try {
+                        String rowImportId = entry.getStringValue(0).toLowerCase();
+                        String rowEmployeeId = entry.getStringValue(1).toLowerCase();
+                        Date rowDate = formatter.parse(entry.getStringValue(2));
+                        String rowStatus = entry.getStringValue(4);
+
+                        switch (searchType) {
+                            case "Mã phiếu xuất":
+                                return rowImportId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhân viên":
+                                return rowEmployeeId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            default:
+                                return true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+            };
+
+            exportSorter.setRowFilter(filter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initExportTableData() {
@@ -125,9 +310,82 @@ public class StorageGUI {
 
     public void initExportDateChooser() {
         exportDateFrom = new JDateChooser();
+        exportDateFrom.setDateFormatString("dd-MM-yyyy");
         exportDateFromPanel.add(exportDateFrom);
+
         exportDateTo = new JDateChooser();
+        exportDateTo.setDateFormatString("dd-MM-yyyy");
         exportDateToPanel.add(exportDateTo);
+    }
+
+    public void resetImportData() {
+        cbxImportSearchType.setSelectedIndex(0);
+        txtSearchImport.setText("");
+        cbxImportStatus.setSelectedIndex(0);
+        importDateFrom.setDate(null);
+        importDateTo.setDate(null);
+        importSorter.setRowFilter(null);
+    }
+
+    public void filterImport() {
+        try {
+            String searchType = cbxImportSearchType.getSelectedItem().toString();
+            String importInfo = txtSearchImport.getText().toLowerCase();
+            String importStatus = cbxImportStatus.getSelectedItem().toString().equals("Tất cả")
+                    ? ""
+                    : cbxImportStatus.getSelectedItem().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateFrom = importDateFrom.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : importDateFrom.getDate();
+
+            Date dateTo = importDateTo.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : importDateTo.getDate();
+
+            if (dateTo.compareTo(dateFrom) < 0) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            importSorter = new TableRowSorter<>(importModel);
+            tblImports.setRowSorter(importSorter);
+
+            RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                    try {
+                        String rowImportId = entry.getStringValue(0).toLowerCase();
+                        String rowEmployeeId = entry.getStringValue(1).toLowerCase();
+                        String rowSupplierId = entry.getStringValue(2).toLowerCase();
+                        Date rowDate = formatter.parse(entry.getStringValue(3));
+                        String rowStatus = entry.getStringValue(5);
+
+                        switch (searchType) {
+                            case "Mã phiếu nhập":
+                                return rowImportId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhân viên":
+                                return rowEmployeeId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            case "Mã nhà cung cấp":
+                                return rowSupplierId.contains(importInfo) && rowStatus.contains(importStatus)
+                                        && rowDate.compareTo(dateFrom) >= 0 && rowDate.compareTo(dateTo) <= 0;
+                            default:
+                                return true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+            };
+
+            importSorter.setRowFilter(filter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initImportTableData() {
@@ -156,9 +414,69 @@ public class StorageGUI {
 
     public void initImportDateChooser() {
         importDateFrom = new JDateChooser();
+        importDateFrom.setDateFormatString("dd-MM-yyyy");
         importDateFromPanel.add(importDateFrom);
+
         importDateTo = new JDateChooser();
+        importDateTo.setDateFormatString("dd-MM-yyyy");
         importDateToPanel.add(importDateTo);
+    }
+
+    public void filterProduct() {
+        String searchType = cbxProdSearchType.getSelectedItem().toString();
+        String productInfo = txtSearchProd.getText().toLowerCase();
+        String productType = cbxProductType.getSelectedItem() == null
+                || cbxProductType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxProductType.getSelectedItem().toString().toLowerCase();
+
+        String quantityText = cbxProductQuantity.getSelectedItem().toString();
+        int minQuantity = 0;
+        int maxQuantity = 999999999;
+
+        if (quantityText.equals("Dưới 50")) {
+            maxQuantity = 50;
+        } else if (quantityText.equals("Từ 50 đến 200")) {
+            minQuantity = 50;
+            maxQuantity = 200;
+        } else if (quantityText.equals("Trên 200")) {
+            minQuantity = 200;
+        }
+
+        int finalMinQuantity = minQuantity;
+        int finalMaxQuantity = maxQuantity;
+
+        productSorter = new TableRowSorter<>(prodModel);
+        tblProducts.setRowSorter(productSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                int rowQuantity = Integer.parseInt(entry.getStringValue(3));
+
+                switch (searchType) {
+                    case "Mã sản phẩm":
+                        return rowId.contains(productInfo) && rowType.contains(productType)
+                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                    case "Tên sản phẩm":
+                        return rowName.contains(productInfo) && rowType.contains(productType)
+                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        productSorter.setRowFilter(filter);
+    }
+
+    public void initProductTypeComboBoxData() {
+        cbxProductType.removeAllItems();
+        cbxProductType.addItem("Tất cả");
+        productTypeBUS.renderToComboBox(cbxProductType);
     }
 
     public void initProductTableData() {
@@ -185,15 +503,22 @@ public class StorageGUI {
         }
     }
 
+    public void showHideConfirmButton() {
+        if (!employeeBUS.getTypeById(employeeId).equals("LNV02")) {
+            btnConfirmImport.setVisible(false);
+            btnConfirmExport.setVisible(false);
+        }
+    }
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
-    private JComboBox cbxSearchProdType;
+    private JComboBox cbxProdSearchType;
     private JComboBox cbxProductType;
-    private JComboBox cbxProductPrice;
+    private JComboBox cbxProductQuantity;
     private JTable tblProducts;
     private JPanel importDatePanel;
     private JPanel importDateFromPanel;
@@ -208,13 +533,18 @@ public class StorageGUI {
     private JButton btnResetImport;
     private JButton btnPrintImport;
     private JButton btnAddExport;
-    private JButton btnUpdateExport;
     private JButton btnResetExport;
     private JButton btnPrintExport;
     private JTable tblExports;
     private JButton btnFilterDateExport;
     private JPanel exportDateFromPanel;
     private JPanel exportDateToPanel;
+    private JComboBox cbxImportStatus;
+    private JComboBox cbxExportStatus;
+    private JComboBox cbxExportSearchType;
+    private JTextField txtSearchExport;
+    private JButton btnConfirmImport;
+    private JButton btnConfirmExport;
     private JDateChooser importDateFrom;
     private JDateChooser importDateTo;
     private JDateChooser exportDateFrom;

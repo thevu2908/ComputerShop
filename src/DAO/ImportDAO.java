@@ -36,6 +36,43 @@ public class ImportDAO {
         }
     }
 
+    public int addImport(ImportDTO importDTO) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `phieu_nhap` values (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, importDTO.getImportId());
+            ptmt.setString(2, importDTO.getEmployeeId());
+            ptmt.setString(3, importDTO.getSupplierId());
+            ptmt.setString(4, importDTO.getImportDate());
+            ptmt.setInt(5, importDTO.getImportTotalPrice());
+            ptmt.setString(6, importDTO.getImportStatus());
+            ptmt.setInt(7, importDTO.getIsDeleted());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateImportSupplier(String importId, String supplierId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `phieu_nhap` set ma_ncc = ? where ma_pn = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, supplierId);
+            ptmt.setString(2, importId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int setTotalPrice(String id, int total) {
         try {
             Connection connection = MyConnection.getConnect();

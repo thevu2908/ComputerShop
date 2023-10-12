@@ -1,7 +1,6 @@
 package DAO;
 
 import DTO.EmployeeDTO;
-import DTO.ProductDTO;
 import connection.MyConnection;
 
 import java.sql.Connection;
@@ -62,49 +61,43 @@ public class EmployeeDAO {
             return 0;
         }
     }
-    public int updateData(EmployeeDTO t) {
-        int kq = 0;
+
+    public int updateEmployee(EmployeeDTO employee) {
        try {
-                Connection connection = MyConnection.getConnect();
-                String sql = "UPDATE nhan_vien set   ho_ten=?, dia_chi=?, so_dien_thoai=?,ngay_sinh=?, gioi_tinh=?, email=?, mat_khau=?,ma_lnv=?  where ma_nv=?";
+           Connection connection = MyConnection.getConnect();
+           String sql = "update `nhan_vien` set ho_ten = ?, dia_chi = ?, so_dien_thoai = ?, ngay_sinh = ?, gioi_tinh = ?, email = ?, " +
+                   "mat_khau = ?, ma_lnv = ? where ma_nv = ?";
+           PreparedStatement pst = connection.prepareStatement(sql);
 
-                PreparedStatement pst = connection.prepareStatement(sql);
-                pst.setString(1, t.getEmployeeName());
-                pst.setString(2, t.getEmployeeAddress());
-                pst.setString(3, t.getEmployeePhone());
-                pst.setString(4, t.getEmployeeDOB());
-                pst.setString(5, t.getEmployeeGender());
-                pst.setString(6, t.getEmployeeEmail());
-                pst.setString(7, t.getEmployeePassword());
-                pst.setString(8, t.getEmployeeType());
-                pst.setString(9, t.getEmployeeId());
+           pst.setString(1, employee.getEmployeeName());
+           pst.setString(2, employee.getEmployeeAddress());
+           pst.setString(3, employee.getEmployeePhone());
+           pst.setString(4, employee.getEmployeeDOB());
+           pst.setString(5, employee.getEmployeeGender());
+           pst.setString(6, employee.getEmployeeEmail());
+           pst.setString(7, employee.getEmployeePassword());
+           pst.setString(8, employee.getEmployeeType());
+           pst.setString(9, employee.getEmployeeId());
 
-
-           kq = pst.executeUpdate();
-        } catch (Exception e) {
+           return pst.executeUpdate();
+       } catch (Exception e) {
             e.printStackTrace();
             return 0;
-        }
-        return kq;
+       }
     }
 
-
-    public int delete(String t) {
-        int ketQua = 0;
+    public int deleteEmployee(String id) {
        try {
             Connection connection = MyConnection.getConnect();
-            String sql = "delete from nhan_vien where  ma_nv=?";
+            String sql = "update `nhan_vien` set trang_thai = 1 where ma_nv = ?";
             PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, t);
 
-            ketQua = pst.executeUpdate();
+            pst.setString(1, id);
 
-        } catch (Exception e) {
+            return pst.executeUpdate();
+       } catch (Exception e) {
             e.printStackTrace();
-        }
-        return ketQua;
+            return 0;
+       }
     }
-
-
-
 }

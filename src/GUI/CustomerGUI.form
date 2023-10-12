@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="12" bottom="10" right="12"/>
     <constraints>
-      <xy x="20" y="20" width="813" height="636"/>
+      <xy x="20" y="20" width="813" height="668"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -92,12 +92,15 @@
                         <properties>
                           <model>
                             <item value="Tất cả"/>
+                            <item value="Dưới 2000"/>
+                            <item value="Từ 2000 tới 5000"/>
+                            <item value="Trên 5000"/>
                           </model>
                         </properties>
                       </component>
                     </children>
                   </grid>
-                  <grid id="74d38" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="74d38" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="12" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -151,6 +154,19 @@
                           <background color="-11107086"/>
                           <foreground color="-1"/>
                           <text value="Reset"/>
+                        </properties>
+                      </component>
+                      <component id="22bd2" class="javax.swing.JButton" binding="btnCreateNewId">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="35"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-11107086"/>
+                          <enabled value="true"/>
+                          <foreground color="-1"/>
+                          <text value="Tạo mã mới"/>
                         </properties>
                       </component>
                     </children>
@@ -308,7 +324,6 @@
                         <item value="Mã khách hàng"/>
                         <item value="Tên khách hàng"/>
                         <item value="Số điện thoại"/>
-                        <item value="Email"/>
                       </model>
                     </properties>
                   </component>

@@ -43,7 +43,7 @@ public class ProductTypeBUS {
         return "";
     }
 
-    public void renderToCombobox(JComboBox cbx) {
+    public void renderToComboBox(JComboBox cbx) {
         loadData();
 
         for (ProductTypeDTO productTypeDTO : list) {

@@ -48,11 +48,68 @@ public class ProductBUS {
         String typeId = productTypeBUS.getIdByName(type);
         ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
-        if (productDAO.addProduct(product) == 1) {
+        if (productDAO.addProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public boolean deleteProduct(String id) {
+        if (id.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá sản phẩm " + id + " không ?", "Câu hỏi",
+                JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            if (productDAO.deleteProduct(id) > 0) {
+                JOptionPane.showMessageDialog(null, "Xoá sản phẩm thành công");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Xoá sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean updateProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+                              String screen, String screenCard) {
+        if (id.equals("")){
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
+                || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!Validate.isValidNumber(price, "Giá")) {
+            return false;
+        }
+
+        if (!checkExistedProductId(id)) {
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        int intPrice = Integer.parseInt(price);
+        String typeId = productTypeBUS.getIdByName(type);
+        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard);
+
+        if (productDAO.updateProduct(product) > 0) {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -65,6 +122,7 @@ public class ProductBUS {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -131,6 +189,42 @@ public class ProductBUS {
         }
 
         return "";
+    }
+
+    public int getStorageProductQuantityById(String productId) {
+        loadStorageProductData();
+
+        for (ProductDTO productDTO : storageProductList) {
+            if (productDTO.getProductId().equals(productId)) {
+                return productDTO.getProductQuantity();
+            }
+        }
+
+        return 0;
+    }
+
+    public ArrayList<String> initAvailableProductIdSuggestion(int col) {
+        loadProductData();;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getProductQuantity() > 0) {
+                list.add(productDTO.getProductId());
+            }
+        }
+
+        return list;
+    }
+
+    public ArrayList<String> initProductIdSuggestion(int col) {
+        loadProductData();;
+        ArrayList<String> list = new ArrayList<>();
+
+        for (ProductDTO productDTO : productList) {
+            list.add(productDTO.getProductId());
+        }
+
+        return list;
     }
 
     public void renderToSellTable(DefaultTableModel model) {

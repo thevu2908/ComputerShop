@@ -7,14 +7,13 @@ import DTO.ProductDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
+    private TableRowSorter<DefaultTableModel> productSorter;
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
 
@@ -23,7 +22,7 @@ public class ProductGUI {
         productTypeBUS = new ProductTypeBUS();
         initTable();
         initTableData();
-        initComboboxTypeData();
+        initComboBoxTypeData();
 
         btnCreateId.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +45,7 @@ public class ProductGUI {
                 String screenCard = txtScreenCard.getText();
 
                 if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
-                    initTableData();
+                    reset();
                 }
             }
         });
@@ -72,10 +71,71 @@ public class ProductGUI {
                 }
             }
         });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reset();
+            }
+        });
+
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtProductID.getText();
+                String name = txtProductName.getText();
+                String type = cbxProductType.getSelectedItem().toString();
+                String price = txtProductPrice.getText();
+                String cpu = txtCPU.getText();
+                String ram = txtRAM.getText();
+                String oCung = txtOCung.getText();
+                String screen = txtScreen.getText();
+                String screenCard = txtScreenCard.getText();
+
+                if (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                    reset();
+                }
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtProductID.getText();
+                if (productBUS.deleteProduct(id)) {
+                    reset();
+                }
+            }
+        });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxFilterPrice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxFilterProductType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
     }
 
-    public void initComboboxTypeData(){
-        productTypeBUS.renderToCombobox(cbxProductType);
+    public void initComboBoxTypeData(){
+        cbxProductType.removeAllItems();
+        productTypeBUS.renderToComboBox(cbxProductType);
+        cbxFilterProductType.removeAllItems();
+        cbxFilterProductType.addItem("Tất cả");
+        productTypeBUS.renderToComboBox(cbxFilterProductType);
     }
 
     public void initTableData() {
@@ -100,7 +160,78 @@ public class ProductGUI {
         for (int i = 0; i < cols.length; i++) {
             tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+    }
 
+    public void reset() {
+        txtProductID.setText("");
+        txtProductName.setText("");
+        txtProductPrice.setText("");
+        txtCPU.setText("");
+        txtRAM.setText("");
+        txtOCung.setText("");
+        txtScreen.setText("");
+        txtScreenCard.setText("");
+        txtSearch.setText("");
+        cbxProductType.setSelectedIndex(0);
+        cbSearchType.setSelectedIndex(0);
+        cbxFilterPrice.setSelectedIndex(0);
+        cbxFilterProductType.setSelectedIndex(0);
+        productSorter.setRowFilter(null);
+    }
+
+    public void filterProduct() {
+        String searchType = cbSearchType.getSelectedItem().toString();
+        String productInfo = txtSearch.getText().toLowerCase();
+
+        String productType = cbxFilterProductType.getSelectedItem() == null
+                || cbxFilterProductType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxFilterProductType.getSelectedItem().toString().toLowerCase();
+
+        int productPrice = cbxFilterPrice.getSelectedIndex();
+        int minPrice = 0;
+        int maxPrice = 1999999999;
+
+        if (productPrice == 1) {
+            minPrice = 0;
+            maxPrice = 20000000 - 1;
+        } else if (productPrice == 2) {
+            minPrice = 20000000;
+            maxPrice = 40000000;
+        }
+        else if (productPrice == 3){
+            minPrice = 40000000 + 1;
+            maxPrice = 1999999999;
+        }
+
+        int finalMinPrice = minPrice;
+        int finalMaxPrice = maxPrice;
+
+        productSorter = new TableRowSorter<>(prodModel);
+        tblProducts.setRowSorter(productSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                int rowPrice = Integer.parseInt(entry.getStringValue(3));
+
+                switch (searchType) {
+                    case "Mã sản phẩm":
+                        return rowId.contains(productInfo) && rowType.contains(productType)
+                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
+                    case "Tên sản phẩm":
+                        return rowName.contains(productInfo) && rowType.contains(productType)
+                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        productSorter.setRowFilter(filter);
     }
 
     public JPanel getMainPanel() {
@@ -128,6 +259,6 @@ public class ProductGUI {
     private JTextField txtRAM;
     private JTextField txtScreen;
     private JTextField txtScreenCard;
-    private JComboBox cbxPrice;
-    private JPanel cbxFilterPrice;
+    private JComboBox cbxFilterPrice;
+    private JComboBox cbxFilterProductType;
 }

@@ -8,6 +8,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginGUI {
     private EmployeeBUS employeeBUS;
@@ -18,24 +20,7 @@ public class LoginGUI {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = txtUsername.getText();
-                String password = txtPassword.getText();
-
-                if (employeeBUS.login(username, password)) {
-                    String employeeId = employeeBUS.getIdByEmail(username);
-                    String employeeType = employeeBUS.getTypeByEmail(username);
-
-                    if (employeeType.equals("LNV03")) {
-                        SellGUI sellGUI = new SellGUI(employeeId);
-                        sellGUI.openSellGUI();
-                    } else {
-                        SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
-                        systemGUI.openSystemGUI();
-                    }
-
-                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                    frame.dispose();
-                }
+                login();
             }
         });
 
@@ -49,6 +34,36 @@ public class LoginGUI {
                 }
             }
         });
+
+        txtPassword.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnLogin.doClick();
+                }
+            }
+        });
+    }
+
+    public void login() {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+
+        if (employeeBUS.login(username, password)) {
+            String employeeId = employeeBUS.getIdByEmail(username);
+            String employeeType = employeeBUS.getTypeByEmail(username);
+
+            if (employeeType.equals("LNV03")) {
+                SellGUI sellGUI = new SellGUI(employeeId);
+                sellGUI.openSellGUI();
+            } else {
+                SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
+                systemGUI.openSystemGUI();
+            }
+
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.dispose();
+        }
     }
 
     public void openLoginGUI() {
