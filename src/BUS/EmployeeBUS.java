@@ -30,7 +30,6 @@ public class EmployeeBUS {
 
         for (EmployeeDTO empl : listall)
             employeeList.add(empl);
-
     }
 
     public boolean login(String username, String password) {
