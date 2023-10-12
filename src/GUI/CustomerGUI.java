@@ -1,7 +1,6 @@
 package GUI;
 
 import BUS.CustomerBUS;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -74,5 +73,6 @@ public class CustomerGUI {
     private JPanel datePanel;
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
+    private JButton btnCreateNewId;
     private JDateChooser customerDOB;
 }
