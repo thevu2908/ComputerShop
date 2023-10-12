@@ -224,7 +224,6 @@ public class SellGUI {
                         txtDiscount.setText(point + "");
                         txtTotal.setText(total + "");
                         txtFinalTotal.setText(total-point + "");
-
                     }
                 }
 
