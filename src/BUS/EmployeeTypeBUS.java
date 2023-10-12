@@ -61,4 +61,16 @@ public class EmployeeTypeBUS {
 
         model.fireTableDataChanged();
     }
+    public String getIDByTypeName(String name)
+    {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getTypeName().equals(name)) {
+                return employeeTypeDTO.getTypeId();
+            }
+        }
+
+        return "";
+    }
 }

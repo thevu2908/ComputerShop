@@ -2,26 +2,173 @@ package GUI;
 
 import BUS.EmployeeBUS;
 import BUS.EmployeeTypeBUS;
+import BUS.ProductBUS;
+import BUS.ProductTypeBUS;
+import DTO.EmployeeDTO;
+import DTO.ProductDTO;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.toedter.calendar.IDateEditor;
 import com.toedter.calendar.JDateChooser;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class EmployeeGUI {
     private DefaultTableModel employeeModel;
     private EmployeeBUS employeeBUS;
+
     private EmployeeTypeBUS employeeTypeBUS;
+
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
-        employeeTypeBUS = new EmployeeTypeBUS();
         intiDateChooser();
         initTable();
         initTableData();
-        initComboBoxData();
+        employeeBUS = new EmployeeBUS();
+        employeeTypeBUS = new EmployeeTypeBUS();
+        initTable();
+        initTableData();
+//        initComboboxTypeData();
+
+        btnCreateId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtEmpId.setText(employeeBUS.createNewEmployeeID());}
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                String name = txtEmpName.getText();
+                String gioi_tinh = cbxEmpGender.getSelectedItem().toString();
+
+                java.sql.Date sqlDate = new java.sql.Date(employeeDOB.getDate().getTime());
+                String ngay_sinh=sqlDate.toString();
+
+                String sdt = txtEmpPhone.getText();
+                String diachi = txtEmpAddress.getText();
+                String email = txtEmpEmail.getText();
+                String matkhau = txtEmpPassword.getText();
+
+                String loainv = employeeTypeBUS.getIDByTypeName(cbxEmpType.getSelectedItem().toString());
+
+
+                if (employeeBUS.addEmployee(id, name, gioi_tinh,ngay_sinh, sdt, diachi, email,matkhau,loainv)) {
+                    initTableData();
+
+                }
+            }
+        });
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                String name = txtEmpName.getText();
+                String gioi_tinh = cbxEmpGender.getSelectedItem().toString();
+
+                java.sql.Date sqlDate = new java.sql.Date(employeeDOB.getDate().getTime());
+                String ngay_sinh=sqlDate.toString();
+
+                String sdt = txtEmpPhone.getText();
+                String diachi = txtEmpAddress.getText();
+                String email = txtEmpEmail.getText();
+                String matkhau = txtEmpPassword.getText();
+
+                String loainv = employeeTypeBUS.getIDByTypeName(cbxEmpType.getSelectedItem().toString());
+
+
+                if
+                (employeeBUS.updateEmployee(id, name, gioi_tinh,ngay_sinh, sdt, diachi, email,matkhau,loainv)) {
+                    initTableData();
+                }
+            }
+        });
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetValues();
+
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                if (employeeBUS.deleteEmployee(id)) {
+                    resetValues();
+                    initTableData();
+                }
+            }
+        });
+
+
+
+        tblEmployees.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowSelected = tblEmployees.getSelectedRow();
+
+                if (rowSelected >= 0) {
+                    String employeeid = tblEmployees.getValueAt(rowSelected, 0).toString();
+                    EmployeeDTO employeedto = employeeBUS.getEmployeeById(employeeid);
+
+                    txtEmpId.setText(employeedto.getEmployeeId());
+                    txtEmpName.setText(employeedto.getEmployeeName());
+                    cbxEmpGender.setSelectedItem(employeedto.getEmployeeGender());
+                    String date = employeedto.getEmployeeDOB();
+                    Date date2 = null;
+                    try {
+                        date2 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                    } catch (ParseException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    employeeDOB.setDate(date2);
+                    txtEmpPhone.setText(employeedto.getEmployeePhone());
+                    txtEmpAddress.setText(employeedto.getEmployeeAddress());
+                    txtEmpEmail.setText(employeedto.getEmployeeEmail());
+                    txtEmpPassword.setText(employeedto.getEmployeePassword());
+                    cbxEmpType.setSelectedItem(employeeTypeBUS.getTypeNameById(employeedto.getEmployeeType()));
+                }
+            }
+        });
     }
+
+    public void resetValues(){
+        txtEmpId.setText("");
+        txtEmpName.setText("");
+        txtEmpAddress.setText("");
+        txtEmpPassword.setText("");
+        txtEmpEmail.setText("");
+        txtEmpPhone.setText("");
+
+        String date = "2003-1-1";
+        Date date2 = null;
+        try {
+            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+        employeeDOB.setDate(date2);
+
+        initTableData();
+
+    }
+
 
     public void initTableData() {
         employeeBUS.renderToTable(employeeModel);
@@ -47,14 +194,8 @@ public class EmployeeGUI {
         }
     }
 
-    public void initComboBoxData() {
-        employeeTypeBUS.renderToComboBox(cbxFilterEmpType, "filter");
-        employeeTypeBUS.renderToComboBox(cbxEmpType, "");
-    }
-
     public void intiDateChooser() {
         employeeDOB = new JDateChooser();
-        employeeDOB.setPreferredSize(new Dimension(-1, 30));
         datePanel.add(employeeDOB);
     }
 
