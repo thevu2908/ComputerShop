@@ -310,8 +310,11 @@ public class StorageGUI {
 
     public void initExportDateChooser() {
         exportDateFrom = new JDateChooser();
+        exportDateFrom.setDateFormatString("dd-MM-yyyy");
         exportDateFromPanel.add(exportDateFrom);
+
         exportDateTo = new JDateChooser();
+        exportDateTo.setDateFormatString("dd-MM-yyyy");
         exportDateToPanel.add(exportDateTo);
     }
 
@@ -411,8 +414,11 @@ public class StorageGUI {
 
     public void initImportDateChooser() {
         importDateFrom = new JDateChooser();
+        importDateFrom.setDateFormatString("dd-MM-yyyy");
         importDateFromPanel.add(importDateFrom);
+
         importDateTo = new JDateChooser();
+        importDateTo.setDateFormatString("dd-MM-yyyy");
         importDateToPanel.add(importDateTo);
     }
 

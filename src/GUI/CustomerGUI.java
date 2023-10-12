@@ -45,6 +45,7 @@ public class CustomerGUI {
 
     public void initDateChooser() {
         customerDOB = new JDateChooser();
+        customerDOB.setDateFormatString("dd-MM-yyyy");
         customerDOB.setPreferredSize(new Dimension(-1, 30));
         datePanel.add(customerDOB);
     }
