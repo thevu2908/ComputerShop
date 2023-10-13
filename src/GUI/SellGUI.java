@@ -179,7 +179,7 @@ public class SellGUI {
                         sellBUS.resetBillDetailList();
                         sellBUS.renderToTableBillSell(sellBillModel);
                         resetSellData();
-                        initBillTableData();
+                        resetBillData();
 
                         if (!usedPoint.equals("")) {
                             customerBUS.decreasePoint(phone, Integer.parseInt(usedPoint));
@@ -275,6 +275,23 @@ public class SellGUI {
                 filterBill();
             }
         });
+
+        btnResetBill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetBillData();
+            }
+        });
+    }
+
+    public void resetBillData() {
+        cbxBillSearchType.setSelectedIndex(0);
+        txtSearchBill.setText("");
+        cbxBillPrice.setSelectedIndex(0);
+        billDateFrom.setDate(null);
+        billDateTo.setDate(null);
+        billSorter.setRowFilter(null);
+        initBillTableData();
     }
 
     public void resetSellData() {
@@ -284,6 +301,7 @@ public class SellGUI {
         txtTotal.setText("");
         txtDiscount.setText("");
         txtFinalTotal.setText("");
+        productSorter.setRowFilter(null);
         initProductTableData();
     }
 
