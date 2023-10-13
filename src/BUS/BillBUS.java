@@ -3,8 +3,6 @@ package BUS;
 import DAO.BillDAO;
 import DTO.BillDTO;
 import DTO.CustomerDTO;
-import DTO.ImportDTO;
-import DTO.ProductDTO;
 import utils.DateTime;
 
 import javax.swing.*;
@@ -15,45 +13,24 @@ public class BillBUS {
     private BillDAO billDAO;
     private CustomerBUS customerBUS;
     private ArrayList<BillDTO> billList;
-    private ArrayList<BillDTO> billListOfEmployee;
+
     public BillBUS() {
         billDAO = new BillDAO();
         customerBUS = new CustomerBUS();
-        billList = new ArrayList<>();
-        billListOfEmployee = new ArrayList<>();
     }
 
-    public void loadBillList(){
+    public void loadData(){
         billList = billDAO.getData();
     }
 
     public String getNewBillId(){
-        loadBillList();
+        loadData();
         int id = billList.size() + 1;
-        return "HD" + String.format("%01d", id);
+        return "HD" + String.format("%03d", id);
     }
 
-
-//    public boolean addBill(String billId, String employeeId, String customerId, int total ) {
-//        if ( billId.equals("") || employeeId.equals("") || customerId.equals("")) {
-//            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//
-//        String currentDate = DateTime.getCurrentDate();
-//
-//        BillDTO billDTO = new BillDTO(billId, customerId, employeeId, currentDate, total, 0);
-//
-//        if (billDAO.addBill(billDTO) > 0) {
-//            JOptionPane.showMessageDialog(null, "Thanh toán thành công");
-//            return true;
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Thanh toán thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//    }
-    public boolean addBill(String employeeId, String phone, int finalTotal ) {
-        if ( employeeId.equals("") || phone.equals("")) {
+    public boolean addBill(String employeeId, String phone, int finalTotal) {
+        if (employeeId.equals("") || phone.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -73,17 +50,17 @@ public class BillBUS {
         }
     }
 
-    public void renderToOrdersTable(DefaultTableModel model,String employeeId) {
+    public void renderToTable(DefaultTableModel model, String employeeId) {
+        loadData();
         model.setRowCount(0);
-        billListOfEmployee = billDAO.getBillListOfEmployee(employeeId);
 
-        for (BillDTO billDTO : billListOfEmployee) {
-            if (billDTO.getIsDeleted() == 0) {
+        for (BillDTO billDTO : billList) {
+            if (billDTO.getIsDeleted() == 0 && billDTO.getEmployeeId().equals(employeeId)) {
                 model.addRow(new Object[]{
                         billDTO.getBillId(),
                         billDTO.getCustomerId(),
                         billDTO.getEmployeeId(),
-                        billDTO.getBillDate(),
+                        DateTime.formatDate(billDTO.getBillDate()),
                         billDTO.getTotal()
                 });
             }
@@ -91,6 +68,4 @@ public class BillBUS {
 
         model.fireTableDataChanged();
     }
-
-
 }

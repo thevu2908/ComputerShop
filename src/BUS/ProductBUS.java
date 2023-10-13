@@ -1,7 +1,6 @@
 package BUS;
 
 import DAO.ProductDAO;
-import DTO.BillDetailDTO;
 import DTO.ProductDTO;
 import validation.Validate;
 
@@ -263,6 +262,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
+                        productDTO.getProductPrice(),
                         productDTO.getProductQuantity()
                 });
             }
@@ -281,7 +281,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductQuantity()
+                        productDTO.getProductPrice()
                 });
             }
         }
@@ -306,24 +306,4 @@ public class ProductBUS {
 
         model.fireTableDataChanged();
     }
-
-    public ArrayList<ProductDTO> getProductList() {
-        loadProductData();
-        return productList;
-    }
-
-    public boolean decreaseQuantityProduct(ArrayList<BillDetailDTO> billDetailList){
-        boolean flag = true;
-        for(BillDetailDTO billDetailDTO : billDetailList){
-            ProductDTO productDTO = getProductById(billDetailDTO.getProductId());
-            if(productDAO.decreaseQuantityProduct(billDetailDTO.getProductId(),productDTO.getProductQuantity() - billDetailDTO.getQuantity()) == 1){
-                continue;
-            }else{
-                flag=false;
-            }
-        }
-        return flag;
-    }
-
-
 }

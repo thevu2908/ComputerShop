@@ -1,7 +1,7 @@
 package BUS;
 
 import DTO.BillDetailDTO;
-import DTO.CustomerDTO;
+import DTO.ProductDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,18 +12,17 @@ public class SellBUS {
     private ProductBUS productBUS;
     private BillBUS billBUS;
     private BillDetailBUS billDetailBUS;
-    private CustomerBUS customerBUS;
 
     public SellBUS() {
         productBUS = new ProductBUS();
         billDetailBUS = new BillDetailBUS();
         billBUS = new BillBUS();
-        customerBUS = new CustomerBUS();
     }
 
     public void chooseProduct(DefaultTableModel model, String productId, int quantity) {
         String billId = billBUS.getNewBillId();
         BillDetailDTO billDetailDTO = new BillDetailDTO(billId,productId, quantity);
+
         if (billDetailDTO != null) {
             boolean flag = true;
 
@@ -56,8 +55,6 @@ public class SellBUS {
         billDetailBUS.renderToTable(model, billDetailList);
     }
 
-
-
     public int calculateTotalPrice() {
         int total = 0;
         for (BillDetailDTO billDetailDTO : billDetailList) {
@@ -66,43 +63,51 @@ public class SellBUS {
         return total;
     }
 
-//    public void paySellBill (String employeeId,DefaultTableModel modelBillDetail,DefaultTableModel modelProduct,String phone, int finalTotal){
-//        CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
-//        String billId = billBUS.getNewBillId();
-//        int res = JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn thanh toán ?","Question", JOptionPane.YES_NO_OPTION);
-//        if(res == JOptionPane.YES_OPTION){
-//            billBUS.addBill(billId,employeeId,customerDTO.getCustomerId(),finalTotal);
-//            billDetailBUS.addBillDetail(billDetailList);
-//            productBUS.decreaseQuantityProduct(billDetailList);
-//            resetBillDetailList();
-//            billDetailBUS.renderToTable(modelBillDetail,billDetailList);
-//            productBUS.renderToProductTable(modelProduct);
-//        }
-//
-//    }
+    public boolean addBillDetail() {
+        boolean flag = false;
 
-    public void addBillDetailList(){
-        if(!billDetailBUS.addBillDetail(billDetailList)){
+        for (BillDetailDTO billDetailDTO : billDetailList) {
+            if (billDetailBUS.addBillDetail(billDetailDTO)) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        }
+
+        if (!flag) {
             JOptionPane.showMessageDialog(null, "Thất bại khi thêm chi tiết hóa đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+        return true;
     }
 
-    public void decreaseQuantityProduct(){
-        if(!productBUS.decreaseQuantityProduct(billDetailList)){
-            JOptionPane.showMessageDialog(null, "Thất bại khi cập nhật số lượng sản phẩm sau khi thanh toán", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    public boolean decreaseProductQuantity() {
+        boolean flag = false;
+
+        for (BillDetailDTO billDetailDTO : billDetailList) {
+            String productId = billDetailDTO.getProductId();
+            ProductDTO product = productBUS.getProductById(productId);
+
+            if (productBUS.updateProductQuantity(productId, product.getProductQuantity() - billDetailDTO.getQuantity())) {
+                flag = true;
+            } else {
+                flag = false;
+            }
         }
+
+        if(!flag) {
+            JOptionPane.showMessageDialog(null, "Thất bại khi cập nhật số lượng sản phẩm sau khi thanh toán", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
-    public void renderToTableBillSell(DefaultTableModel model){
-        billDetailBUS.renderToTable(model,billDetailList);
-    }
-
-
-
-
-
-    public void resetBillDetailList(){
+    public void resetBillDetailList() {
         billDetailList.removeAll(billDetailList);
     }
 
+    public void renderToTableBillSell(DefaultTableModel model){
+        billDetailBUS.renderToTable(model, billDetailList);
+    }
 }

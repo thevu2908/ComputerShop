@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 public class CustomerDAO {
     public ArrayList<CustomerDTO> getData() {
         ArrayList<CustomerDTO> list = new ArrayList<>();
@@ -30,7 +29,7 @@ public class CustomerDAO {
 
                 list.add(new CustomerDTO(id, name, address, phone, date, sex,point ,isDeleted));
             }
-            connection.close();
+
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,20 +37,19 @@ public class CustomerDAO {
         }
     }
 
-    public int updatePoint(String customerId, int point){
+    public int updatePoint(String customerId, int point) {
         try {
             Connection connection = MyConnection.getConnect();
             String query = "update `khach_hang` set `diem_tich_luy` = ? where `ma_kh` = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
+
             ptmt.setInt(1, point);
             ptmt.setString(2, customerId);
 
             return ptmt.executeUpdate();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
-
 }

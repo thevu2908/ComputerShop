@@ -120,8 +120,7 @@ public class ProductDAO {
             ptmt.setString(1,productID);
 
             return ptmt.executeUpdate();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -158,24 +157,4 @@ public class ProductDAO {
             return 0;
         }
     }
-
-    public int decreaseQuantityProduct(String productId, int quantity){
-        try {
-            Connection connection = MyConnection.getConnect();
-            String query = "update `san_pham` set `so_luong` = ? where `ma_sp` = ?";
-            PreparedStatement ptmt = connection.prepareStatement(query);
-            ptmt.setInt(1, quantity);
-            ptmt.setString(2, productId);
-
-            return ptmt.executeUpdate();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-
-
-
 }
