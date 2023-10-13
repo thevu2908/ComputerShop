@@ -485,12 +485,12 @@ public class StorageGUI {
         int maxQuantity = 999999999;
 
         if (quantityText.equals("Dưới 50")) {
-            maxQuantity = 50;
+            maxQuantity = 50 - 1;
         } else if (quantityText.equals("Từ 50 đến 200")) {
             minQuantity = 50;
             maxQuantity = 200;
         } else if (quantityText.equals("Trên 200")) {
-            minQuantity = 200;
+            minQuantity = 200 + 1;
         }
 
         int finalMinQuantity = minQuantity;
@@ -510,10 +510,10 @@ public class StorageGUI {
                 switch (searchType) {
                     case "Mã sản phẩm":
                         return rowId.contains(productInfo) && rowType.contains(productType)
-                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                                && rowQuantity >= finalMinQuantity && rowQuantity <= finalMaxQuantity;
                     case "Tên sản phẩm":
                         return rowName.contains(productInfo) && rowType.contains(productType)
-                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                                && rowQuantity >= finalMinQuantity && rowQuantity <= finalMaxQuantity;
                     default:
                         return true;
                 }
