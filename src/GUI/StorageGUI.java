@@ -25,6 +25,7 @@ public class StorageGUI {
     private ImportBUS importBUS;
     private ImportDetailBUS importDetailBUS;
     private ExportBUS exportBUS;
+    private ExportDetailBUS exportDetailBUS;
     private EmployeeBUS employeeBUS;
 
     public StorageGUI(String employeeId) {
@@ -34,6 +35,7 @@ public class StorageGUI {
         importBUS = new ImportBUS();
         importDetailBUS = new ImportDetailBUS();
         exportBUS = new ExportBUS();
+        exportDetailBUS = new ExportDetailBUS();
         employeeBUS = new EmployeeBUS();
         showHideConfirmButton();
         initProduct();
@@ -217,6 +219,29 @@ public class StorageGUI {
                     String importId = tblImports.getValueAt(rowSelected, 0).toString();
                     if (importDetailBUS.confirmImport(importId)) {
                         initImportTableData();
+                    }
+                }
+            }
+        });
+
+        btnConfirmExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblExports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu xuất muốn duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn duyệt phiếu xuất này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String exportId = tblExports.getValueAt(rowSelected, 0).toString();
+                    if (exportDetailBUS.confirmExport(exportId)) {
+                        initExportTableData();
+                        initProductTableData();
                     }
                 }
             }

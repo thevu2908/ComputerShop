@@ -142,4 +142,20 @@ public class ProductDAO {
             return 0;
         }
     }
+
+    public int updateProductStorageQuantity(String productId, int quantity) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham_kho` set so_luong = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, quantity);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

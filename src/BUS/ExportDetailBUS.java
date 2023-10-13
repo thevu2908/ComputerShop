@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ExportDetailDAO;
 import DTO.ExportDetailDTO;
+import DTO.ProductDTO;
 import validation.Validate;
 
 import javax.swing.*;
@@ -78,6 +79,42 @@ public class ExportDetailBUS {
 
     public boolean updateExportDetailQuantity(ExportDetailDTO exportDetail) {
         return exportDetailDAO.updateExportDetailQuantity(exportDetail) > 0;
+    }
+
+    public boolean confirmExport(String exportId) {
+        if (exportBUS.confirmExport(exportId) && changeProductQuantity(exportId)) {
+            JOptionPane.showMessageDialog(null, "Duyệt phiếu xuất thành công");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean changeProductQuantity(String exportId) {
+        loadData();
+        boolean flag = false;
+
+        for (ExportDetailDTO exportDetailDTO : exportDetailList) {
+            if (exportDetailDTO.getExportId().equals(exportId)) {
+                String productId = exportDetailDTO.getProductId();
+                int quantity = exportDetailDTO.getQuantity();
+
+                ProductDTO product = productBUS.getProductById(productId);
+                ProductDTO storageProduct = productBUS.getStorageProductById(productId);
+
+                if (
+                        productBUS.updateProductQuantity(productId, product.getProductQuantity() + quantity)
+                        &&
+                        productBUS.updateProductStorageQuantity(productId, storageProduct.getProductQuantity() - quantity)
+                ) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+            }
+        }
+
+        return flag;
     }
 
     public boolean deleteExportDetail(String exportId, String productId) {

@@ -55,6 +55,24 @@ public class ExportDAO {
         }
     }
 
+    public int updateExport(ExportDTO exportDTO) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `phieu_xuat` set ngay_xuat = ?, tong_so_luong = ?, tinh_trang = ? where ma_px = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, exportDTO.getExportDate());
+            ptmt.setInt(2, exportDTO.getTotalQuantity());
+            ptmt.setString(3, exportDTO.getStatus());
+            ptmt.setString(4, exportDTO.getExportId());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int setTotalQuantity(String id, int total) {
         try {
             Connection connection = MyConnection.getConnect();
