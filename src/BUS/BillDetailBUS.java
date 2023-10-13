@@ -16,6 +16,10 @@ public class BillDetailBUS {
         billDetailDAO = new BillDetailDAO();
     }
 
+    public void loadData() {
+        billDetailList = billDetailDAO.getData();
+    }
+
     public boolean addBillDetail(BillDetailDTO billDetailDTO) {
         if (billDetailDAO.addBillDetail(billDetailDTO) > 0) {
            return true;
@@ -30,6 +34,7 @@ public class BillDetailBUS {
         for (BillDetailDTO billDetailDTO : list) {
             int price = productBUS.getPriceById(billDetailDTO.getProductId());
             int quantity = billDetailDTO.getQuantity();
+
             model.addRow(new Object[]{
                     billDetailDTO.getProductId(),
                     productBUS.getNameById(billDetailDTO.getProductId()),
@@ -37,6 +42,28 @@ public class BillDetailBUS {
                     quantity,
                     price * quantity
             });
+        }
+
+        model.fireTableDataChanged();
+    }
+
+    public void renderToTable(DefaultTableModel model, String billId) {
+        model.setRowCount(0);
+        loadData();
+
+        for (BillDetailDTO billDetailDTO : billDetailList) {
+            if (billDetailDTO.getBillId().equals(billId)) {
+                int price = productBUS.getPriceById(billDetailDTO.getProductId());
+                int quantity = billDetailDTO.getQuantity();
+
+                model.addRow(new Object[]{
+                        billDetailDTO.getProductId(),
+                        productBUS.getNameById(billDetailDTO.getProductId()),
+                        price,
+                        quantity,
+                        price * quantity
+                });
+            }
         }
 
         model.fireTableDataChanged();

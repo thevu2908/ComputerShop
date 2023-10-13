@@ -50,12 +50,43 @@ public class BillBUS {
         }
     }
 
+    public BillDTO getBillById(String billId) {
+        loadData();
+
+        for (BillDTO billDTO : billList) {
+            if (billDTO.getBillId().equals(billId)) {
+                return billDTO;
+            }
+        }
+
+        return null;
+    }
+
     public void renderToTable(DefaultTableModel model, String employeeId) {
         loadData();
         model.setRowCount(0);
 
         for (BillDTO billDTO : billList) {
             if (billDTO.getIsDeleted() == 0 && billDTO.getEmployeeId().equals(employeeId)) {
+                model.addRow(new Object[]{
+                        billDTO.getBillId(),
+                        billDTO.getCustomerId(),
+                        billDTO.getEmployeeId(),
+                        DateTime.formatDate(billDTO.getBillDate()),
+                        billDTO.getTotal()
+                });
+            }
+        }
+
+        model.fireTableDataChanged();
+    }
+
+    public void renderToTable(DefaultTableModel model) {
+        loadData();
+        model.setRowCount(0);
+
+        for (BillDTO billDTO : billList) {
+            if (billDTO.getIsDeleted() == 0) {
                 model.addRow(new Object[]{
                         billDTO.getBillId(),
                         billDTO.getCustomerId(),

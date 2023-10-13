@@ -9,7 +9,6 @@ public class BillDTO {
     private int isDeleted;
 
     public BillDTO() {
-
     }
 
     public BillDTO(String billId, String customerId, String employeeId, String billDate, int total, int isDeleted) {
