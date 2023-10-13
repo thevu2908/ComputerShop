@@ -114,6 +114,14 @@ public class ProductBUS {
         }
     }
 
+    public boolean updateProductQuantity(String productId, int quantity) {
+        if (productDAO.updateProductQuantity(productId, quantity) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean checkExistedProductId(String productID) {
         loadProductData();
 

@@ -23,6 +23,7 @@ public class StorageGUI {
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
+    private ImportDetailBUS importDetailBUS;
     private ExportBUS exportBUS;
     private EmployeeBUS employeeBUS;
 
@@ -31,6 +32,7 @@ public class StorageGUI {
         productBUS = new ProductBUS();
         productTypeBUS = new ProductTypeBUS();
         importBUS = new ImportBUS();
+        importDetailBUS = new ImportDetailBUS();
         exportBUS = new ExportBUS();
         employeeBUS = new EmployeeBUS();
         showHideConfirmButton();
@@ -195,6 +197,28 @@ public class StorageGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetExportData();
+            }
+        });
+
+        btnConfirmImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblImports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn duyệt phiếu nhập này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String importId = tblImports.getValueAt(rowSelected, 0).toString();
+                    if (importDetailBUS.confirmImport(importId)) {
+                        initImportTableData();
+                    }
+                }
             }
         });
     }
@@ -507,6 +531,8 @@ public class StorageGUI {
         if (!employeeBUS.getTypeById(employeeId).equals("LNV02")) {
             btnConfirmImport.setVisible(false);
             btnConfirmExport.setVisible(false);
+        } else {
+            btnUpdateImport.setVisible(false);
         }
     }
 

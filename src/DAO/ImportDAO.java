@@ -57,14 +57,17 @@ public class ImportDAO {
         }
     }
 
-    public int updateImportSupplier(String importId, String supplierId) {
+    public int updateImport(ImportDTO importDTO) {
         try {
             Connection connection = MyConnection.getConnect();
-            String query = "update `phieu_nhap` set ma_ncc = ? where ma_pn = ?";
+            String query = "update `phieu_nhap` set ma_ncc = ?, ngay_nhap = ?, tong_tien = ?, tinh_trang = ? where ma_pn = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
 
-            ptmt.setString(1, supplierId);
-            ptmt.setString(2, importId);
+            ptmt.setString(1, importDTO.getSupplierId());
+            ptmt.setString(2, importDTO.getImportDate());
+            ptmt.setInt(3, importDTO.getImportTotalPrice());
+            ptmt.setString(4, importDTO.getImportStatus());
+            ptmt.setString(5, importDTO.getImportId());
 
             return ptmt.executeUpdate();
         } catch (Exception e) {

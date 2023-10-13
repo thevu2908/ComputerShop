@@ -42,7 +42,8 @@ public class ImportDetailGUI {
                 int rowSelected = tblImportDetails.getSelectedRow();
 
                 if (rowSelected < 0) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi tiết phiếu nhập muốn xóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chi tiết phiếu nhập muốn xóa", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -110,7 +111,7 @@ public class ImportDetailGUI {
 
     public void setTotalPrice() {
         int total = importDetailBUS.calculateTotalPrice(importId);
-        if (total > 0) {
+        if (total >= 0) {
             txtTotalPrice.setText(total + "");
             storageGUI.initImportTableData();
         }
@@ -128,7 +129,7 @@ public class ImportDetailGUI {
             }
         };
 
-        String[] cols = {"Mã SP", "Tên SP", "Số lượng", "Đơn giá", "Thành tiền"};
+        String[] cols = {"Mã SP", "Tên SP", "Đơn giá", "Số lượng", "Thành tiền"};
         model.setColumnIdentifiers(cols);
         tblImportDetails.setModel(model);
         tblImportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
