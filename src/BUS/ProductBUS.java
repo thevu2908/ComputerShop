@@ -12,7 +12,7 @@ public class ProductBUS {
     private ProductDAO productDAO;
     private ProductTypeBUS productTypeBUS;
     private ArrayList<ProductDTO> productList = new ArrayList<>();
-    private ArrayList<ProductDTO> storageProductList = new ArrayList<>();
+    private ArrayList<ProductDTO> productStorageList = new ArrayList<>();
 
     public ProductBUS() {
         productDAO = new ProductDAO();
@@ -23,8 +23,8 @@ public class ProductBUS {
         productList = productDAO.getData();
     }
 
-    public void loadStorageProductData() {
-        storageProductList = productDAO.getStorageData();
+    public void loadProductStorageData() {
+        productStorageList = productDAO.getStorageData();
     }
 
     public boolean addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
@@ -121,6 +121,16 @@ public class ProductBUS {
         return false;
     }
 
+    public boolean addProductStorage(String productId, int quantity) {
+        ProductDTO product = new ProductDTO(productId, quantity);
+
+        if (productDAO.addPProductStorage(product) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean updateProductStorageQuantity(String productId, int quantity) {
         if (productDAO.updateProductStorageQuantity(productId, quantity) > 0) {
             return true;
@@ -146,14 +156,15 @@ public class ProductBUS {
         return "SP" + String.format("%03d", id);
     }
 
-    public ProductDTO getStorageProductById(String productID) {
-        loadStorageProductData();
+    public ProductDTO getProductStorageById(String productID) {
+        loadProductStorageData();
 
-        for (ProductDTO productDTO : storageProductList){
+        for (ProductDTO productDTO : productStorageList){
             if (productDTO.getProductId().equals(productID)){
                 return productDTO;
             }
         }
+
         return null;
     }
 
@@ -217,9 +228,9 @@ public class ProductBUS {
     }
 
     public int getStorageProductQuantityById(String productId) {
-        loadStorageProductData();
+        loadProductStorageData();
 
-        for (ProductDTO productDTO : storageProductList) {
+        for (ProductDTO productDTO : productStorageList) {
             if (productDTO.getProductId().equals(productId)) {
                 return productDTO.getProductQuantity();
             }
@@ -229,10 +240,10 @@ public class ProductBUS {
     }
 
     public ArrayList<String> initStorageProductIdSuggestion(int col) {
-        loadStorageProductData();;
+        loadProductStorageData();;
         ArrayList<String> list = new ArrayList<>();
 
-        for (ProductDTO productDTO : storageProductList) {
+        for (ProductDTO productDTO : productStorageList) {
             if (productDTO.getProductQuantity() > 0) {
                 list.add(productDTO.getProductId());
             }
@@ -291,9 +302,9 @@ public class ProductBUS {
 
     public void renderToStorageProductTable(DefaultTableModel model) {
         model.setRowCount(0);
-        loadStorageProductData();
+        loadProductStorageData();
 
-        for (ProductDTO productDTO : storageProductList) {
+        for (ProductDTO productDTO : productStorageList) {
             if (getIsDeletedById(productDTO.getProductId()) == 0 && productDTO.getProductQuantity() > 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),

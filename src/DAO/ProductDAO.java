@@ -142,6 +142,22 @@ public class ProductDAO {
         }
     }
 
+    public int addPProductStorage(ProductDTO product) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `san_pham_kho` values (?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, product.getProductId());
+            ptmt.setInt(2, product.getProductQuantity());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int updateProductStorageQuantity(String productId, int quantity) {
         try {
             Connection connection = MyConnection.getConnect();

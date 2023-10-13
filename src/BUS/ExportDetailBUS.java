@@ -100,7 +100,7 @@ public class ExportDetailBUS {
                 int quantity = exportDetailDTO.getQuantity();
 
                 ProductDTO product = productBUS.getProductById(productId);
-                ProductDTO storageProduct = productBUS.getStorageProductById(productId);
+                ProductDTO storageProduct = productBUS.getProductStorageById(productId);
 
                 if (
                         productBUS.updateProductQuantity(productId, product.getProductQuantity() + quantity)

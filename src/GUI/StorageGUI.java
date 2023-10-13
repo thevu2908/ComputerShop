@@ -219,6 +219,7 @@ public class StorageGUI {
                     String importId = tblImports.getValueAt(rowSelected, 0).toString();
                     if (importDetailBUS.confirmImport(importId)) {
                         initImportTableData();
+                        initProductTableData();
                     }
                 }
             }

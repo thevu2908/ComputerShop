@@ -91,7 +91,7 @@ public class ImportDetailBUS {
     }
 
     public boolean confirmImport(String importId) {
-        if (importBUS.confirmImport(importId) && increaseProductQuantity(importId)) {
+        if (importBUS.confirmImport(importId) && increaseStorageProductQuantity(importId)) {
             JOptionPane.showMessageDialog(null, "Duyệt phiếu nhập thành công");
             return true;
         } else {
@@ -99,19 +99,27 @@ public class ImportDetailBUS {
         }
     }
 
-    public boolean increaseProductQuantity(String importId) {
+    public boolean increaseStorageProductQuantity(String importId) {
         loadData();
         boolean flag = false;
 
         for (ImportDetailDTO importDetailDTO : importDetailList) {
             if (importDetailDTO.getImportId().equals(importId)) {
-                ProductDTO product = productBUS.getProductById(importDetailDTO.getProductId());
+                ProductDTO product = productBUS.getProductStorageById(importDetailDTO.getProductId());
 
-                if (productBUS.updateProductQuantity(importDetailDTO.getProductId(),
-                        product.getProductQuantity() + importDetailDTO.getQuantity())) {
-                    flag = true;
+                if (product != null) {
+                    if (productBUS.updateProductStorageQuantity(importDetailDTO.getProductId(),
+                            product.getProductQuantity() + importDetailDTO.getQuantity())) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
                 } else {
-                    flag = false;
+                    if (productBUS.addProductStorage(importDetailDTO.getProductId(), importDetailDTO.getQuantity())) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
                 }
             }
         }
