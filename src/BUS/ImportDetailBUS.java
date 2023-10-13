@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ImportDetailDAO;
 import DTO.ImportDetailDTO;
+import DTO.ProductDTO;
 import validation.Validate;
 
 import javax.swing.*;
@@ -89,6 +90,35 @@ public class ImportDetailBUS {
         }
     }
 
+    public boolean confirmImport(String importId) {
+        if (importBUS.confirmImport(importId) && increaseProductQuantity(importId)) {
+            JOptionPane.showMessageDialog(null, "Duyệt phiếu nhập thành công");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean increaseProductQuantity(String importId) {
+        loadData();
+        boolean flag = false;
+
+        for (ImportDetailDTO importDetailDTO : importDetailList) {
+            if (importDetailDTO.getImportId().equals(importId)) {
+                ProductDTO product = productBUS.getProductById(importDetailDTO.getProductId());
+
+                if (productBUS.updateProductQuantity(importDetailDTO.getProductId(),
+                        product.getProductQuantity() + importDetailDTO.getQuantity())) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+            }
+        }
+
+        return flag;
+    }
+
     public ImportDetailDTO getImportDetailById(String importId, String productId) {
         loadData();
 
@@ -99,18 +129,6 @@ public class ImportDetailBUS {
         }
 
         return null;
-    }
-
-    public boolean checkExistedImportDetail(String importId, String productId) {
-        loadData();
-
-        for (ImportDetailDTO importDetailDTO : importDetailList) {
-            if (importDetailDTO.getImportId().equals(importId) && importDetailDTO.getProductId().equals(productId)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public int calculateTotalPrice(String importId) {

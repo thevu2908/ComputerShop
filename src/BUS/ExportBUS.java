@@ -40,6 +40,37 @@ public class ExportBUS {
         }
     }
 
+    public boolean confirmExport(String exportId) {
+        if (getStatusById(exportId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Phiếu xuất này đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        ExportDTO exportDTO = getExportById(exportId);
+
+        if (exportDTO != null) {
+            exportDTO.setStatus("Đã duyết");
+        }
+
+        if (exportDTO != null && exportDAO.updateExport(exportDTO) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ExportDTO getExportById(String exportId) {
+        loadData();
+
+        for (ExportDTO exportDTO : exportList) {
+            if (exportDTO.getExportId().equals(exportId)) {
+                return exportDTO;
+            }
+        }
+
+        return null;
+    }
+
     public String getStatusById(String exportId) {
         loadData();
 

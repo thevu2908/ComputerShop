@@ -104,7 +104,7 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard);
+        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.updateProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
@@ -113,6 +113,20 @@ public class ProductBUS {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    public boolean updateProductQuantity(String productId, int quantity) {
+        if (productDAO.updateProductQuantity(productId, quantity) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateProductStorageQuantity(String productId, int quantity) {
+        if (productDAO.updateProductStorageQuantity(productId, quantity) > 0) {
+            return true;
+        }
+        return false;
     }
 
     public boolean checkExistedProductId(String productID) {
@@ -131,6 +145,17 @@ public class ProductBUS {
         loadProductData();
         int id = productList.size() + 1;
         return "SP" + String.format("%03d", id);
+    }
+
+    public ProductDTO getStorageProductById(String productID) {
+        loadStorageProductData();
+
+        for (ProductDTO productDTO : storageProductList){
+            if (productDTO.getProductId().equals(productID)){
+                return productDTO;
+            }
+        }
+        return null;
     }
 
     public ProductDTO getProductById(String productID) {
@@ -204,11 +229,11 @@ public class ProductBUS {
         return 0;
     }
 
-    public ArrayList<String> initAvailableProductIdSuggestion(int col) {
-        loadProductData();;
+    public ArrayList<String> initStorageProductIdSuggestion(int col) {
+        loadStorageProductData();;
         ArrayList<String> list = new ArrayList<>();
 
-        for (ProductDTO productDTO : productList) {
+        for (ProductDTO productDTO : storageProductList) {
             if (productDTO.getProductQuantity() > 0) {
                 list.add(productDTO.getProductId());
             }

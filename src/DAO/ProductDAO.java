@@ -86,11 +86,13 @@ public class ProductDAO {
         }
     }
 
-    public int updateProduct(ProductDTO product){
+    public int updateProduct(ProductDTO product) {
         try {
             Connection connection = MyConnection.getConnect();
-            String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?,`gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, `man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
+            String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?, `gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, " +
+                    "`man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
+
             ptmt.setString(1, product.getProductType());
             ptmt.setString(2, product.getProductName());
             ptmt.setInt(3, product.getProductPrice());
@@ -120,6 +122,38 @@ public class ProductDAO {
             return ptmt.executeUpdate();
         }
         catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateProductQuantity(String productId, int quantity) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set so_luong = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, quantity);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateProductStorageQuantity(String productId, int quantity) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham_kho` set so_luong = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, quantity);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
