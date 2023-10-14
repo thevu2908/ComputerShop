@@ -48,7 +48,7 @@ public class EmployeeTypeBUS {
         cbx.removeAllItems();
 
         if (type.equals("filter")) {
-            cbx.addItem("Loại nhân viên");
+            cbx.addItem("Tất cả");
         }
 
         for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {

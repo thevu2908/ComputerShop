@@ -4,11 +4,11 @@ import BUS.EmployeeBUS;
 import BUS.EmployeeTypeBUS;
 import DTO.EmployeeDTO;
 import com.toedter.calendar.JDateChooser;
-import utils.DateTime;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -17,6 +17,7 @@ public class EmployeeGUI {
     private DefaultTableModel employeeModel;
     private EmployeeBUS employeeBUS;
     private EmployeeTypeBUS employeeTypeBUS;
+    private TableRowSorter<DefaultTableModel> employeeSorter;
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
@@ -114,6 +115,20 @@ public class EmployeeGUI {
                 }
             }
         });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterEmployee();
+            }
+        });
+
+        cbxFilterEmpType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterEmployee();
+            }
+        });
     }
 
     public void resetData() {
@@ -127,6 +142,45 @@ public class EmployeeGUI {
         txtEmpPassword.setText("");
         cbxEmpType.setSelectedIndex(0);
         initTableData();
+    }
+
+    public void filterEmployee() {
+        String searchType = cbxSearchType.getSelectedItem().toString();
+        String employeeInfo = txtSearch.getText().toLowerCase();
+
+        String employeeType = cbxFilterEmpType.getSelectedItem() == null
+                || cbxFilterEmpType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxFilterEmpType.getSelectedItem().toString().toLowerCase();
+
+        employeeSorter = new TableRowSorter<>(employeeModel);
+        tblEmployees.setRowSorter(employeeSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                String rowGender = entry.getStringValue(3).toLowerCase();
+                String rowPhone = entry.getStringValue(4).toLowerCase();
+
+                switch (searchType) {
+                    case "Mã nhân viên":
+                        return rowId.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Họ và Tên":
+                        return rowName.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Giới tính":
+                        return rowGender.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Số điện thoại":
+                        return rowPhone.contains(employeeInfo) && rowType.contains(employeeType);
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        employeeSorter.setRowFilter(filter);
     }
 
     public void initComboBoxData() {
