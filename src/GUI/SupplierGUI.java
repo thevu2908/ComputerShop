@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -11,6 +12,7 @@ import DTO.ProductDTO;
 import DTO.SupplierDTO;
 public class SupplierGUI {
     private DefaultTableModel supplierModel;
+    private TableRowSorter<DefaultTableModel> sorter;
     private SupplierBUS supplierBUS;
 
     public SupplierGUI() {
@@ -87,10 +89,43 @@ public class SupplierGUI {
 
         txtSearch.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                supplierBUS.renderTableForSearch(supplierModel,txtSearch.getText(),cbxSearchType.getSelectedIndex());
+            public void keyReleased(KeyEvent e) {
+                filter();
             }
         });
+    }
+
+    public void filter() {
+        String searchType = cbxSearchType.getSelectedItem().toString();
+        String searchInfo = txtSearch.getText().toLowerCase();
+
+        sorter = new TableRowSorter<>(supplierModel);
+        tblSuppliers.setRowSorter(sorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowPhone = entry.getStringValue(2).toLowerCase();
+                String rowAddress = entry.getStringValue(3).toLowerCase();
+
+                switch (searchType) {
+                    case "Mã nhà cung cấp":
+                        return rowId.contains(searchInfo);
+                    case "Tên nhà cung cấp":
+                        return rowName.contains(searchInfo);
+                    case "Số điện thoại":
+                        return rowPhone.contains(searchInfo);
+                    case "Địa chỉ":
+                        return rowAddress.contains(searchInfo);
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        sorter.setRowFilter(filter);
     }
 
     public void initTable(){

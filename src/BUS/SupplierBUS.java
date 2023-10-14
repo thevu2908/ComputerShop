@@ -100,53 +100,7 @@ public class SupplierBUS {
         }
     }
 
-    public void renderTableForSearch(DefaultTableModel model,String searchText,int cbxIndex) {
-        model.setRowCount(0);
-        loadData();
 
-        for (SupplierDTO supplierDTO : Search(searchText,cbxIndex)) {
-            if (supplierDTO.getIsDeleted() == 0) {
-                model.addRow(new Object[]{
-                        supplierDTO.getSupplierId(),
-                        supplierDTO.getSupplierName(),
-                        supplierDTO.getSupplierPhone(),
-                        supplierDTO.getSupplierAddress()
-                });
-            }
-        }
-
-        model.fireTableDataChanged();
-    }
-
-    public ArrayList<SupplierDTO> Search(String searchText,int cbxIndex){
-        ArrayList<SupplierDTO> list = new ArrayList<SupplierDTO>();
-        for(SupplierDTO supplierDTO: supplierList){
-
-            switch (cbxIndex){
-                case 0:{//Mã nhà cung cấp
-                    if(supplierDTO.getSupplierId().contains(searchText))
-                        list.add(supplierDTO);
-                    break;
-                }
-                case 1:{//Tên nhà cung cấp
-                    if(supplierDTO.getSupplierName().contains(searchText))
-                        list.add((supplierDTO));
-                    break;
-                }
-                case 2:{//Số điện thoại
-                    if(supplierDTO.getSupplierPhone().contains(searchText))
-                        list.add((supplierDTO));
-                    break;
-                }
-                case 3:{//địa chỉ nhà cung cấp
-                    if(supplierDTO.getSupplierAddress().contains(searchText))
-                        list.add((supplierDTO));
-                    break;
-                }
-            }
-        }
-        return list;
-    }
 
 
     public String getNameById(String id) {
