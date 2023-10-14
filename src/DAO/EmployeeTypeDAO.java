@@ -28,35 +28,8 @@ public class EmployeeTypeDAO {
             return null;
         }
     }
-    public EmployeeTypeDTO getById(String maLoaiNhanVien) {
-        EmployeeTypeDTO employeeTypeDTO = new EmployeeTypeDTO();
+    public int addEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
         MyConnection myConnection = new MyConnection();
-
-        try {
-            Connection connection = myConnection.getConnect();
-            String query = "select * from `loai_nhan_vien` where `ma_lnv` = ?";
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setString(1,maLoaiNhanVien);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()){
-                employeeTypeDTO.setTypeId(rs.getString("ma_lnv"));
-                employeeTypeDTO.setTypeName(rs.getString("ten_lnv"));
-                employeeTypeDTO.setIsDeleted(rs.getInt("trang_thai"));
-            }
-            else return null;
-
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        finally {
-            myConnection.closeConnection();
-        }
-        return employeeTypeDTO;
-    }
-    public boolean addEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
-        boolean result = false;
-        MyConnection myConnection = new MyConnection();
-
         try {
             Connection connection = myConnection.getConnect();
             String sql = "insert into `loai_nhan_vien` value (?,?,?)";
@@ -65,43 +38,39 @@ public class EmployeeTypeDAO {
             st.setString(2,employeeTypeDTO.getTypeName());
             st.setInt(3,employeeTypeDTO.getIsDeleted());
 
-            if (st.executeUpdate()>=2)
-                result = true;
+            return st.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+            return 0;
         }
         finally {
             myConnection.closeConnection();
         }
-        return result;
     }
 
-    public boolean updateEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
-        boolean result = false;
+    public int updateEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
         MyConnection myConnection = new MyConnection();
 
         try {
             Connection connection = myConnection.getConnect();
-            String sql = "update `loai_nhan_vien` set `ma_lnv` = ?, `ten_lnv` = ?,`trang_thai` = ? where `ma_lnv` = ?";
+            String sql = "update `loai_nhan_vien` set ten_lnv = ? where ma_lnv = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,employeeTypeDTO.getTypeName());
-            if (st.executeUpdate()>=2)
-                result = true;
-
+            st.setString(1,employeeTypeDTO.getTypeId());
+            st.setString(2,employeeTypeDTO.getTypeName());
+            return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+            return 0;
         }
         finally {
             myConnection.closeConnection();
         }
-        return result;
     }
 
-    public boolean deleteEmployeeType(String maLoaiNhanVien) {
-        boolean result = false;
+    public int deleteEmployeeType(String maLoaiNhanVien) {
         MyConnection myConnection = new MyConnection();
 
         try {
@@ -109,38 +78,62 @@ public class EmployeeTypeDAO {
             String sql = "delete from `loai_nhan_vien` where `ma_lnv` = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1,maLoaiNhanVien);
-            if (st.executeUpdate()>=2)
-                result = true;
-
+            return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+            return 0;
         }
         finally {
             myConnection.closeConnection();
         }
-        return result;
     }
 
-    public boolean checkExistById(String maLoaiNhanVien) {
-        boolean result = false;
-        MyConnection myConnection = new MyConnection();
+//    public EmployeeTypeDTO getById(String maLoaiNhanVien) {
+//        EmployeeTypeDTO employeeTypeDTO = new EmployeeTypeDTO();
+//        MyConnection myConnection = new MyConnection();
+//
+//        try {
+//            Connection connection = myConnection.getConnect();
+//            String query = "select * from `loai_nhan_vien` where `ma_lnv` = ?";
+//            PreparedStatement st = connection.prepareStatement(query);
+//            st.setString(1,maLoaiNhanVien);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()){
+//                employeeTypeDTO.setTypeId(rs.getString("ma_lnv"));
+//                employeeTypeDTO.setTypeName(rs.getString("ten_lnv"));
+//                employeeTypeDTO.setIsDeleted(rs.getInt("trang_thai"));
+//            }
+//            else return null;
+//
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        finally {
+//            myConnection.closeConnection();
+//        }
+//        return employeeTypeDTO;
+//    }
 
-        try {
-            Connection connection = myConnection.getConnect();
-            String sql = "select * from `loai_nhan_vien` where `ma_lnv`=?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,maLoaiNhanVien);
-            ResultSet rs = st.executeQuery();
-            result = rs.next();
-
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        finally {
-            myConnection.closeConnection();
-        }
-        return result;
-    }
+//    public boolean checkExistById(String maLoaiNhanVien) {
+//        boolean result = false;
+//        MyConnection myConnection = new MyConnection();
+//
+//        try {
+//            Connection connection = myConnection.getConnect();
+//            String sql = "select * from `loai_nhan_vien` where `ma_lnv`=?";
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setString(1,maLoaiNhanVien);
+//            ResultSet rs = st.executeQuery();
+//            result = rs.next();
+//
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//        }
+//        finally {
+//            myConnection.closeConnection();
+//        }
+//        return result;
+//    }
 }

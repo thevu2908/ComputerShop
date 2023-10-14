@@ -8,6 +8,10 @@ public class EmployeeTypeDTO {
     public EmployeeTypeDTO() {
 
     }
+    public EmployeeTypeDTO(String typeId, String typeName) {
+        this.typeId = typeId;
+        this.typeName = typeName;
+    }
 
     public EmployeeTypeDTO(String typeId, String typeName, int isDeleted) {
         this.typeId = typeId;

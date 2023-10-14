@@ -1,8 +1,8 @@
 package BUS;
 
 import DAO.EmployeeTypeDAO;
+import DTO.EmployeeDTO;
 import DTO.EmployeeTypeDTO;
-import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,13 +10,24 @@ import java.util.ArrayList;
 
 public class EmployeeTypeBUS {
     private EmployeeTypeDAO employeeTypeDAO;
-    private ArrayList<EmployeeTypeDTO> employeeTypeList;
+    private ArrayList<EmployeeTypeDTO> employeeTypeList = new ArrayList<>();
     public EmployeeTypeBUS() {
         employeeTypeDAO = new EmployeeTypeDAO();
     }
 
     public void loadData() {
         employeeTypeList = employeeTypeDAO.getData();
+    }
+
+    public EmployeeTypeDTO getEmployeeById(String employeeTypeID) {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList){
+            if (employeeTypeDTO.getTypeId().equals(employeeTypeID)){
+                return employeeTypeDTO;
+            }
+        }
+        return null;
     }
     public String getTypeNameById(String id) {
         loadData();
@@ -61,10 +72,11 @@ public class EmployeeTypeBUS {
         }
         model.fireTableDataChanged();
     }
+//    -------------------------------------------------------------------------------------
     public String createNewEmployeeTypeId() {
         loadData();
         int id = employeeTypeList.size() + 1;
-        return "LNV" + String.format("%03d", id);
+        return "LNV" + String.format("%02d", id);
     }
     public boolean checkExistedEmployTypeId(String maLoaiNhanVien) {
         loadData();
@@ -75,21 +87,17 @@ public class EmployeeTypeBUS {
         }
         return false;
     }
-    public boolean addEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien, int trangThai) {
-        if (maLoaiNhanVien.equals("") || tenLoaiNhanVien.equals("")) {
+    public boolean addEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien) {
+        if (maLoaiNhanVien.isEmpty() || tenLoaiNhanVien.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (checkExistedEmployTypeId(maLoaiNhanVien)){
+        if (checkExistedEmployTypeId(maLoaiNhanVien)) {
             JOptionPane.showMessageDialog(null, "Mã loại nhân viên đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (trangThai != 0 && trangThai != 1) {
-            JOptionPane.showMessageDialog(null, "Trạng thái không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, trangThai);
-        if (employeeTypeDAO.addEmployeeType(employeeType)) {
+        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
+        if (employeeTypeDAO.addEmployeeType(employeeType) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm loại nhân viên thành công");
             return true;
         } else {
@@ -99,14 +107,14 @@ public class EmployeeTypeBUS {
     }
 
     public boolean deleteEmployeeType(String maLoaiNhanVien) {
-        if (maLoaiNhanVien.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn mã loại nhân viên xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (maLoaiNhanVien.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn mã loại nhân viên cần xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn mã loại nhân viên " + maLoaiNhanVien + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
-            if (employeeTypeDAO.deleteEmployeeType(maLoaiNhanVien)) {
+            if (employeeTypeDAO.deleteEmployeeType(maLoaiNhanVien) > 0) {
                 JOptionPane.showMessageDialog(null, "Xoá mã loại nhân viên " + maLoaiNhanVien + " thành công");
                 return true;
             } else {
@@ -117,34 +125,23 @@ public class EmployeeTypeBUS {
         return false;
     }
 
-    public boolean updateEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien, int trangThai) {
-        if (maLoaiNhanVien.equals("")){
+    public boolean updateEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien) {
+        if (maLoaiNhanVien.isEmpty()){
             JOptionPane.showMessageDialog(null, "Vui lòng chọn mã loại nhân viên muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (maLoaiNhanVien.equals("") || tenLoaiNhanVien.equals("")) {
+        if (maLoaiNhanVien.isEmpty() || tenLoaiNhanVien.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (!checkExistedEmployTypeId(maLoaiNhanVien)) {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã loại nhân viên này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        if (checkExistedEmployTypeId(maLoaiNhanVien)){
-            JOptionPane.showMessageDialog(null, "Mã loại nhân viên đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        if (trangThai != 0 && trangThai != 1) {
-            JOptionPane.showMessageDialog(null, "Trạng thái không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, trangThai);
 
-        if (employeeTypeDAO.updateEmployeeType(employeeType)) {
-            JOptionPane.showMessageDialog(null, "Sửa thông tin mã loại nhân viên");
+        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
+
+        if (employeeTypeDAO.updateEmployeeType(employeeType) > 0) {
+            JOptionPane.showMessageDialog(null, "Sửa thông tin loại nhân viên thành công");
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Sửa thông tin mã loại nhân viên thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Sửa thông tin loại nhân viên thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

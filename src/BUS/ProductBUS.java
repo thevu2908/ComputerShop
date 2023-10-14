@@ -212,7 +212,7 @@ public class ProductBUS {
     }
 
     public ArrayList<String> initAvailableProductIdSuggestion(int col) {
-        loadProductData();;
+        loadProductData();
         ArrayList<String> list = new ArrayList<>();
 
         for (ProductDTO productDTO : productList) {
