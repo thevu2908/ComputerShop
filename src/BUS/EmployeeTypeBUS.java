@@ -138,7 +138,7 @@ public class EmployeeTypeBUS {
 
         EmployeeTypeDTO employeeTypeDTO = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien,0);
 
-        if (employeeTypeDAO.updateEmployeeType(employeeTypeDTO) >= 0) {
+        if (employeeTypeDAO.updateEmployeeType(employeeTypeDTO) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin loại nhân viên thành công");
             return true;
         } else {

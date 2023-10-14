@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class EmployeeTypeDAO {
+    private int rowsUpdated;
     public ArrayList<EmployeeTypeDTO> getData() {
         ArrayList<EmployeeTypeDTO> list = new ArrayList<>();
         try {
@@ -56,7 +57,9 @@ public class EmployeeTypeDAO {
             String sql = "update `loai_nhan_vien` set `ten_lnv` = ? where `ma_lnv` = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, employeeTypeDTO.getTypeName());
-            return st.executeUpdate();
+            st.setString(2, employeeTypeDTO.getTypeId());
+            rowsUpdated = st.executeUpdate();
+            return rowsUpdated;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

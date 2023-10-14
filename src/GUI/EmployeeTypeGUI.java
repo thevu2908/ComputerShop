@@ -33,7 +33,7 @@ public class EmployeeTypeGUI {
             public void actionPerformed(ActionEvent e) {
                 String maLoaiNhanVien = txtAccessId.getText();
                 String tenLoaiNhanVien = txtAccessName.getText();
-                if (employeeTypeBUS.addEmployeeType(maLoaiNhanVien,tenLoaiNhanVien)) {
+                if (employeeTypeBUS.addEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
                     resetData();
                 }
             }
