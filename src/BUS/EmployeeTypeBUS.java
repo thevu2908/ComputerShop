@@ -6,6 +6,7 @@ import DTO.EmployeeTypeDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class EmployeeTypeBUS {
@@ -135,9 +136,9 @@ public class EmployeeTypeBUS {
             return false;
         }
 
-        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
+        EmployeeTypeDTO employeeTypeDTO = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien,0);
 
-        if (employeeTypeDAO.updateEmployeeType(employeeType) > 0) {
+        if (employeeTypeDAO.updateEmployeeType(employeeTypeDTO) >= 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin loại nhân viên thành công");
             return true;
         } else {

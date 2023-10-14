@@ -77,15 +77,6 @@ public class EmployeeTypeGUI {
                 resetData();
             }
         });
-//        btnGiveAccess.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String maLoaiNhanVien = txtAccessId.getText();
-//                if (employeeTypeBUS.deleteEmployeeType(maLoaiNhanVien)) {
-//                    resetData();
-//                }
-//            }
-//        });
     }
     public void resetData() {
         txtAccessId.setText("");

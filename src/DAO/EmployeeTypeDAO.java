@@ -1,5 +1,6 @@
 package DAO;
 
+import DTO.EmployeeDTO;
 import DTO.EmployeeTypeDTO;
 import connection.MyConnection;
 
@@ -49,26 +50,38 @@ public class EmployeeTypeDAO {
             myConnection.closeConnection();
         }
     }
-
     public int updateEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
-        MyConnection myConnection = new MyConnection();
-
         try {
-            Connection connection = myConnection.getConnect();
-            String sql = "update `loai_nhan_vien` set ten_lnv = ? where ma_lnv = ?";
+            Connection connection = MyConnection.getConnect();
+            String sql = "update `loai_nhan_vien` set `ten_lnv` = ? where `ma_lnv` = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,employeeTypeDTO.getTypeId());
-            st.setString(2,employeeTypeDTO.getTypeName());
+            st.setString(1, employeeTypeDTO.getTypeName());
             return st.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
             return 0;
         }
-        finally {
-            myConnection.closeConnection();
-        }
     }
+
+//    public int updateEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
+//        MyConnection myConnection = new MyConnection();
+//
+//        try {
+//            Connection connection = myConnection.getConnect();
+//            String sql = "update `loai_nhan_vien` set `ten_lnv` = ? where `ma_lnv` = ?";
+//            PreparedStatement st = connection.prepareStatement(sql);
+//            st.setString(1,employeeTypeDTO.getTypeId());
+//            st.setString(2,employeeTypeDTO.getTypeName());
+//            return st.executeUpdate();
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            return 0;
+//        }
+//        finally {
+//            myConnection.closeConnection();
+//        }
+//    }
 
     public int deleteEmployeeType(String maLoaiNhanVien) {
         MyConnection myConnection = new MyConnection();
