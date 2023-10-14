@@ -1,6 +1,7 @@
 package BUS;
 
 import DTO.BillDetailDTO;
+import DTO.CustomerDTO;
 import DTO.ProductDTO;
 
 import javax.swing.*;
@@ -12,11 +13,13 @@ public class SellBUS {
     private ProductBUS productBUS;
     private BillBUS billBUS;
     private BillDetailBUS billDetailBUS;
+    private CustomerBUS customerBUS;
 
     public SellBUS() {
         productBUS = new ProductBUS();
         billDetailBUS = new BillDetailBUS();
         billBUS = new BillBUS();
+        customerBUS = new CustomerBUS();
     }
 
     public void chooseProduct(DefaultTableModel model, String productId, int quantity) {
@@ -109,5 +112,13 @@ public class SellBUS {
 
     public void renderToTableBillSell(DefaultTableModel model){
         billDetailBUS.renderToTable(model, billDetailList);
+    }
+
+    public void showInfoCustomter(String phone){
+        CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
+        JOptionPane.showMessageDialog(null, String.format(" Mã khách hàng: \t%s\n Tên khách hàng: \t%s\n Địa chỉ: \t%s\n Số điện thoại: \t%s\n Ngày sinh: \t%s\n Giới tính: \t%s\n Điểm tích lũy: \t%s\n"
+                        ,customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getCustomerAddress(),customerDTO.getCustomerPhone(),customerDTO.getCustomerDOB(),customerDTO.getCustomerGender(),customerDTO.getCustomerPoint())
+                , "Thông tin khách hàng",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }

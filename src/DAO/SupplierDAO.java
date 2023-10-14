@@ -4,6 +4,7 @@ import DTO.SupplierDTO;
 import connection.MyConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -30,6 +31,59 @@ public class SupplierDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int addSupplier(SupplierDTO Supplier) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `nha_cung_cap` values (?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, Supplier.getSupplierId());
+            ptmt.setString(2, Supplier.getSupplierName());
+            ptmt.setString(3, Supplier.getSupplierAddress());
+            ptmt.setString(4, Supplier.getSupplierPhone());
+            ptmt.setInt(5, Supplier.getIsDeleted());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateSupplier(SupplierDTO Supplier) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `nha_cung_cap` set `ho_ten` = ?, `dia_chi` = ?, `so_dien_thoai` = ? where `ma_ncc` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, Supplier.getSupplierName());
+            ptmt.setString(2, Supplier.getSupplierAddress());
+            ptmt.setString(3, Supplier.getSupplierPhone());
+            ptmt.setString(4, Supplier.getSupplierId());
+
+            return ptmt.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int deleteSupplier(String SupplierID) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `nha_cung_cap` set `trang_thai` = 1 where `ma_ncc` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1,SupplierID);
+
+            return ptmt.executeUpdate();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }
