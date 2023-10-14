@@ -48,19 +48,19 @@
                         <properties/>
                         <border type="etched" title="Tìm kiếm theo"/>
                         <children>
-                          <component id="23e62" class="javax.swing.JComboBox" binding="cbxOrderSearchType">
+                          <component id="23e62" class="javax.swing.JComboBox" binding="cbxBillSearchType">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <model>
                                 <item value="Mã hóa đơn"/>
-                                <item value="Mã nhân viên"/>
                                 <item value="Mã khách hàng"/>
+                                <item value="Mã nhân viên"/>
                               </model>
                             </properties>
                           </component>
-                          <component id="a699f" class="javax.swing.JTextField" binding="txtSearchOrder">
+                          <component id="a699f" class="javax.swing.JTextField" binding="txtSearchBill">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
@@ -78,15 +78,22 @@
                         <properties/>
                         <border type="etched" title="Tổng tiền từ"/>
                         <children>
-                          <component id="8683c" class="javax.swing.JComboBox" binding="cbxOrderPrice">
+                          <component id="8683c" class="javax.swing.JComboBox" binding="cbxFilterBillPrice">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <model>
+                                <item value="Tất cả"/>
+                                <item value="Dưới 30 triệu"/>
+                                <item value="Từ 30 đến 70 tiệu"/>
+                                <item value="Trên 70 triệu"/>
+                              </model>
+                            </properties>
                           </component>
                         </children>
                       </grid>
-                      <component id="13d4" class="javax.swing.JButton" binding="btnResetOrder">
+                      <component id="13d4" class="javax.swing.JButton" binding="btnReset">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -122,7 +129,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <grid id="1d85f" binding="orderDateFromPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                          <grid id="1d85f" binding="billDateFromPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -130,7 +137,7 @@
                             <border type="etched" title="Từ"/>
                             <children/>
                           </grid>
-                          <grid id="319b2" binding="orderDateToPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                          <grid id="319b2" binding="billDateToPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
                             <constraints>
                               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -140,7 +147,7 @@
                           </grid>
                         </children>
                       </grid>
-                      <component id="c7916" class="javax.swing.JButton" binding="btnFilterOrderDate">
+                      <component id="c7916" class="javax.swing.JButton" binding="btnFilterBillDate">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -178,7 +185,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="40a2c" class="javax.swing.JTable" binding="tblOrders">
+                  <component id="40a2c" class="javax.swing.JTable" binding="tblBills">
                     <constraints/>
                     <properties/>
                   </component>

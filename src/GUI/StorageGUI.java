@@ -23,7 +23,9 @@ public class StorageGUI {
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private ImportBUS importBUS;
+    private ImportDetailBUS importDetailBUS;
     private ExportBUS exportBUS;
+    private ExportDetailBUS exportDetailBUS;
     private EmployeeBUS employeeBUS;
 
     public StorageGUI(String employeeId) {
@@ -31,7 +33,9 @@ public class StorageGUI {
         productBUS = new ProductBUS();
         productTypeBUS = new ProductTypeBUS();
         importBUS = new ImportBUS();
+        importDetailBUS = new ImportDetailBUS();
         exportBUS = new ExportBUS();
+        exportDetailBUS = new ExportDetailBUS();
         employeeBUS = new EmployeeBUS();
         showHideConfirmButton();
         initProduct();
@@ -195,6 +199,52 @@ public class StorageGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetExportData();
+            }
+        });
+
+        btnConfirmImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblImports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn duyệt phiếu nhập này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String importId = tblImports.getValueAt(rowSelected, 0).toString();
+                    if (importDetailBUS.confirmImport(importId)) {
+                        initImportTableData();
+                        initProductTableData();
+                    }
+                }
+            }
+        });
+
+        btnConfirmExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowSelected = tblExports.getSelectedRow();
+
+                if (rowSelected < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu xuất muốn duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn duyệt phiếu xuất này ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String exportId = tblExports.getValueAt(rowSelected, 0).toString();
+                    if (exportDetailBUS.confirmExport(exportId)) {
+                        initExportTableData();
+                        initProductTableData();
+                    }
+                }
             }
         });
     }
@@ -435,12 +485,12 @@ public class StorageGUI {
         int maxQuantity = 999999999;
 
         if (quantityText.equals("Dưới 50")) {
-            maxQuantity = 50;
+            maxQuantity = 50 - 1;
         } else if (quantityText.equals("Từ 50 đến 200")) {
             minQuantity = 50;
             maxQuantity = 200;
         } else if (quantityText.equals("Trên 200")) {
-            minQuantity = 200;
+            minQuantity = 200 + 1;
         }
 
         int finalMinQuantity = minQuantity;
@@ -460,10 +510,10 @@ public class StorageGUI {
                 switch (searchType) {
                     case "Mã sản phẩm":
                         return rowId.contains(productInfo) && rowType.contains(productType)
-                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                                && rowQuantity >= finalMinQuantity && rowQuantity <= finalMaxQuantity;
                     case "Tên sản phẩm":
                         return rowName.contains(productInfo) && rowType.contains(productType)
-                                && rowQuantity > finalMinQuantity && rowQuantity <= finalMaxQuantity;
+                                && rowQuantity >= finalMinQuantity && rowQuantity <= finalMaxQuantity;
                     default:
                         return true;
                 }
@@ -507,6 +557,8 @@ public class StorageGUI {
         if (!employeeBUS.getTypeById(employeeId).equals("LNV02")) {
             btnConfirmImport.setVisible(false);
             btnConfirmExport.setVisible(false);
+        } else {
+            btnUpdateImport.setVisible(false);
         }
     }
 

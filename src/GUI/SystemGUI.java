@@ -74,7 +74,7 @@ public class SystemGUI {
             list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, storagePanel, supplierPanel, billPanel);
             panels.addAll(list);
             hidePanel(panels);
-            card.show(contentPanel, "Bill");
+            card.show(contentPanel, "Customer");
         } else if (employeeType.equals("LNV04")) {
             list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, billPanel, customerPanel,
                     supplierPanel);

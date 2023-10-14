@@ -86,11 +86,13 @@ public class ProductDAO {
         }
     }
 
-    public int updateProduct(ProductDTO product){
+    public int updateProduct(ProductDTO product) {
         try {
             Connection connection = MyConnection.getConnect();
-            String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?,`gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, `man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
+            String query = "update `san_pham` set `ma_hsp` = ?, `ten_sp` = ?, `gia` = ?, `cpu` = ?, `ram` = ?, `o_cung` = ?, " +
+                    "`man_hinh` = ?, `card_man_hinh` = ? where `ma_sp` = ?";
             PreparedStatement ptmt = connection.prepareStatement(query);
+
             ptmt.setString(1, product.getProductType());
             ptmt.setString(2, product.getProductName());
             ptmt.setInt(3, product.getProductPrice());
@@ -118,8 +120,55 @@ public class ProductDAO {
             ptmt.setString(1,productID);
 
             return ptmt.executeUpdate();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-        catch(Exception e){
+    }
+
+    public int updateProductQuantity(String productId, int quantity) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set so_luong = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, quantity);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int addPProductStorage(ProductDTO product) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `san_pham_kho` values (?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, product.getProductId());
+            ptmt.setInt(2, product.getProductQuantity());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateProductStorageQuantity(String productId, int quantity) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham_kho` set so_luong = ? where `ma_sp` = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setInt(1, quantity);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

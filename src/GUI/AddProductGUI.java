@@ -31,7 +31,7 @@ public class AddProductGUI {
         if (importDetailGUI != null) {
             txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initProductIdSuggestion);
         } else if (exportDetailGUI != null) {
-            txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initAvailableProductIdSuggestion);
+            txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initStorageProductIdSuggestion);
         }
         setComponent();
 
