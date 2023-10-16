@@ -86,14 +86,14 @@ public class EmployeeTypeDAO {
 //        }
 //    }
 
-    public int deleteEmployeeType(String maLoaiNhanVien) {
+    public int deleteEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
         MyConnection myConnection = new MyConnection();
 
         try {
             Connection connection = myConnection.getConnect();
             String sql = "delete from `loai_nhan_vien` where `ma_lnv` = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1,maLoaiNhanVien);
+            st.setString(1,employeeTypeDTO.getTypeId());
             return st.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

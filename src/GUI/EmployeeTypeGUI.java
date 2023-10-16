@@ -51,8 +51,9 @@ public class EmployeeTypeGUI {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = txtAccessId.getText();
-                if (employeeTypeBUS.deleteEmployeeType(id)) {
+                String maLoaiNhanVien = txtAccessId.getText();
+                String tenLoaiNhanVien = txtAccessName.getText();
+                if (employeeTypeBUS.deleteEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
                     resetData();
                 }
             }

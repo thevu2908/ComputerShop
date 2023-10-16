@@ -107,15 +107,16 @@ public class EmployeeTypeBUS {
         }
     }
 
-    public boolean deleteEmployeeType(String maLoaiNhanVien) {
+    public boolean deleteEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien) {
         if (maLoaiNhanVien.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn mã loại nhân viên cần xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn mã loại nhân viên " + maLoaiNhanVien + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
+        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
         if (choice == JOptionPane.YES_OPTION) {
-            if (employeeTypeDAO.deleteEmployeeType(maLoaiNhanVien) > 0) {
+            if (employeeTypeDAO.deleteEmployeeType(employeeType) > 0) {
                 JOptionPane.showMessageDialog(null, "Xoá mã loại nhân viên " + maLoaiNhanVien + " thành công");
                 return true;
             } else {
