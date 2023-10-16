@@ -136,6 +136,10 @@ public class EmployeeTypeBUS {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        if (!checkExistedEmployTypeId(maLoaiNhanVien)) {
+            JOptionPane.showMessageDialog(null, "Mã loại nhân viên không tồn tại để sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
         EmployeeTypeDTO employeeTypeDTO = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien,0);
 
