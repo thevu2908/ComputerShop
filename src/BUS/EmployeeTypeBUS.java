@@ -20,7 +20,7 @@ public class EmployeeTypeBUS {
         employeeTypeList = employeeTypeDAO.getData();
     }
 
-    public EmployeeTypeDTO getEmployeeById(String employeeTypeID) {
+    public EmployeeTypeDTO getEmployeeTypeById(String employeeTypeID) {
         loadData();
 
         for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList){

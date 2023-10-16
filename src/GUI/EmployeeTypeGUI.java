@@ -64,7 +64,7 @@ public class EmployeeTypeGUI {
 
                 if (rowSelected >= 0) {
                     String employeeTypeId = tblAccesses.getValueAt(rowSelected, 0).toString();
-                    EmployeeTypeDTO employeeType = employeeTypeBUS.getEmployeeById(employeeTypeId);
+                    EmployeeTypeDTO employeeType = employeeTypeBUS.getEmployeeTypeById(employeeTypeId);
 
                     txtAccessId.setText(employeeTypeId);
                     txtAccessName.setText(employeeType.getTypeName());
