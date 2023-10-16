@@ -112,7 +112,11 @@ public class EmployeeTypeBUS {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn mã loại nhân viên cần xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn mã loại nhân viên " + maLoaiNhanVien + " không ?", "Câu hỏi",
+        if (!checkExistedEmployTypeId(maLoaiNhanVien)) {
+            JOptionPane.showMessageDialog(null, "Mã loại nhân viên không tồn tại để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa mã loại nhân viên " + maLoaiNhanVien + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
         EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
         if (choice == JOptionPane.YES_OPTION) {
