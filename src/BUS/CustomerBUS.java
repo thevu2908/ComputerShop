@@ -19,7 +19,7 @@ public class CustomerBUS {
         customerList = customerDAO.getData();
     }
 
-    public CustomerDTO getCustomerByPhone(String phone){
+    public CustomerDTO getCustomerByPhone(String phone) {
         loadData();
 
         for (CustomerDTO customerDTO : customerList) {

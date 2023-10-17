@@ -65,8 +65,7 @@ public class SupplierDAO {
             ptmt.setString(4, Supplier.getSupplierId());
 
             return ptmt.executeUpdate();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -81,7 +80,7 @@ public class SupplierDAO {
             ptmt.setString(1,SupplierID);
 
             return ptmt.executeUpdate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

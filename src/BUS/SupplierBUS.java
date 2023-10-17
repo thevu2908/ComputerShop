@@ -1,7 +1,6 @@
 package BUS;
 
 import DAO.SupplierDAO;
-import DTO.ProductDTO;
 import DTO.SupplierDTO;
 import validation.Validate;
 
@@ -15,28 +14,34 @@ public class SupplierBUS {
 
     public SupplierBUS() {
         supplierDAO = new SupplierDAO();
-
     }
 
     public void loadData() {
         supplierList = supplierDAO.getData();
     }
 
-    public boolean addSupplier(String Id,String Name, String Address, String Phone){
-        if(Id.equals("") || Name.equals("") || Address.equals("") || Phone.equals("")){
-            JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ thông tin","Lỗi",JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        if(checkExistedId(Id)){
-            JOptionPane.showMessageDialog(null,"Mã nhà cung cấp đã tồn tại!","Lỗi",JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        if(!Validate.isValidPhone(Phone)){
-            JOptionPane.showMessageDialog(null,"Định dạng số điện thoại không đúng!","Lỗi",JOptionPane.ERROR_MESSAGE);
+    public boolean addSupplier(String Id, String Name, String Address, String Phone) {
+        if (Id.equals("") || Name.equals("") || Address.equals("") || Phone.equals("")){
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        SupplierDTO Supplier = new SupplierDTO(Id,Name,Address,Phone,0);
+        if (checkExistedId(Id)) {
+            JOptionPane.showMessageDialog(null, "Mã nhà cung cấp đã tồn tại!","Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!Validate.isValidPhone(Phone)) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (checkExistedPhone(Phone)) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại này đã thuộc nhà cung cấp khác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        SupplierDTO Supplier = new SupplierDTO(Id ,Name, Address, Phone, 0);
         if (supplierDAO.addSupplier(Supplier) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm nhà cung cấp thành công");
             return true;
@@ -68,8 +73,8 @@ public class SupplierBUS {
         return false;
     }
 
-    public boolean updateSupplier(String Id,String Name, String Address, String Phone){
-        if (Id.equals("")){
+    public boolean updateSupplier(String Id,String Name, String Address, String Phone) {
+        if (Id.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -80,16 +85,21 @@ public class SupplierBUS {
         }
 
         if (!Validate.isValidPhone(Phone)) {
-            JOptionPane.showMessageDialog(null, "Định dạng số điện thoại không đúng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         if (!checkExistedId(Id)) {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã hóa đơn này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã nhà cung cấp này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        SupplierDTO supplier = new SupplierDTO(Id,Name,Address,Phone,0);
+        if (!getIdByPhone(Phone).equals(Id) && checkExistedPhone(Phone)) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại này đã thuộc nhà cung cấp khác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        SupplierDTO supplier = new SupplierDTO(Id, Name, Address, Phone, 0);
 
         if (supplierDAO.updateSupplier(supplier) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin nhà cung cáp thành công");
@@ -99,9 +109,6 @@ public class SupplierBUS {
             return false;
         }
     }
-
-
-
 
     public String getNameById(String id) {
         loadData();
@@ -115,7 +122,7 @@ public class SupplierBUS {
         return "";
     }
 
-    public SupplierDTO getSupplierById(String id){
+    public SupplierDTO getSupplierById(String id) {
         loadData();
 
         for (SupplierDTO supplierDTO : supplierList) {
@@ -127,10 +134,34 @@ public class SupplierBUS {
         return null;
     }
 
+    public String getIdByPhone(String phone) {
+        loadData();
+
+        for (SupplierDTO supplierDTO : supplierList) {
+            if (supplierDTO.getSupplierPhone().equals(phone)) {
+                return supplierDTO.getSupplierId();
+            }
+        }
+
+        return "";
+    }
+
     public String createNewSupplierID() {
         loadData();
         int id = supplierList.size() + 1;
-        return "NCC" + String.format("%03d", id);
+        return "NCC" + String.format("%02d", id);
+    }
+
+    public boolean checkExistedPhone(String phone) {
+        loadData();
+
+        for (SupplierDTO supplierDTO : supplierList) {
+            if (supplierDTO.getSupplierPhone().equals(phone)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean checkExistedId(String id) {
@@ -157,7 +188,6 @@ public class SupplierBUS {
 
         return list;
     }
-
 
     public void renderToSupplierTable(DefaultTableModel model) {
         model.setRowCount(0);

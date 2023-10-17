@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import BUS.SupplierBUS;
-import DTO.ProductDTO;
 import DTO.SupplierDTO;
 public class SupplierGUI {
     private DefaultTableModel supplierModel;
@@ -31,13 +30,13 @@ public class SupplierGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = txtSupplierId.getText();
-                String name = txtSuppplierName.getText();
+                String name = txtSupplierName.getText();
                 String address = txtSupplierAddress.getText();
                 String phone = txtSupplierPhone.getText();
 
-                if(supplierBUS.addSupplier(id,name,address,phone))
+                if (supplierBUS.addSupplier(id, name, address, phone)) {
                     reset();
-
+                }
             }
         });
 
@@ -51,7 +50,7 @@ public class SupplierGUI {
                     SupplierDTO supplier = supplierBUS.getSupplierById(SupplierId);
 
                     txtSupplierId.setText(supplier.getSupplierId());
-                    txtSuppplierName.setText(supplier.getSupplierName());
+                    txtSupplierName.setText(supplier.getSupplierName());
                     txtSupplierAddress.setText(supplier.getSupplierAddress());
                     txtSupplierPhone.setText(supplier.getSupplierPhone());
                 }
@@ -69,12 +68,13 @@ public class SupplierGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = txtSupplierId.getText();
-                String name = txtSuppplierName.getText();
+                String name = txtSupplierName.getText();
                 String address = txtSupplierAddress.getText();
                 String phone = txtSupplierPhone.getText();
 
-                if (supplierBUS.updateSupplier(id,name,address,phone))
+                if (supplierBUS.updateSupplier(id, name, address, phone)) {
                     reset();
+                }
             }
         });
 
@@ -82,8 +82,9 @@ public class SupplierGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = txtSupplierId.getText();
-                if(supplierBUS.deleteSupplier(id))
+                if (supplierBUS.deleteSupplier(id)) {
                     reset();
+                }
             }
         });
 
@@ -128,7 +129,21 @@ public class SupplierGUI {
         sorter.setRowFilter(filter);
     }
 
-    public void initTable(){
+    public void reset() {
+        txtSupplierId.setText("");
+        txtSupplierName.setText("");
+        txtSupplierAddress.setText("");
+        txtSupplierPhone.setText("");
+        txtSearch.setText("");
+        cbxSearchType.setSelectedIndex(0);
+        initTableData();
+    }
+
+    public void initTableData() {
+        supplierBUS.renderToSupplierTable(supplierModel);
+    }
+
+    public void initTable() {
         supplierModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -143,23 +158,9 @@ public class SupplierGUI {
 
         DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
         centerRender.setHorizontalAlignment(JLabel.CENTER);
-        for(int i = 0; i< tblSuppliers.getColumnCount(); i++){
+        for(int i = 0; i < tblSuppliers.getColumnCount(); i++){
             tblSuppliers.getColumnModel().getColumn(i).setCellRenderer(centerRender);
         }
-    }
-
-    public void reset() {
-        txtSupplierId.setText("");
-        txtSuppplierName.setText("");
-        txtSupplierAddress.setText("");
-        txtSupplierPhone.setText("");
-        txtSearch.setText("");
-        cbxSearchType.setSelectedIndex(0);
-        initTableData();
-    }
-
-    public void initTableData() {
-        supplierBUS.renderToSupplierTable(supplierModel);
     }
 
     public JPanel getMainPanel() {
@@ -170,7 +171,7 @@ public class SupplierGUI {
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
     private JTextField txtSupplierId;
-    private JTextField txtSuppplierName;
+    private JTextField txtSupplierName;
     private JTextField txtSupplierPhone;
     private JTextField txtSupplierAddress;
     private JPanel mainPanel;

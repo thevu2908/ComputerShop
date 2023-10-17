@@ -7,7 +7,7 @@ public class BillDetailDTO {
 
     public BillDetailDTO() {
     }
-
+    
     public BillDetailDTO(String billId, String productId, int quantity) {
         this.billId = billId;
         this.productId = productId;
