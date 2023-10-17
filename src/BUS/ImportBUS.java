@@ -65,13 +65,46 @@ public class ImportBUS {
             return false;
         }
 
-        if (importDAO.updateImportSupplier(importId, supplierId) > 0) {
+        ImportDTO importDTO = getImportById(importId);
+
+        if (importDTO != null && importDAO.updateImport(importDTO) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thành công");
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    public boolean confirmImport(String importId) {
+        if (getStatusById(importId).equals("Đã duyệt")) {
+            JOptionPane.showMessageDialog(null, "Phiếu nhập này đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        ImportDTO importDTO = getImportById(importId);
+
+        if (importDTO != null) {
+            importDTO.setImportStatus("Đã duyệt");
+        }
+
+        if (importDTO != null && importDAO.updateImport(importDTO) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ImportDTO getImportById(String id) {
+        loadData();
+
+        for (ImportDTO importDTO : importList) {
+            if (importDTO.getImportId().equals(id)) {
+                return importDTO;
+            }
+        }
+
+        return null;
     }
 
     public String getStatusById(String importId) {

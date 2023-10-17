@@ -1,23 +1,191 @@
 package GUI;
 
 import BUS.EmployeeBUS;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import BUS.EmployeeTypeBUS;
+import DTO.EmployeeDTO;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
 
 public class EmployeeGUI {
     private DefaultTableModel employeeModel;
     private EmployeeBUS employeeBUS;
+    private EmployeeTypeBUS employeeTypeBUS;
+    private TableRowSorter<DefaultTableModel> employeeSorter;
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
+        employeeBUS = new EmployeeBUS();
+        employeeTypeBUS = new EmployeeTypeBUS();
         intiDateChooser();
         initTable();
         initTableData();
+        initComboBoxData();
+
+        btnCreateId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtEmpId.setText(employeeBUS.createNewEmployeeID());}
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                String name = txtEmpName.getText();
+                String gender = cbxEmpGender.getSelectedItem().toString();
+                String dob = ((JTextField) employeeDOB.getDateEditor().getUiComponent()).getText();
+                String phone = txtEmpPhone.getText();
+                String address = txtEmpAddress.getText();
+                String email = txtEmpEmail.getText();
+                String password = txtEmpPassword.getText();
+                String type = employeeTypeBUS.getIDByTypeName(cbxEmpType.getSelectedItem().toString());
+
+                if (employeeBUS.addEmployee(id, name, gender, dob, phone, address, email, password, type)) {
+                    resetData();
+                }
+            }
+        });
+
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                String name = txtEmpName.getText();
+                String gender = cbxEmpGender.getSelectedItem().toString();
+                String dob = ((JTextField) employeeDOB.getDateEditor().getUiComponent()).getText();
+                String phone = txtEmpPhone.getText();
+                String address = txtEmpAddress.getText();
+                String email = txtEmpEmail.getText();
+                String password = txtEmpPassword.getText();
+                String type = employeeTypeBUS.getIDByTypeName(cbxEmpType.getSelectedItem().toString());
+
+                if (employeeBUS.updateEmployee(id, name, gender, dob, phone, address, email, password, type)) {
+                    resetData();
+                }
+            }
+        });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetData();
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtEmpId.getText();
+                if (employeeBUS.deleteEmployee(id)) {
+                    resetData();
+                }
+            }
+        });
+
+        tblEmployees.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowSelected = tblEmployees.getSelectedRow();
+
+                if (rowSelected >= 0) {
+                    String employeeId = tblEmployees.getValueAt(rowSelected, 0).toString();
+                    EmployeeDTO employee = employeeBUS.getEmployeeById(employeeId);
+
+                    txtEmpId.setText(employeeId);
+                    txtEmpName.setText(employee.getEmployeeName());
+                    cbxEmpGender.setSelectedItem(employee.getEmployeeGender());
+                    String dob = employee.getEmployeeDOB();
+                    try {
+                        employeeDOB.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(dob));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    txtEmpPhone.setText(employee.getEmployeePhone());
+                    txtEmpAddress.setText(employee.getEmployeeAddress());
+                    txtEmpEmail.setText(employee.getEmployeeEmail());
+                    txtEmpPassword.setText(employee.getEmployeePassword());
+                    cbxEmpType.setSelectedItem(employeeTypeBUS.getTypeNameById(employee.getEmployeeType()));
+                }
+            }
+        });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filterEmployee();
+            }
+        });
+
+        cbxFilterEmpType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterEmployee();
+            }
+        });
+    }
+
+    public void resetData() {
+        txtEmpId.setText("");
+        txtEmpName.setText("");
+        cbxEmpGender.setSelectedIndex(0);
+        employeeDOB.setDate(null);
+        txtEmpPhone.setText("");
+        txtEmpAddress.setText("");
+        txtEmpEmail.setText("");
+        txtEmpPassword.setText("");
+        cbxEmpType.setSelectedIndex(0);
+        initTableData();
+    }
+
+    public void filterEmployee() {
+        String searchType = cbxSearchType.getSelectedItem().toString();
+        String employeeInfo = txtSearch.getText().toLowerCase();
+
+        String employeeType = cbxFilterEmpType.getSelectedItem() == null
+                || cbxFilterEmpType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxFilterEmpType.getSelectedItem().toString().toLowerCase();
+
+        employeeSorter = new TableRowSorter<>(employeeModel);
+        tblEmployees.setRowSorter(employeeSorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+                String rowType = entry.getStringValue(2).toLowerCase();
+                String rowGender = entry.getStringValue(3).toLowerCase();
+                String rowPhone = entry.getStringValue(4).toLowerCase();
+
+                switch (searchType) {
+                    case "Mã nhân viên":
+                        return rowId.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Họ và Tên":
+                        return rowName.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Giới tính":
+                        return rowGender.contains(employeeInfo) && rowType.contains(employeeType);
+                    case "Số điện thoại":
+                        return rowPhone.contains(employeeInfo) && rowType.contains(employeeType);
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        employeeSorter.setRowFilter(filter);
+    }
+
+    public void initComboBoxData() {
+        employeeTypeBUS.renderToComboBox(cbxFilterEmpType, "filter");
+        employeeTypeBUS.renderToComboBox(cbxEmpType, "");
     }
 
     public void initTableData() {
@@ -46,6 +214,7 @@ public class EmployeeGUI {
 
     public void intiDateChooser() {
         employeeDOB = new JDateChooser();
+        employeeDOB.setDateFormatString("dd-MM-yyyy");
         datePanel.add(employeeDOB);
     }
 

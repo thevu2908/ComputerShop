@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ImportDetailDAO;
 import DTO.ImportDetailDTO;
+import DTO.ProductDTO;
 import validation.Validate;
 
 import javax.swing.*;
@@ -89,6 +90,43 @@ public class ImportDetailBUS {
         }
     }
 
+    public boolean confirmImport(String importId) {
+        if (importBUS.confirmImport(importId) && increaseStorageProductQuantity(importId)) {
+            JOptionPane.showMessageDialog(null, "Duyệt phiếu nhập thành công");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean increaseStorageProductQuantity(String importId) {
+        loadData();
+        boolean flag = false;
+
+        for (ImportDetailDTO importDetailDTO : importDetailList) {
+            if (importDetailDTO.getImportId().equals(importId)) {
+                ProductDTO product = productBUS.getProductStorageById(importDetailDTO.getProductId());
+
+                if (product != null) {
+                    if (productBUS.updateProductStorageQuantity(importDetailDTO.getProductId(),
+                            product.getProductQuantity() + importDetailDTO.getQuantity())) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    if (productBUS.addProductStorage(importDetailDTO.getProductId(), importDetailDTO.getQuantity())) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                }
+            }
+        }
+
+        return flag;
+    }
+
     public ImportDetailDTO getImportDetailById(String importId, String productId) {
         loadData();
 
@@ -99,18 +137,6 @@ public class ImportDetailBUS {
         }
 
         return null;
-    }
-
-    public boolean checkExistedImportDetail(String importId, String productId) {
-        loadData();
-
-        for (ImportDetailDTO importDetailDTO : importDetailList) {
-            if (importDetailDTO.getImportId().equals(importId) && importDetailDTO.getProductId().equals(productId)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public int calculateTotalPrice(String importId) {

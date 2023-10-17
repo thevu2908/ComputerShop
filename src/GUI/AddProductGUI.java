@@ -28,7 +28,11 @@ public class AddProductGUI {
         importDetailBUS = new ImportDetailBUS();
         exportDetailBUS = new ExportDetailBUS();
 
-        txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initProductIdSuggestion);
+        if (importDetailGUI != null) {
+            txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initProductIdSuggestion);
+        } else if (exportDetailGUI != null) {
+            txtProductId = AutoSuggestComboBox.createAutoSuggest(cbxProductId, 0, productBUS::initStorageProductIdSuggestion);
+        }
         setComponent();
 
         cbxProductId.addActionListener(new ActionListener() {
@@ -83,6 +87,7 @@ public class AddProductGUI {
 
     public void setComponent() {
         if (exportDetailGUI != null) {
+            lblProductPrice.setVisible(false);
             txtProductPrice.setVisible(false);
         }
     }
@@ -108,4 +113,5 @@ public class AddProductGUI {
     private JButton btnAdd;
     private JButton btnCancel;
     private JComboBox cbxProductId;
+    private JLabel lblProductPrice;
 }

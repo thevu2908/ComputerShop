@@ -40,19 +40,6 @@ public class ProductDTO {
         this.productQuantity = productQuantity;
     }
 
-    public ProductDTO(String productId, String productType, String productName, int productPrice, String productCPU,
-                      String productRAM, String productDisk, String productScreen, String productScreenCard){
-        this.productId = productId;
-        this.productType = productType;
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productCPU = productCPU;
-        this.productRAM = productRAM;
-        this.productDisk = productDisk;
-        this.productScreen = productScreen;
-        this.productScreenCard = productScreenCard;
-    }
-
     public String getProductId() {
         return productId;
     }
@@ -140,6 +127,4 @@ public class ProductDTO {
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
-
-
 }

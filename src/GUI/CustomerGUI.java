@@ -1,6 +1,6 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import BUS.CustomerBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -10,13 +10,20 @@ import java.awt.*;
 
 public class CustomerGUI {
     private DefaultTableModel model;
+    private CustomerBUS customerBUS;
 
     public CustomerGUI() {
+        customerBUS = new CustomerBUS();
         initDateChooser();
-        initProductTable();
+        initTable();
+        initTableData();
     }
 
-    public void initProductTable() {
+    public void initTableData() {
+        customerBUS.renderToTable(model);
+    }
+
+    public void initTable() {
         model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -24,7 +31,7 @@ public class CustomerGUI {
             }
         };
 
-        String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Email", "Điểm tích lũy"};
+        String[] cols = {"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Giới tính", "Điểm tích lũy"};
         model.setColumnIdentifiers(cols);
         tblCustomers.setModel(model);
         tblCustomers.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
@@ -38,6 +45,7 @@ public class CustomerGUI {
 
     public void initDateChooser() {
         customerDOB = new JDateChooser();
+        customerDOB.setDateFormatString("dd-MM-yyyy");
         customerDOB.setPreferredSize(new Dimension(-1, 30));
         datePanel.add(customerDOB);
     }
@@ -66,5 +74,6 @@ public class CustomerGUI {
     private JPanel datePanel;
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
+    private JButton btnCreateNewId;
     private JDateChooser customerDOB;
 }

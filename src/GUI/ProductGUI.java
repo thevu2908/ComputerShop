@@ -5,8 +5,6 @@ import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -24,7 +22,7 @@ public class ProductGUI {
         productTypeBUS = new ProductTypeBUS();
         initTable();
         initTableData();
-        initComboboxTypeData();
+        initComboBoxTypeData();
 
         btnCreateId.addActionListener(new ActionListener() {
             @Override
@@ -94,8 +92,7 @@ public class ProductGUI {
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if
-                (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                if (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
                     reset();
                 }
             }
@@ -118,7 +115,14 @@ public class ProductGUI {
             }
         });
 
-        cbxPrice.addActionListener(new ActionListener() {
+        cbxFilterPrice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterProduct();
+            }
+        });
+
+        cbxFilterProductType.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filterProduct();
@@ -126,8 +130,12 @@ public class ProductGUI {
         });
     }
 
-    public void initComboboxTypeData(){
-        productTypeBUS.renderToCombobox(cbxProductType);
+    public void initComboBoxTypeData(){
+        cbxProductType.removeAllItems();
+        productTypeBUS.renderToComboBox(cbxProductType);
+        cbxFilterProductType.removeAllItems();
+        cbxFilterProductType.addItem("Tất cả");
+        productTypeBUS.renderToComboBox(cbxFilterProductType);
     }
 
     public void initTableData() {
@@ -166,15 +174,21 @@ public class ProductGUI {
         txtSearch.setText("");
         cbxProductType.setSelectedIndex(0);
         cbSearchType.setSelectedIndex(0);
-        cbxPrice.setSelectedIndex(0);
+        cbxFilterPrice.setSelectedIndex(0);
+        cbxFilterProductType.setSelectedIndex(0);
         productSorter.setRowFilter(null);
     }
 
     public void filterProduct() {
         String searchType = cbSearchType.getSelectedItem().toString();
         String productInfo = txtSearch.getText().toLowerCase();
-        int productPrice = cbxPrice.getSelectedIndex();
 
+        String productType = cbxFilterProductType.getSelectedItem() == null
+                || cbxFilterProductType.getSelectedItem().toString().equals("Tất cả")
+                ? ""
+                : cbxFilterProductType.getSelectedItem().toString().toLowerCase();
+
+        int productPrice = cbxFilterPrice.getSelectedIndex();
         int minPrice = 0;
         int maxPrice = 1999999999;
 
@@ -206,13 +220,10 @@ public class ProductGUI {
 
                 switch (searchType) {
                     case "Mã sản phẩm":
-                        return rowId.contains(productInfo)
+                        return rowId.contains(productInfo) && rowType.contains(productType)
                                 && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
                     case "Tên sản phẩm":
-                        return rowName.contains(productInfo)
-                                && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
-                    case "Hãng sản phẩm":
-                        return rowType.contains(productInfo)
+                        return rowName.contains(productInfo) && rowType.contains(productType)
                                 && rowPrice >= finalMinPrice && rowPrice <= finalMaxPrice;
                     default:
                         return true;
@@ -248,6 +259,6 @@ public class ProductGUI {
     private JTextField txtRAM;
     private JTextField txtScreen;
     private JTextField txtScreenCard;
-    private JComboBox cbxPrice;
-    private JPanel cbxFilterPrice;
+    private JComboBox cbxFilterPrice;
+    private JComboBox cbxFilterProductType;
 }

@@ -2,6 +2,9 @@ package validation;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -23,6 +26,25 @@ public class Validate {
             Date d = sdf.parse(date);
             return true;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isValidDOB(String date) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            LocalDate dob = LocalDate.parse(date, dateFormatter);
+            LocalDate currentDate = LocalDate.now();
+
+            Period age = Period.between(dob, currentDate);
+
+           if (age.getYears() < 18) {
+               return false;
+           }
+
+           return true;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

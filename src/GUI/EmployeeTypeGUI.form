@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.AccessGUI">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.EmployeeTypeGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="12" bottom="10" right="12"/>
     <constraints>
@@ -46,7 +46,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="32b07" class="javax.swing.JTable" binding="tblDSQuyen">
+                  <component id="32b07" class="javax.swing.JTable" binding="tblAccesses">
                     <constraints/>
                     <properties/>
                   </component>
@@ -78,7 +78,7 @@
                       <text value="Mã quyền: "/>
                     </properties>
                   </component>
-                  <component id="7d37c" class="javax.swing.JTextField" binding="txtMaQuyen">
+                  <component id="7d37c" class="javax.swing.JTextField" binding="txtAccessId">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -96,7 +96,7 @@
                       <text value="Tên quyền: "/>
                     </properties>
                   </component>
-                  <component id="2b696" class="javax.swing.JTextField" binding="txtTenQuyen">
+                  <component id="2b696" class="javax.swing.JTextField" binding="txtAccessName">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -122,7 +122,7 @@
                     <properties/>
                     <border type="etched" title="Tìm kiếm theo"/>
                     <children>
-                      <component id="13222" class="javax.swing.JComboBox" binding="cbxKieuTimKiem">
+                      <component id="13222" class="javax.swing.JComboBox" binding="cbxSearchType">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -133,7 +133,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="1d947" class="javax.swing.JTextField" binding="txtTimKiem">
+                      <component id="1d947" class="javax.swing.JTextField" binding="txtSearch">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -151,7 +151,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="7efaa" class="javax.swing.JButton" binding="btnThem">
+                      <component id="7efaa" class="javax.swing.JButton" binding="btnAdd">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -163,7 +163,7 @@
                           <text value="Thêm"/>
                         </properties>
                       </component>
-                      <component id="49f5" class="javax.swing.JButton" binding="btnTaoMoi">
+                      <component id="49f5" class="javax.swing.JButton" binding="btnCreateNewId">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -175,7 +175,7 @@
                           <text value="Tạo mã mới"/>
                         </properties>
                       </component>
-                      <component id="4c0f1" class="javax.swing.JButton" binding="btnSua">
+                      <component id="4c0f1" class="javax.swing.JButton" binding="btnUpdate">
                         <constraints>
                           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -187,7 +187,7 @@
                           <text value="Sửa"/>
                         </properties>
                       </component>
-                      <component id="a7edb" class="javax.swing.JButton" binding="btnXoa">
+                      <component id="a7edb" class="javax.swing.JButton" binding="btnDelete">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>
@@ -211,7 +211,7 @@
                           <text value="Reset"/>
                         </properties>
                       </component>
-                      <component id="85b53" class="javax.swing.JButton" binding="btnPhanQuyen">
+                      <component id="85b53" class="javax.swing.JButton" binding="btnGiveAccess">
                         <constraints>
                           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="35"/>

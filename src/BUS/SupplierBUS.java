@@ -1,8 +1,10 @@
 package BUS;
 
 import DAO.SupplierDAO;
+import DTO.ProductDTO;
 import DTO.SupplierDTO;
 
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class SupplierBUS {
@@ -53,5 +55,24 @@ public class SupplierBUS {
         }
 
         return list;
+    }
+
+
+    public void renderToSupplierTable(DefaultTableModel model) {
+        model.setRowCount(0);
+        loadData();
+
+        for (SupplierDTO supplierDTO : supplierList) {
+            if (supplierDTO.getIsDeleted() == 0) {
+                model.addRow(new Object[]{
+                        supplierDTO.getSupplierId(),
+                        supplierDTO.getSupplierName(),
+                        supplierDTO.getSupplierPhone(),
+                        supplierDTO.getSupplierAddress()
+                });
+            }
+        }
+
+        model.fireTableDataChanged();
     }
 }

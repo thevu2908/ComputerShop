@@ -3,6 +3,8 @@ package BUS;
 import DAO.EmployeeTypeDAO;
 import DTO.EmployeeTypeDTO;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class EmployeeTypeBUS {
@@ -11,7 +13,6 @@ public class EmployeeTypeBUS {
 
     public EmployeeTypeBUS() {
         employeeTypeDAO = new EmployeeTypeDAO();
-        loadData();
     }
 
     public void loadData() {
@@ -28,5 +29,48 @@ public class EmployeeTypeBUS {
         }
 
         return "";
+    }
+
+    public String getIDByTypeName(String name)  {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getTypeName().equals(name)) {
+                return employeeTypeDTO.getTypeId();
+            }
+        }
+
+        return "";
+    }
+
+    public void renderToComboBox(JComboBox cbx, String type) {
+        loadData();
+        cbx.removeAllItems();
+
+        if (type.equals("filter")) {
+            cbx.addItem("Tất cả");
+        }
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
+                cbx.addItem(employeeTypeDTO.getTypeName());
+            }
+        }
+    }
+
+    public void renderToTable(DefaultTableModel model) {
+        loadData();
+        model.setRowCount(0);
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getIsDeleted() == 0 && !employeeTypeDTO.getTypeId().equals("LNV01")) {
+                model.addRow(new Object[]{
+                        employeeTypeDTO.getTypeId(),
+                        employeeTypeDTO.getTypeName()
+                });
+            }
+        }
+
+        model.fireTableDataChanged();
     }
 }

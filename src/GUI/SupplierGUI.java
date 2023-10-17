@@ -5,11 +5,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import BUS.SupplierBUS;
 public class SupplierGUI {
     private DefaultTableModel supplierModel;
+    private SupplierBUS supplierBUS;
 
     public SupplierGUI() {
+        supplierBUS = new SupplierBUS();
         initTable();
+        initTableData();
     }
 
     public void initTable(){
@@ -30,6 +34,10 @@ public class SupplierGUI {
         for(int i = 0; i< tblSuppliers.getColumnCount(); i++){
             tblSuppliers.getColumnModel().getColumn(i).setCellRenderer(centerRender);
         }
+    }
+
+    public void initTableData() {
+        supplierBUS.renderToSupplierTable(supplierModel);
     }
 
     public JPanel getMainPanel() {
