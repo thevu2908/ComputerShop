@@ -63,6 +63,11 @@ public class ProductBUS {
             return false;
         }
 
+        if (checkExistedProductId(id) == false) {
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá sản phẩm " + id + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
 
@@ -79,7 +84,7 @@ public class ProductBUS {
         return false;
     }
 
-    public boolean fixProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+    public boolean updateProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
                               String screen, String screenCard) {
         if (id.equals("")){
             JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);

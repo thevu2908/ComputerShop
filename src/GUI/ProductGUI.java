@@ -95,7 +95,7 @@ public class ProductGUI {
                 String screenCard = txtScreenCard.getText();
 
                 if
-                (productBUS.fixProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
                     reset();
                 }
             }
