@@ -239,7 +239,7 @@ public class ProductBUS {
         return 0;
     }
 
-    public ArrayList<String> initStorageProductIdSuggestion(int col) {
+    public ArrayList<String> initProductStorageIdSuggestion(int col) {
         loadProductStorageData();;
         ArrayList<String> list = new ArrayList<>();
 

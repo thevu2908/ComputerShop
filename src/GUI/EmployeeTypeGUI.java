@@ -1,7 +1,6 @@
 package GUI;
 
 import BUS.EmployeeTypeBUS;
-import DTO.EmployeeDTO;
 import DTO.EmployeeTypeDTO;
 
 import javax.swing.*;
@@ -12,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class EmployeeTypeGUI {
     private DefaultTableModel accessModel;
@@ -36,28 +33,6 @@ public class EmployeeTypeGUI {
                 String maLoaiNhanVien = txtAccessId.getText();
                 String tenLoaiNhanVien = txtAccessName.getText();
                 if (employeeTypeBUS.addEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
-                    resetData();
-                }
-            }
-        });
-
-        btnUpdate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String maLoaiNhanVien = txtAccessId.getText();
-                String tenLoaiNhanVien = txtAccessName.getText();
-                if (employeeTypeBUS.updateEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
-                    resetData();
-                }
-            }
-        });
-
-        btnDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String maLoaiNhanVien = txtAccessId.getText();
-                String tenLoaiNhanVien = txtAccessName.getText();
-                if (employeeTypeBUS.deleteEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
                     resetData();
                 }
             }
@@ -130,8 +105,5 @@ public class EmployeeTypeGUI {
     private JTextField txtSearch;
     private JButton btnCreateNewId;
     private JButton btnAdd;
-    private JButton btnDelete;
-    private JButton btnUpdate;
     private JButton btnReset;
-    private JButton btnGiveAccess;
 }
