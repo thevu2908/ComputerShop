@@ -6,6 +6,14 @@ public class EmployeeTypeDTO {
     private int isDeleted;
 
     public EmployeeTypeDTO() {
+
+    }
+    public EmployeeTypeDTO(String typeName) {
+        this.typeName = typeName;
+    }
+    public EmployeeTypeDTO(String typeId, String typeName) {
+        this.typeId = typeId;
+        this.typeName = typeName;
     }
 
     public EmployeeTypeDTO(String typeId, String typeName, int isDeleted) {
@@ -36,5 +44,10 @@ public class EmployeeTypeDTO {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return this.typeId + " " + this.typeName + " " + this.isDeleted;
     }
 }

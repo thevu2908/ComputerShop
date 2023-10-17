@@ -1,22 +1,97 @@
 package GUI;
 
 import BUS.EmployeeTypeBUS;
+import DTO.EmployeeDTO;
+import DTO.EmployeeTypeDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class EmployeeTypeGUI {
     private DefaultTableModel accessModel;
     private EmployeeTypeBUS employeeTypeBUS;
-
     public EmployeeTypeGUI() {
         employeeTypeBUS = new EmployeeTypeBUS();
         initTable();
         initTableData();
+
+        btnCreateNewId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtAccessId.setText(employeeTypeBUS.createNewEmployeeTypeId());
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String maLoaiNhanVien = txtAccessId.getText();
+                String tenLoaiNhanVien = txtAccessName.getText();
+                if (employeeTypeBUS.addEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
+                    resetData();
+                }
+            }
+        });
+
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String maLoaiNhanVien = txtAccessId.getText();
+                String tenLoaiNhanVien = txtAccessName.getText();
+                if (employeeTypeBUS.updateEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
+                    resetData();
+                }
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String maLoaiNhanVien = txtAccessId.getText();
+                String tenLoaiNhanVien = txtAccessName.getText();
+                if (employeeTypeBUS.deleteEmployeeType(maLoaiNhanVien, tenLoaiNhanVien)) {
+                    resetData();
+                }
+            }
+        });
+
+        tblAccesses.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowSelected = tblAccesses.getSelectedRow();
+
+                if (rowSelected >= 0) {
+                    String employeeTypeId = tblAccesses.getValueAt(rowSelected, 0).toString();
+                    EmployeeTypeDTO employeeType = employeeTypeBUS.getEmployeeTypeById(employeeTypeId);
+
+                    txtAccessId.setText(employeeTypeId);
+                    txtAccessName.setText(employeeType.getTypeName());
+                }
+            }
+        });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetData();
+            }
+        });
     }
 
+    public void resetData() {
+        txtAccessId.setText("");
+        txtAccessName.setText("");
+        initTableData();
+    }
+    
     public void initTableData() {
         employeeTypeBUS.renderToTable(accessModel);
     }
