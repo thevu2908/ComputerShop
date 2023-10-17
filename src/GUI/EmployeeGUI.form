@@ -263,7 +263,7 @@
                             <properties>
                               <model>
                                 <item value="Mã nhân viên"/>
-                                <item value="Họ và Tên"/>
+                                <item value="Tên nhân viên"/>
                                 <item value="Giới tính"/>
                                 <item value="Số điện thoại"/>
                               </model>
@@ -280,16 +280,6 @@
                           </component>
                         </children>
                       </grid>
-                      <component id="a388f" class="javax.swing.JComboBox" binding="cbxFilterEmpType">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="30"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <model/>
-                        </properties>
-                      </component>
                       <grid id="43375" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="12" left="0" bottom="12" right="0"/>
                         <constraints>
@@ -356,6 +346,26 @@
                               <background color="-11107086"/>
                               <foreground color="-1"/>
                               <text value="Tạo mã mới"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="1f8cd" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="etched" title="Loại nhân viên"/>
+                        <children>
+                          <component id="a388f" class="javax.swing.JComboBox" binding="cbxFilterEmpType">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="-1" height="30"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <model/>
                             </properties>
                           </component>
                         </children>

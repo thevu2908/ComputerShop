@@ -18,8 +18,6 @@ public class EmployeeGUI {
     private DefaultTableModel employeeModel;
     private EmployeeBUS employeeBUS;
     private EmployeeTypeBUS employeeTypeBUS;
-
-
     private TableRowSorter<DefaultTableModel> employeeSorter;
 
     public EmployeeGUI() {
@@ -30,7 +28,6 @@ public class EmployeeGUI {
         initTable();
         initTableData();
         initComboBoxData();
-        initComboBoxTypeData();
 
         btnCreateId.addActionListener(new ActionListener() {
             @Override
@@ -146,14 +143,10 @@ public class EmployeeGUI {
         txtEmpEmail.setText("");
         txtEmpPassword.setText("");
         cbxEmpType.setSelectedIndex(0);
+        employeeSorter.setRowFilter(null);
         initTableData();
     }
 
-
-    public void initComboBoxData() {
-        employeeTypeBUS.renderToComboBox(cbxFilterEmpType, "filter");
-        employeeTypeBUS.renderToComboBox(cbxEmpType, "");
-    }
     public void filterEmployee() {
         String searchType = cbxSearchType.getSelectedItem().toString();
         String employeeInfo = txtSearch.getText().toLowerCase();
@@ -163,21 +156,17 @@ public class EmployeeGUI {
                 ? ""
                 : cbxFilterEmpType.getSelectedItem().toString().toLowerCase();
 
-
-
         employeeSorter = new TableRowSorter<>(employeeModel);
         tblEmployees.setRowSorter(employeeSorter);
 
         RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
             @Override
             public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
-
                 String rowId = entry.getStringValue(0).toLowerCase();
                 String rowName = entry.getStringValue(1).toLowerCase();
                 String rowType = entry.getStringValue(2).toLowerCase();
                 String rowGender = entry.getStringValue(3).toLowerCase();
                 String rowNbrPh = entry.getStringValue(4).toLowerCase();
-
 
                 switch (searchType) {
                     case "Mã nhân viên":
@@ -185,7 +174,7 @@ public class EmployeeGUI {
                     case "Họ và Tên":
                         return rowName.contains(employeeInfo) && rowType.contains(employeeType);
                     case "Giới tính":
-                        return rowGender.contains(employeeInfo) && rowType.contains(employeeType);
+                        return rowGender.equals(employeeInfo) && rowType.contains(employeeType);
                     case "Số điện thoại":
                         return rowNbrPh.contains(employeeInfo) && rowType.contains(employeeType);
                     default:
@@ -197,12 +186,11 @@ public class EmployeeGUI {
         employeeSorter.setRowFilter(filter);
     }
 
-    public void initComboBoxTypeData(){
-        cbxEmpType.removeAllItems();
-        employeeTypeBUS.renderToComboBox(cbxEmpType,"");
-        cbxFilterEmpType.removeAllItems();
-        employeeTypeBUS.renderToComboBox(cbxFilterEmpType,"");
+    public void initComboBoxData() {
+        employeeTypeBUS.renderToComboBox(cbxFilterEmpType, "filter");
+        employeeTypeBUS.renderToComboBox(cbxEmpType, "");
     }
+
     public void initTableData() {
         employeeBUS.renderToTable(employeeModel);
     }
