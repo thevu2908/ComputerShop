@@ -22,12 +22,14 @@ public class EmployeeTypeGUI {
         employeeTypeBUS = new EmployeeTypeBUS();
         initTable();
         initTableData();
+
         btnCreateNewId.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtAccessId.setText(employeeTypeBUS.createNewEmployeeTypeId());
             }
         });
+
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,6 +40,7 @@ public class EmployeeTypeGUI {
                 }
             }
         });
+
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +51,7 @@ public class EmployeeTypeGUI {
                 }
             }
         });
+
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +62,7 @@ public class EmployeeTypeGUI {
                 }
             }
         });
+
         tblAccesses.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -72,6 +77,7 @@ public class EmployeeTypeGUI {
                 }
             }
         });
+
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,11 +85,13 @@ public class EmployeeTypeGUI {
             }
         });
     }
+
     public void resetData() {
         txtAccessId.setText("");
         txtAccessName.setText("");
         initTableData();
     }
+    
     public void initTableData() {
         employeeTypeBUS.renderToTable(accessModel);
     }
