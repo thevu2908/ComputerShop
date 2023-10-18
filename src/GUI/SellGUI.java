@@ -5,6 +5,8 @@ import BUS.CustomerBUS;
 import BUS.ProductBUS;
 import BUS.SellBUS;
 import com.toedter.calendar.JDateChooser;
+
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import validation.Validate;
 
@@ -13,10 +15,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 
 public class SellGUI {
@@ -238,6 +236,24 @@ public class SellGUI {
             }
         });
 
+        btnViewCustomerInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (txtCustomerPhone.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
+                    JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String phone = txtCustomerPhone.getText();
+                sellBUS.showInfoCustomer(phone);
+            }
+        });
+
         txtSearchProd.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -282,6 +298,22 @@ public class SellGUI {
                 resetBillData();
             }
         });
+
+        tblBills.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    int rowSelected = tblBills.getSelectedRow();
+
+                    if (rowSelected >= 0) {
+                        String billId = tblBills.getValueAt(rowSelected, 0).toString();
+                        BillDetailGUI billDetailGUI = new BillDetailGUI(billId);
+                        billDetailGUI.openBillDetailGUI();
+                    }
+                }
+            }
+        });
+
     }
 
     public void resetBillData() {
@@ -290,7 +322,6 @@ public class SellGUI {
         cbxBillPrice.setSelectedIndex(0);
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
-        billSorter.setRowFilter(null);
         initBillTableData();
     }
 

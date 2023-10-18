@@ -19,11 +19,11 @@ public class BillBUS {
         customerBUS = new CustomerBUS();
     }
 
-    public void loadData(){
+    public void loadData() {
         billList = billDAO.getData();
     }
 
-    public String getNewBillId(){
+    public String getNewBillId() {
         loadData();
         int id = billList.size() + 1;
         return "HD" + String.format("%03d", id);

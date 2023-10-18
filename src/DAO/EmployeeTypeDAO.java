@@ -3,9 +3,7 @@ package DAO;
 import DTO.EmployeeTypeDTO;
 import connection.MyConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class EmployeeTypeDAO {
@@ -28,6 +26,24 @@ public class EmployeeTypeDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public int addEmployeeType(EmployeeTypeDTO employeeTypeDTO) {
+        MyConnection myConnection = new MyConnection();
+        try {
+            Connection connection = myConnection.getConnect();
+            String sql = "insert into `loai_nhan_vien` value (?,?,?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1,employeeTypeDTO.getTypeId());
+            st.setString(2,employeeTypeDTO.getTypeName());
+            st.setInt(3,employeeTypeDTO.getIsDeleted());
+
+            return st.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

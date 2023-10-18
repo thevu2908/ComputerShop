@@ -167,7 +167,7 @@ public class EmployeeBUS {
         return false;
     }
 
-    public boolean checkExistedEmployeeId(String  employeeID) {
+    public boolean checkExistedEmployeeId(String employeeID) {
         loadData();
 
         for (EmployeeDTO employeeDTO: employeeList) {
