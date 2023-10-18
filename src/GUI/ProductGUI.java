@@ -5,11 +5,14 @@ import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
@@ -126,6 +129,30 @@ public class ProductGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filterProduct();
+            }
+        });
+
+        btnExportExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = "sanpham.xlsx";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (.xlsx)", "xlsx");
+                fileChooser.setFileFilter(filter);
+
+                int result = fileChooser.showSaveDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        productBUS.exportExcel(file);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
     }

@@ -27,7 +27,8 @@ public class ImportDetailBUS {
 
     public boolean addImportDetail(String importId, String productId, String quantity) {
         if (importBUS.getStatusById(importId).equals("Đã duyệt")) {
-            JOptionPane.showMessageDialog(null, "Không thể thêm chi tiết phiếu nhập đã được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Không thể thêm chi tiết phiếu nhập đã được duyệt", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

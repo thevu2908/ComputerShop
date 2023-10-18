@@ -2,10 +2,19 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.xssf.streaming.SXSSFCell;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class ProductBUS {
@@ -148,6 +157,131 @@ public class ProductBUS {
         }
 
         return false;
+    }
+
+    public void exportExcel(File path) {
+        SXSSFWorkbook workbook = new SXSSFWorkbook();
+        SXSSFSheet sheet = workbook.createSheet("Sản phẩm");
+        sheet.trackAllColumnsForAutoSizing();
+
+        int rowIndex = 0;
+
+        writeExcelTitle(sheet, rowIndex);
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getIsDeleted() == 0) {
+                rowIndex++;
+                SXSSFRow row = sheet.createRow(rowIndex);
+                writeExcelData(productDTO, row);
+            }
+        }
+
+        autoResizeColumn(sheet, 11);
+
+        if(writeExcel(workbook, path)) {
+            JOptionPane.showMessageDialog(null, "Xuất danh sách sản phẩm thành file excel thành công");
+        } else {
+            JOptionPane.showMessageDialog(null, "Xuất danh sách sản phẩm thành file excel thất bại", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public boolean writeExcel(SXSSFWorkbook workbook, File path) {
+        try {
+            String fileName = path.getName();
+            if (!fileName.endsWith(".xlsx")) {
+                path = new File(path.getParentFile(), fileName + ".xlsx");
+            }
+
+            FileOutputStream fos = new FileOutputStream(path.toString());
+            workbook.write(fos);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public void writeExcelData(ProductDTO productDTO, SXSSFRow row) {
+        SXSSFCell cell = row.createCell(0);
+        cell.setCellValue(productDTO.getProductId());
+
+        cell = row.createCell(1);
+        cell.setCellValue(productDTO.getProductName());
+
+        cell = row.createCell(2);
+        cell.setCellValue(productDTO.getProductType());
+
+        cell = row.createCell(3);
+        cell.setCellValue(productDTO.getProductPrice());
+
+        cell = row.createCell(4);
+        cell.setCellValue(productDTO.getProductCPU());
+
+        cell = row.createCell(5);
+        cell.setCellValue(productDTO.getProductRAM());
+
+        cell = row.createCell(6);
+        cell.setCellValue(productDTO.getProductDisk());
+
+        cell = row.createCell(7);
+        cell.setCellValue(productDTO.getProductScreen());
+
+        cell = row.createCell(8);
+        cell.setCellValue(productDTO.getProductScreenCard());
+    }
+
+    public void writeExcelTitle(SXSSFSheet sheet, int rowIndex) {
+        Font font = sheet.getWorkbook().createFont();
+        font.setFontHeightInPoints((short) 14);
+        font.setBold(true);
+
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(font);
+
+        SXSSFRow row = sheet.createRow(rowIndex);
+
+        SXSSFCell cell = row.createCell(0);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Mã sản phẩn");
+
+        cell = row.createCell(1);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Tên sản phẩn");
+
+        cell = row.createCell(2);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Hãng");
+
+        cell = row.createCell(3);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Giá");
+
+        cell = row.createCell(4);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("CPU");
+
+        cell = row.createCell(5);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("RAM");
+
+        cell = row.createCell(6);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Ổ cứng");
+
+        cell = row.createCell(7);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Màn hình");
+
+        cell = row.createCell(8);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Card màn hình");
+    }
+
+    public void autoResizeColumn(SXSSFSheet sheet, int columns) {
+        for (int i = 0; i < columns; i++) {
+            sheet.autoSizeColumn(i);
+        }
     }
 
     public String createNewProductID() {

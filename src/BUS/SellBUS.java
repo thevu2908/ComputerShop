@@ -114,11 +114,22 @@ public class SellBUS {
         billDetailBUS.renderToTable(model, billDetailList);
     }
 
-    public void showInfoCustomter(String phone){
+    public void showInfoCustomer(String phone){
         CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
-        JOptionPane.showMessageDialog(null, String.format(" Mã khách hàng: \t%s\n Tên khách hàng: \t%s\n Địa chỉ: \t%s\n Số điện thoại: \t%s\n Ngày sinh: \t%s\n Giới tính: \t%s\n Điểm tích lũy: \t%s\n"
-                        ,customerDTO.getCustomerId(),customerDTO.getCustomerName(),customerDTO.getCustomerAddress(),customerDTO.getCustomerPhone(),customerDTO.getCustomerDOB(),customerDTO.getCustomerGender(),customerDTO.getCustomerPoint())
-                , "Thông tin khách hàng",
-                JOptionPane.INFORMATION_MESSAGE);
+
+        if (customerDTO == null) {
+            JOptionPane.showMessageDialog(null, "Không có khách hàng nào có số điện thoại này", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(
+                null,
+                String.format(" Mã khách hàng: \t%s\n Tên khách hàng: \t%s\n Địa chỉ: \t%s\n Số điện thoại: \t%s\n Ngày sinh: \t%s\n Giới tính: \t%s\n Điểm tích lũy: \t%s\n"
+                        ,customerDTO.getCustomerId(), customerDTO.getCustomerName(), customerDTO.getCustomerAddress(), customerDTO.getCustomerPhone(), customerDTO.getCustomerDOB(), customerDTO.getCustomerGender(), customerDTO.getCustomerPoint())
+                ,
+                "Thông tin khách hàng",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 }

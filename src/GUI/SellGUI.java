@@ -250,7 +250,7 @@ public class SellGUI {
                     return;
                 }
                 String phone = txtCustomerPhone.getText();
-                sellBUS.showInfoCustomter(phone);
+                sellBUS.showInfoCustomer(phone);
             }
         });
 
@@ -322,7 +322,6 @@ public class SellGUI {
         cbxBillPrice.setSelectedIndex(0);
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
-        billSorter.setRowFilter(null);
         initBillTableData();
     }
 
