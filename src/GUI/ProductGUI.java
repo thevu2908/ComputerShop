@@ -12,7 +12,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileWriter;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
@@ -181,6 +180,8 @@ public class ProductGUI {
         prodModel.setColumnIdentifiers(cols);
         tblProducts.setModel(prodModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

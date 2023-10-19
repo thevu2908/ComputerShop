@@ -155,6 +155,8 @@ public class SupplierGUI {
         supplierModel.setColumnIdentifiers(cols);
         tblSuppliers.setModel(supplierModel);
         tblSuppliers.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblSuppliers.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblSuppliers.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
         centerRender.setHorizontalAlignment(JLabel.CENTER);

@@ -132,6 +132,8 @@ public class ExportDetailGUI {
         model.setColumnIdentifiers(cols);
         tblExportDetails.setModel(model);
         tblExportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblExportDetails.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblExportDetails.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

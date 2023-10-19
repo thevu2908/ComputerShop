@@ -83,6 +83,8 @@ public class EmployeeTypeGUI {
         accessModel.setColumnIdentifiers(cols);
         tblAccesses.setModel(accessModel);
         tblAccesses.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblAccesses.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblAccesses.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

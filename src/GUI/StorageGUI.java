@@ -350,6 +350,8 @@ public class StorageGUI {
         exportModel.setColumnIdentifiers(cols);
         tblExports.setModel(exportModel);
         tblExports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblExports.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblExports.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -454,6 +456,8 @@ public class StorageGUI {
         importModel.setColumnIdentifiers(cols);
         tblImports.setModel(importModel);
         tblImports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblImports.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblImports.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -545,6 +549,8 @@ public class StorageGUI {
         prodModel.setColumnIdentifiers(cols);
         tblProducts.setModel(prodModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

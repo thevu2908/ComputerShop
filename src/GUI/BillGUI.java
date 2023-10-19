@@ -175,6 +175,8 @@ public class BillGUI {
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

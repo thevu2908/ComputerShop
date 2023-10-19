@@ -479,6 +479,8 @@ public class SellGUI {
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -499,6 +501,8 @@ public class SellGUI {
         sellBillModel.setColumnIdentifiers(cols);
         tblSellBills.setModel(sellBillModel);
         tblSellBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblSellBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblSellBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -523,6 +527,8 @@ public class SellGUI {
         productModel.setColumnIdentifiers(cols);
         tblProducts.setModel(productModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

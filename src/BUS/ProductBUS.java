@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class ProductBUS {
@@ -26,6 +25,7 @@ public class ProductBUS {
     public ProductBUS() {
         productDAO = new ProductDAO();
         productTypeBUS = new ProductTypeBUS();
+        loadProductData();
     }
 
     public void loadProductData() {

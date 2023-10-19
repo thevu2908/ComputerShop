@@ -35,6 +35,8 @@ public class CustomerGUI {
         model.setColumnIdentifiers(cols);
         tblCustomers.setModel(model);
         tblCustomers.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblCustomers.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblCustomers.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
