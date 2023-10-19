@@ -20,6 +20,11 @@ public class BillDTO {
         this.isDeleted = isDeleted;
     }
 
+    public BillDTO(String employeeId,int total) {
+        this.employeeId = employeeId;
+        this.total = total;
+    }
+
     public String getBillId() {
         return billId;
     }

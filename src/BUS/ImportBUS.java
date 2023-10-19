@@ -161,4 +161,21 @@ public class ImportBUS {
 
         model.fireTableDataChanged();
     }
+
+    public int[] getExpenseOfMonths(int year) {
+        loadData();
+        int[] listCP = new int[12];
+        for (int i = 0; i < listCP.length; i++) {
+            listCP[i] = 0;
+        }
+        for (ImportDTO importDTO : importList) {
+            int monthOfExpense = Integer.parseInt(String.valueOf(importDTO.getImportDate()).split("-")[1]);
+            int yearOfExpense = Integer.parseInt(String.valueOf(importDTO.getImportDate()).split("-")[0]);
+            if(yearOfExpense == year){
+                listCP[monthOfExpense - 1] += importDTO.getImportTotalPrice();
+
+            }
+        }
+        return listCP;
+    }
 }

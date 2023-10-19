@@ -312,4 +312,17 @@ public class EmployeeBUS {
 
         model.fireTableDataChanged();
     }
+
+    public ArrayList<String> getListEmployeeId(){
+        loadData();
+        ArrayList<String> listEmpId = new ArrayList<>();
+        for(EmployeeDTO employeeDTO : employeeList){
+            if(employeeDTO.getEmployeeType().equals("LNV03")){
+                listEmpId.add(employeeDTO.getEmployeeId());
+            }
+        }
+        return listEmpId;
+    }
+
+
 }

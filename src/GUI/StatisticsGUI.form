@@ -57,7 +57,7 @@
                       <text value="Thống kê theo năm:"/>
                     </properties>
                   </component>
-                  <component id="3abe8" class="javax.swing.JComboBox" binding="cbxYear">
+                  <component id="3abe8" class="javax.swing.JComboBox" binding="cbxYearOfRevenue">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
@@ -66,6 +66,10 @@
                     <properties>
                       <model>
                         <item value="2023"/>
+                        <item value="2022"/>
+                        <item value="2021"/>
+                        <item value="2020"/>
+                        <item value="2019"/>
                       </model>
                     </properties>
                   </component>

@@ -1,6 +1,7 @@
 package BUS;
 
 import DAO.ProductDAO;
+import DTO.EmployeeDTO;
 import DTO.ProductDTO;
 import validation.Validate;
 
@@ -14,9 +15,12 @@ public class ProductBUS {
     private ArrayList<ProductDTO> productList = new ArrayList<>();
     private ArrayList<ProductDTO> productStorageList = new ArrayList<>();
 
+    private ArrayList <String> listProductId;
+
     public ProductBUS() {
         productDAO = new ProductDAO();
         productTypeBUS = new ProductTypeBUS();
+        listProductId = new ArrayList<>();
     }
 
     public void loadProductData() {
@@ -317,4 +321,6 @@ public class ProductBUS {
 
         model.fireTableDataChanged();
     }
+
+
 }

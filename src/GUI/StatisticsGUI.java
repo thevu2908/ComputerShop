@@ -1,5 +1,6 @@
 package GUI;
 
+import BUS.StatisticsBUS;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -9,34 +10,52 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StatisticsGUI {
+    private StatisticsBUS statisticsBUS;
     public StatisticsGUI() {
+        statisticsBUS = new StatisticsBUS();
         initDoanhThu();
         initBestSeller();
         initBestEmployee();
+
+
+        cbxYearOfRevenue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int year = Integer.parseInt(String.valueOf(cbxYearOfRevenue.getSelectedItem()));
+                System.out.println(year);
+                initBarChart("Doanh thu",doanhThuChartPanel,year);
+
+            }
+        });
+
+
+
     }
 
     public void initBestEmployee() {
-        initBarChart("Doanh thu đem về", bestEmployeeChartPanel);
+        initBarChart("Doanh thu đem về", bestEmployeeChartPanel,2023);
     }
 
     public void initBestSeller() {
-        initBarChart("Số lượng sản phẩm", bestSellerChartPanel);
+        initBarChart("Số lượng sản phẩm", bestSellerChartPanel,2023);
     }
 
     public void initDoanhThu() {
-        initBarChart("Doanh thu", doanhThuChartPanel);
+        initBarChart("Doanh thu", doanhThuChartPanel,2023);
     }
 
-    public  void initBarChart(String name, JPanel panel) {
+    public  void initBarChart(String name, JPanel panel,int year) {
         CategoryDataset dataset = null;
         if (name.equals("Doanh thu")) {
-            dataset = createDoanhThuDataset();
+            dataset = statisticsBUS.createDoanhThuDataset(year);
         } else if (name.equals("Số lượng sản phẩm")) {
-            dataset = createBestSellerDataset();
+            dataset = statisticsBUS.createBestSellerDataset();
         } else if (name.equals("Doanh thu đem về")) {
-            dataset = createBestEmployeeDataset();
+            dataset = statisticsBUS.createBestEmployeeDataset();
         }
 
         JFreeChart chart = createBarChart(dataset, name);
@@ -48,43 +67,11 @@ public class StatisticsGUI {
         panel.add(chartPanel,BorderLayout.CENTER);
     }
 
-    private CategoryDataset createBestEmployeeDataset() {
-        var dataset = new DefaultCategoryDataset();
-        dataset.setValue(22000000, "Doanh thu đem về", "Hoàng" );
-        dataset.setValue(20000000, "Doanh thu đem về", "Vũ");
-        dataset.setValue(18000000, "Doanh thu đem về", "Phú");
-        return dataset;
-    }
 
-    private CategoryDataset createBestSellerDataset() {
-        var dataset = new DefaultCategoryDataset();
-        dataset.setValue(46, "Số lượng sản phẩm", "MSI Gaming GF63");
-        dataset.setValue(38, "Số lượng sản phẩm", "Acer Aspire 7");
-        dataset.setValue(29, "Số lượng sản phẩm", "Asus TUF");
-        dataset.setValue(22, "Số lượng sản phẩm", "HP 15s fq5077TU");
-        dataset.setValue(20, "Số lượng sản phẩm", "Apple MacBook Air");
-        dataset.setValue(18, "Số lượng sản phẩm", "Dell Gaming G15 5511");
-        dataset.setValue(12, "Số lượng sản phẩm", "LDell Inspiron 16 5620");
-        dataset.setValue(9, "Số lượng sản phẩm", "Lenovo ThinkPad P14s");
-        return dataset;
-    }
 
-    private CategoryDataset createDoanhThuDataset() {
-        var dataset = new DefaultCategoryDataset();
-        dataset.setValue(46, "Doanh thu", "Tháng 1");
-        dataset.setValue(37, "Doanh thu", "Tháng 2");
-        dataset.setValue(29, "Doanh thu", "Tháng 3");
-        dataset.setValue(22, "Doanh thu", "Tháng 4");
-        dataset.setValue(13, "Doanh thu", "Tháng 5");
-        dataset.setValue(11, "Doanh thu", "Tháng 6");
-        dataset.setValue(13, "Doanh thu", "Tháng 7");
-        dataset.setValue(17, "Doanh thu", "Tháng 8");
-        dataset.setValue(24, "Doanh thu", "Tháng 9");
-        dataset.setValue(26, "Doanh thu", "Tháng 10");
-        dataset.setValue(30, "Doanh thu", "Tháng 11");
-        dataset.setValue(19, "Doanh thu", "Tháng 12");
-        return dataset;
-    }
+
+
+
 
     private JFreeChart createBarChart(CategoryDataset dataset, String name) {
         JFreeChart barChart = ChartFactory.createBarChart(
@@ -103,7 +90,7 @@ public class StatisticsGUI {
 
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
-    private JComboBox cbxYear;
+    private JComboBox cbxYearOfRevenue;
     private JPanel doanhThuChartPanel;
     private JPanel bestSellerChartPanel;
     private JPanel bestEmployeeChartPanel;
