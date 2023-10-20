@@ -277,6 +277,34 @@ public class StorageGUI {
                 }
             }
         });
+
+        btnPrintExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblExports.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu xuất muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String exportId = tblExports.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = exportId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    exportDetailBUS.printExport(exportId, path);
+                }
+            }
+        });
     }
 
     public void initExport() {
