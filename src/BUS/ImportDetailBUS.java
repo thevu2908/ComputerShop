@@ -109,7 +109,6 @@ public class ImportDetailBUS {
 
     public boolean increaseStorageProductQuantity(String importId) {
         loadData();
-        boolean flag = false;
 
         for (ImportDetailDTO importDetailDTO : importDetailList) {
             if (importDetailDTO.getImportId().equals(importId)) {
@@ -117,22 +116,17 @@ public class ImportDetailBUS {
 
                 if (product != null) {
                     if (productBUS.updateProductStorageQuantity(importDetailDTO.getProductId(),
-                            product.getProductQuantity() + importDetailDTO.getQuantity())) {
-                        flag = true;
+                            product.getProductQuantity() + importDetailDTO.getQuantity())
+                    ) {
+                        return true;
                     } else {
-                        flag = false;
-                    }
-                } else {
-                    if (productBUS.addProductStorage(importDetailDTO.getProductId(), importDetailDTO.getQuantity())) {
-                        flag = true;
-                    } else {
-                        flag = false;
+                        return false;
                     }
                 }
             }
         }
 
-        return flag;
+        return false;
     }
 
     public void printImport(String importId, String path) {

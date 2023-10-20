@@ -439,7 +439,7 @@ public class ProductBUS {
         loadProductStorageData();
 
         for (ProductDTO productDTO : productStorageList) {
-            if (getIsDeletedById(productDTO.getProductId()) == 0 && productDTO.getProductQuantity() > 0) {
+            if (getIsDeletedById(productDTO.getProductId()) == 0) {
                 model.addRow(new Object[]{
                         productDTO.getProductId(),
                         getNameById(productDTO.getProductId()),

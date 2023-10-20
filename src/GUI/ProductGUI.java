@@ -46,7 +46,9 @@ public class ProductGUI {
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)
+                        && productBUS.addProductStorage(id, 0)
+                ) {
                     reset();
                 }
             }
@@ -204,6 +206,7 @@ public class ProductGUI {
         cbSearchType.setSelectedIndex(0);
         cbxFilterPrice.setSelectedIndex(0);
         cbxFilterProductType.setSelectedIndex(0);
+        initTableData();
         if (productSorter != null) {
             productSorter.setRowFilter(null);
         }
