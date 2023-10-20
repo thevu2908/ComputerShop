@@ -1,16 +1,15 @@
 package GUI;
 
-import BUS.BillBUS;
-import BUS.CustomerBUS;
-import BUS.ProductBUS;
-import BUS.SellBUS;
+import BUS.*;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import validation.Validate;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -26,15 +25,17 @@ public class SellGUI {
     private SellBUS sellBUS;
     private CustomerBUS customerBUS;
     private BillBUS billBUS;
+    private BillDetailBUS billDetailBUS;
     private TableRowSorter<DefaultTableModel> productSorter;
     private TableRowSorter<DefaultTableModel> billSorter;
 
     public SellGUI(String employeeId) {
+        this.employeeId = employeeId;
         productBUS = new ProductBUS();
         sellBUS = new SellBUS();
         customerBUS = new CustomerBUS();
         billBUS = new BillBUS();
-        this.employeeId = employeeId;
+        billDetailBUS = new BillDetailBUS();
         initSell();
         initBill();
 
@@ -314,6 +315,33 @@ public class SellGUI {
             }
         });
 
+        btnPrintBill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblBills.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String billId = tblBills.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = billId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    billDetailBUS.printBill(billId, path);
+                }
+            }
+        });
     }
 
     public void resetBillData() {

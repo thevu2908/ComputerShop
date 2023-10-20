@@ -2,7 +2,6 @@ package BUS;
 
 import DAO.ExportDetailDAO;
 import DTO.ExportDetailDTO;
-import DTO.ImportDetailDTO;
 import DTO.ProductDTO;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -138,8 +137,8 @@ public class ExportDetailBUS {
         }
     }
 
-    public void printExport(String importId, String path) {
-        if (exportBUS.getStatusById(importId).equals("Chưa duyệt")) {
+    public void printExport(String exportId, String path) {
+        if (exportBUS.getStatusById(exportId).equals("Chưa duyệt")) {
             JOptionPane.showMessageDialog(null, "Không thể in phiếu xuất chưa được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -156,10 +155,10 @@ public class ExportDetailBUS {
             document.open();
 
             setPDFTitle(document);
-            setPDFHeader(document, pdfWriter, importId);
-            setPDFInformation(document, importId);
-            setPDFProductTable(document, importId);
-            setPDFFooter(document,importId);
+            setPDFHeader(document, pdfWriter, exportId);
+            setPDFInformation(document, exportId);
+            setPDFProductTable(document, exportId);
+            setPDFFooter(document, exportId);
 
             document.close();
             JOptionPane.showMessageDialog(null, "In phiếu xuất thành công");

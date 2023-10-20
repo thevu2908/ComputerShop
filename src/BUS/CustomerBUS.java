@@ -19,6 +19,18 @@ public class CustomerBUS {
         customerList = customerDAO.getData();
     }
 
+    public CustomerDTO getCustomerById(String id) {
+        loadData();
+
+        for (CustomerDTO customerDTO : customerList) {
+            if (customerDTO.getCustomerId().equals(id)) {
+                return customerDTO;
+            }
+        }
+
+        return null;
+    }
+
     public CustomerDTO getCustomerByPhone(String phone) {
         loadData();
 

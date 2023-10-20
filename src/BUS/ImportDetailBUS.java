@@ -156,7 +156,7 @@ public class ImportDetailBUS {
             setPDFHeader(document, pdfWriter, importId);
             setPDFInformation(document, importId);
             setPDFProductTable(document, importId);
-            setPDFFooter(document,importId);
+            setPDFFooter(document, importId);
 
             document.close();
             JOptionPane.showMessageDialog(null, "In phiếu nhập thành công");
