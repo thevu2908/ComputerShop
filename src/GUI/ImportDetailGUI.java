@@ -107,6 +107,9 @@ public class ImportDetailGUI {
         cbxSearchType.setSelectedIndex(0);
         txtSearch.setText("");
         sorter.setRowFilter(null);
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void setTotalPrice() {

@@ -9,6 +9,7 @@ import java.awt.event.*;
 
 import BUS.SupplierBUS;
 import DTO.SupplierDTO;
+
 public class SupplierGUI {
     private DefaultTableModel supplierModel;
     private TableRowSorter<DefaultTableModel> sorter;
@@ -137,6 +138,9 @@ public class SupplierGUI {
         txtSearch.setText("");
         cbxSearchType.setSelectedIndex(0);
         initTableData();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void initTableData() {

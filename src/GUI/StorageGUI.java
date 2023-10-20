@@ -303,7 +303,9 @@ public class StorageGUI {
         cbxExportStatus.setSelectedIndex(0);
         exportDateFrom.setDate(null);
         exportDateTo.setDate(null);
-        exportSorter.setRowFilter(null);
+        if (exportSorter != null) {
+            exportSorter.setRowFilter(null);
+        }
     }
 
     public void filterExport() {
@@ -406,7 +408,9 @@ public class StorageGUI {
         cbxImportStatus.setSelectedIndex(0);
         importDateFrom.setDate(null);
         importDateTo.setDate(null);
-        importSorter.setRowFilter(null);
+        if (importSorter != null) {
+            importSorter.setRowFilter(null);
+        }
     }
 
     public void filterImport() {

@@ -323,6 +323,9 @@ public class SellGUI {
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
         initBillTableData();
+        if (billSorter != null) {
+            billSorter.setRowFilter(null);
+        }
     }
 
     public void resetSellData() {
@@ -332,8 +335,10 @@ public class SellGUI {
         txtTotal.setText("");
         txtDiscount.setText("");
         txtFinalTotal.setText("");
-        productSorter.setRowFilter(null);
         initProductTableData();
+        if (productSorter != null) {
+            productSorter.setRowFilter(null);
+        }
     }
 
     public int calculateBonusPoint(long totalPrice) {

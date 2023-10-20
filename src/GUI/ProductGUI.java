@@ -204,7 +204,9 @@ public class ProductGUI {
         cbSearchType.setSelectedIndex(0);
         cbxFilterPrice.setSelectedIndex(0);
         cbxFilterProductType.setSelectedIndex(0);
-        productSorter.setRowFilter(null);
+        if (productSorter != null) {
+            productSorter.setRowFilter(null);
+        }
     }
 
     public void filterProduct() {

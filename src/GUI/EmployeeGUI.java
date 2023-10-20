@@ -142,6 +142,9 @@ public class EmployeeGUI {
         txtEmpPassword.setText("");
         cbxEmpType.setSelectedIndex(0);
         initTableData();
+        if (employeeSorter != null) {
+            employeeSorter.setRowFilter(null);
+        }
     }
 
     public void filterEmployee() {
