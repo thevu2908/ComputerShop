@@ -6,15 +6,15 @@ import DTO.EmployeeTypeDTO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class EmployeeTypeGUI {
     private DefaultTableModel accessModel;
+    private TableRowSorter<DefaultTableModel> sorter;
     private EmployeeTypeBUS employeeTypeBUS;
+
     public EmployeeTypeGUI() {
         employeeTypeBUS = new EmployeeTypeBUS();
         initTable();
@@ -59,12 +59,51 @@ public class EmployeeTypeGUI {
                 resetData();
             }
         });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filter();
+            }
+        });
+    }
+
+    public void filter() {
+        String searchType = cbxSearchType.getSelectedItem().toString();
+        String searchInfo = txtSearch.getText().toLowerCase();
+
+        sorter = new TableRowSorter<>(accessModel);
+        tblAccesses.setRowSorter(sorter);
+
+        RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+            @Override
+            public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                String rowId = entry.getStringValue(0).toLowerCase();
+                String rowName = entry.getStringValue(1).toLowerCase();
+
+                switch (searchType) {
+                    case "Mã quyền":
+                        return rowId.contains(searchInfo);
+                    case "Tên quyền":
+                        return rowName.contains(searchInfo);
+                    default:
+                        return true;
+                }
+            }
+        };
+
+        sorter.setRowFilter(filter);
     }
 
     public void resetData() {
         txtAccessId.setText("");
         txtAccessName.setText("");
+        cbxSearchType.setSelectedIndex(0);
+        txtSearch.setText("");
         initTableData();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
     
     public void initTableData() {
