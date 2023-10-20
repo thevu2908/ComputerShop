@@ -83,8 +83,10 @@ public class BillGUI {
         cbxFilterBillPrice.setSelectedIndex(0);
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
-        sorter.setRowFilter(null);
         initBillTableData();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void filter() {
