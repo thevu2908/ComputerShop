@@ -4,11 +4,13 @@ import BUS.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -244,6 +246,34 @@ public class StorageGUI {
                         initExportTableData();
                         initProductTableData();
                     }
+                }
+            }
+        });
+
+        btnPrintImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblImports.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String importId = tblImports.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = importId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    importDetailBUS.printImport(importId, path);
                 }
             }
         });

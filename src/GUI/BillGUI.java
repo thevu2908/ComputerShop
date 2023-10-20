@@ -208,6 +208,7 @@ public class BillGUI {
     private JPanel billDateToPanel;
     private JButton btnFilterBillDate;
     private JTable tblBills;
+    private JButton btnPrint;
     private JDateChooser billDateFrom;
     private JDateChooser billDateTo;
 }
