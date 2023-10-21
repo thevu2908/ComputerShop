@@ -105,7 +105,9 @@ public class ExportDetailGUI {
     public void reset() {
         cbxSearchType.setSelectedIndex(0);
         txtSearch.setText("");
-        sorter.setRowFilter(null);
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void setTotalQuantity() {
@@ -132,6 +134,8 @@ public class ExportDetailGUI {
         model.setColumnIdentifiers(cols);
         tblExportDetails.setModel(model);
         tblExportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblExportDetails.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblExportDetails.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

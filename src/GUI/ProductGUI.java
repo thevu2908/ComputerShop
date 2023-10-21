@@ -5,11 +5,13 @@ import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class ProductGUI {
     private DefaultTableModel prodModel;
@@ -44,7 +46,9 @@ public class ProductGUI {
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)
+                        && productBUS.addProductStorage(id, 0)
+                ) {
                     reset();
                 }
             }
@@ -128,6 +132,30 @@ public class ProductGUI {
                 filterProduct();
             }
         });
+
+        btnExportExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = "sanpham.xlsx";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (.xlsx)", "xlsx");
+                fileChooser.setFileFilter(filter);
+
+                int result = fileChooser.showSaveDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        productBUS.exportExcel(file);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     public void initComboBoxTypeData(){
@@ -154,6 +182,8 @@ public class ProductGUI {
         prodModel.setColumnIdentifiers(cols);
         tblProducts.setModel(prodModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -176,7 +206,10 @@ public class ProductGUI {
         cbSearchType.setSelectedIndex(0);
         cbxFilterPrice.setSelectedIndex(0);
         cbxFilterProductType.setSelectedIndex(0);
-        productSorter.setRowFilter(null);
+        initTableData();
+        if (productSorter != null) {
+            productSorter.setRowFilter(null);
+        }
     }
 
     public void filterProduct() {

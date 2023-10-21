@@ -4,11 +4,13 @@ import BUS.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -247,6 +249,62 @@ public class StorageGUI {
                 }
             }
         });
+
+        btnPrintImport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblImports.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String importId = tblImports.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = importId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    importDetailBUS.printImport(importId, path);
+                }
+            }
+        });
+
+        btnPrintExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblExports.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu xuất muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String exportId = tblExports.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = exportId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    exportDetailBUS.printExport(exportId, path);
+                }
+            }
+        });
     }
 
     public void initExport() {
@@ -273,7 +331,9 @@ public class StorageGUI {
         cbxExportStatus.setSelectedIndex(0);
         exportDateFrom.setDate(null);
         exportDateTo.setDate(null);
-        exportSorter.setRowFilter(null);
+        if (exportSorter != null) {
+            exportSorter.setRowFilter(null);
+        }
     }
 
     public void filterExport() {
@@ -350,6 +410,8 @@ public class StorageGUI {
         exportModel.setColumnIdentifiers(cols);
         tblExports.setModel(exportModel);
         tblExports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblExports.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblExports.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -374,7 +436,9 @@ public class StorageGUI {
         cbxImportStatus.setSelectedIndex(0);
         importDateFrom.setDate(null);
         importDateTo.setDate(null);
-        importSorter.setRowFilter(null);
+        if (importSorter != null) {
+            importSorter.setRowFilter(null);
+        }
     }
 
     public void filterImport() {
@@ -454,6 +518,8 @@ public class StorageGUI {
         importModel.setColumnIdentifiers(cols);
         tblImports.setModel(importModel);
         tblImports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblImports.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblImports.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -545,6 +611,8 @@ public class StorageGUI {
         prodModel.setColumnIdentifiers(cols);
         tblProducts.setModel(prodModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

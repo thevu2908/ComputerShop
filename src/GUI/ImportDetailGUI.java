@@ -107,6 +107,9 @@ public class ImportDetailGUI {
         cbxSearchType.setSelectedIndex(0);
         txtSearch.setText("");
         sorter.setRowFilter(null);
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void setTotalPrice() {
@@ -133,6 +136,8 @@ public class ImportDetailGUI {
         model.setColumnIdentifiers(cols);
         tblImportDetails.setModel(model);
         tblImportDetails.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblImportDetails.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblImportDetails.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

@@ -1,14 +1,17 @@
 package GUI;
 
 import BUS.BillBUS;
+import BUS.BillDetailBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,9 +19,11 @@ public class BillGUI {
     private DefaultTableModel billModel;
     private TableRowSorter<DefaultTableModel> sorter;
     private BillBUS billBUS;
+    private BillDetailBUS billDetailBUS;
 
     public BillGUI() {
         billBUS = new BillBUS();
+        billDetailBUS = new BillDetailBUS();
         initBillDateChooser();
         initBillTable();
         initBillTableData();
@@ -75,6 +80,34 @@ public class BillGUI {
                 resetData();
             }
         });
+
+        btnPrint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblBills.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String billId = tblBills.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = billId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    billDetailBUS.printBill(billId, path);
+                }
+            }
+        });
     }
 
     public void resetData() {
@@ -83,8 +116,10 @@ public class BillGUI {
         cbxFilterBillPrice.setSelectedIndex(0);
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
-        sorter.setRowFilter(null);
         initBillTableData();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void filter() {
@@ -175,6 +210,8 @@ public class BillGUI {
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -206,6 +243,7 @@ public class BillGUI {
     private JPanel billDateToPanel;
     private JButton btnFilterBillDate;
     private JTable tblBills;
+    private JButton btnPrint;
     private JDateChooser billDateFrom;
     private JDateChooser billDateTo;
 }

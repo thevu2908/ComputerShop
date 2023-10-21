@@ -1,22 +1,19 @@
 package GUI;
 
-import BUS.BillBUS;
-import BUS.CustomerBUS;
-import BUS.ProductBUS;
-import BUS.SellBUS;
+import BUS.*;
 import com.toedter.calendar.JDateChooser;
+
+import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import validation.Validate;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 
 public class SellGUI {
@@ -28,15 +25,17 @@ public class SellGUI {
     private SellBUS sellBUS;
     private CustomerBUS customerBUS;
     private BillBUS billBUS;
+    private BillDetailBUS billDetailBUS;
     private TableRowSorter<DefaultTableModel> productSorter;
     private TableRowSorter<DefaultTableModel> billSorter;
 
     public SellGUI(String employeeId) {
+        this.employeeId = employeeId;
         productBUS = new ProductBUS();
         sellBUS = new SellBUS();
         customerBUS = new CustomerBUS();
         billBUS = new BillBUS();
-        this.employeeId = employeeId;
+        billDetailBUS = new BillDetailBUS();
         initSell();
         initBill();
 
@@ -238,6 +237,24 @@ public class SellGUI {
             }
         });
 
+        btnViewCustomerInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (txtCustomerPhone.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
+                    JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String phone = txtCustomerPhone.getText();
+                sellBUS.showInfoCustomer(phone);
+            }
+        });
+
         txtSearchProd.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -282,6 +299,49 @@ public class SellGUI {
                 resetBillData();
             }
         });
+
+        tblBills.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    int rowSelected = tblBills.getSelectedRow();
+
+                    if (rowSelected >= 0) {
+                        String billId = tblBills.getValueAt(rowSelected, 0).toString();
+                        BillDetailGUI billDetailGUI = new BillDetailGUI(billId);
+                        billDetailGUI.openBillDetailGUI();
+                    }
+                }
+            }
+        });
+
+        btnPrintBill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblBills.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn muốn in", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String billId = tblBills.getValueAt(selectedRow, 0).toString();
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = billId + ".pdf";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files (.pdf)", "pdf");
+                fileChooser.setFileFilter(filter);
+
+                int res = fileChooser.showSaveDialog(null);
+
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String path = fileChooser.getSelectedFile().getPath();
+                    billDetailBUS.printBill(billId, path);
+                }
+            }
+        });
     }
 
     public void resetBillData() {
@@ -290,8 +350,10 @@ public class SellGUI {
         cbxBillPrice.setSelectedIndex(0);
         billDateFrom.setDate(null);
         billDateTo.setDate(null);
-        billSorter.setRowFilter(null);
         initBillTableData();
+        if (billSorter != null) {
+            billSorter.setRowFilter(null);
+        }
     }
 
     public void resetSellData() {
@@ -301,8 +363,10 @@ public class SellGUI {
         txtTotal.setText("");
         txtDiscount.setText("");
         txtFinalTotal.setText("");
-        productSorter.setRowFilter(null);
         initProductTableData();
+        if (productSorter != null) {
+            productSorter.setRowFilter(null);
+        }
     }
 
     public int calculateBonusPoint(long totalPrice) {
@@ -448,6 +512,8 @@ public class SellGUI {
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -468,6 +534,8 @@ public class SellGUI {
         sellBillModel.setColumnIdentifiers(cols);
         tblSellBills.setModel(sellBillModel);
         tblSellBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblSellBills.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblSellBills.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -492,6 +560,8 @@ public class SellGUI {
         productModel.setColumnIdentifiers(cols);
         tblProducts.setModel(productModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

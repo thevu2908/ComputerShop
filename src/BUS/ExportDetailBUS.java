@@ -3,10 +3,13 @@ package BUS;
 import DAO.ExportDetailDAO;
 import DTO.ExportDetailDTO;
 import DTO.ProductDTO;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class ExportDetailBUS {
@@ -14,11 +17,13 @@ public class ExportDetailBUS {
     private ExportDetailDAO exportDetailDAO;
     private ProductBUS productBUS;
     private ExportBUS exportBUS;
+    private EmployeeBUS employeeBUS;
 
     public ExportDetailBUS() {
         exportDetailDAO = new ExportDetailDAO();
         productBUS = new ProductBUS();
         exportBUS = new ExportBUS();
+        employeeBUS = new EmployeeBUS();
     }
 
     public void loadData() {
@@ -129,6 +134,203 @@ public class ExportDetailBUS {
         } else {
             JOptionPane.showMessageDialog(null, "Xóa chi tiết phiếu xuất thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+    }
+
+    public void printExport(String exportId, String path) {
+        if (exportBUS.getStatusById(exportId).equals("Chưa duyệt")) {
+            JOptionPane.showMessageDialog(null, "Không thể in phiếu xuất chưa được duyệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        loadData();
+        try {
+            Document document = new Document();
+
+            if (!path.endsWith(".pdf")) {
+                path = path + ".pdf";
+            }
+
+            PdfWriter pdfWriter =  PdfWriter.getInstance(document, new FileOutputStream(path));
+            document.open();
+
+            setPDFTitle(document);
+            setPDFHeader(document, pdfWriter, exportId);
+            setPDFInformation(document, exportId);
+            setPDFProductTable(document, exportId);
+            setPDFFooter(document, exportId);
+
+            document.close();
+            JOptionPane.showMessageDialog(null, "In phiếu xuất thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi in phiếu xuất", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void setPDFFooter(Document document, String exportId) {
+        try {
+            Font fontBold = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    11,
+                    Font.BOLD
+            );
+
+            Font font = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    11,
+                    Font.NORMAL
+            );
+
+            Paragraph totalBox = new Paragraph();
+            totalBox.setAlignment(Element.ALIGN_RIGHT);
+            totalBox.setSpacingBefore(10);
+
+            Chunk title = new Chunk("TỔNG SỐ LƯỢNG: ", fontBold);
+            Chunk totalPrice = new Chunk(exportBUS.getExportById(exportId).getTotalQuantity() + "", font);
+
+            totalBox.add(title);
+            totalBox.add(totalPrice);
+
+            document.add(totalBox);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPDFProductTable(Document document, String exportId) {
+        try {
+            Font font = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    11,
+                    Font.NORMAL
+            );
+
+            PdfPTable table = new PdfPTable(3);
+            table.setWidthPercentage(100f);
+
+            float[] columnWidths = {20f, 100f, 30f};
+            table.setWidths(columnWidths);
+
+            PdfPCell noHeaderCell = new PdfPCell(new Paragraph("STT", font));
+            noHeaderCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            noHeaderCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            noHeaderCell.setPadding(10);
+            table.addCell(noHeaderCell);
+
+            PdfPCell nameHeaderCell = new PdfPCell(new Paragraph("Tên sản phẩm", font));
+            nameHeaderCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            nameHeaderCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            noHeaderCell.setPadding(10);
+            table.addCell(nameHeaderCell);
+
+            PdfPCell quantityHeaderCell = new PdfPCell(new Paragraph("Số lượng", font));
+            quantityHeaderCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            quantityHeaderCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            quantityHeaderCell.setPadding(10);
+            table.addCell(quantityHeaderCell);
+
+            int i = 0;
+            for (ExportDetailDTO exportDetailDTO : exportDetailList) {
+                if (exportDetailDTO.getExportId().equals(exportId)) {
+                    i++;
+                    PdfPCell noCell = new PdfPCell(new Paragraph(i++ + "", font));
+                    noCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    noCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    noCell.setPadding(10);
+
+                    String name = productBUS.getNameById(exportDetailDTO.getProductId());
+                    PdfPCell nameCell = new PdfPCell(new Paragraph(name, font));
+                    nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    nameCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    nameCell.setPadding(10);
+
+                    String quantity = exportDetailDTO.getQuantity() + "";
+                    PdfPCell quantityCell = new PdfPCell(new Paragraph(quantity, font));
+                    quantityCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    quantityCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    quantityCell.setPadding(10);
+
+                    table.addCell(noCell);
+                    table.addCell(nameCell);
+                    table.addCell(quantityCell);
+                }
+            }
+
+            document.add(table);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPDFInformation(Document document, String exportId) {
+        try {
+            Font font = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    11,
+                    Font.NORMAL
+            );
+
+            Paragraph employeeName = new Paragraph(
+                    "Họ tên nhân viên lập phiếu: "
+                            + employeeBUS.getNameById(exportBUS.getExportById(exportId).getEmployeeId()).toUpperCase(),
+                    font
+            );
+            employeeName.setSpacingBefore(15);
+            employeeName.setSpacingAfter(20);
+
+            document.add(employeeName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPDFHeader(Document document, PdfWriter pdfWriter, String exportId) {
+        try {
+            Font font = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    11,
+                    Font.NORMAL
+            );
+
+            String[] date =exportBUS.getExportById(exportId).getExportDate().split("-");
+            Paragraph dateString = new Paragraph("Ngày " + date[2] + " tháng " + date[1] + " năm " + date[0], font);
+            dateString.setAlignment(Element.ALIGN_CENTER);
+            dateString.setSpacingAfter(10);
+
+            Paragraph importIdString = new Paragraph("Mã PX: " + exportId, font);
+            importIdString.setAlignment(Element.ALIGN_RIGHT);
+
+            PdfContentByte content = pdfWriter.getDirectContent();
+            content.setLineWidth(1f);
+            content.setColorStroke(BaseColor.BLACK);
+
+            content.moveTo(35f, 720f);
+            content.lineTo(560f, 720f);
+            content.stroke();
+
+            document.add(dateString);
+            document.add(importIdString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPDFTitle(Document document) {
+        try {
+            Font fontTitle = new Font(
+                    BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+                    20,
+                    Font.BOLD
+            );
+
+            Paragraph title = new Paragraph("PHIẾU XUẤT HÀNG", fontTitle);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(10);
+
+            document.add(title);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

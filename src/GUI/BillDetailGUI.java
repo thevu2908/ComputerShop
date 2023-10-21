@@ -36,7 +36,6 @@ public class BillDetailGUI {
             }
         });
 
-
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +48,9 @@ public class BillDetailGUI {
         cbxSearchType.setSelectedIndex(0);
         txtSearch.setText("");
         sorter.setRowFilter(null);
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void filter() {
@@ -101,6 +103,8 @@ public class BillDetailGUI {
         model.setColumnIdentifiers(cols);
         tblProducts.setModel(model);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
+        tblProducts.getTableHeader().setBackground(new Color(86, 132, 242));
+        tblProducts.getTableHeader().setForeground(Color.WHITE);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
