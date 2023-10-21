@@ -161,24 +161,22 @@ public class ProductGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser= new JFileChooser();
-                int result = fileChooser.showOpenDialog(null);
 
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (.xlsx)", "xlsx");
+                fileChooser.setFileFilter(filter);
+
+                int result = fileChooser.showOpenDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION){
                     try {
                         File file = fileChooser.getSelectedFile();
-                        String filename = file.getName();
-                        if (!FilenameUtils.isExtension(filename,"xlsx")){
-                            JOptionPane.showMessageDialog(null, "Hãy chọn file excel!");
+
+                        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn import file excel này ?", "Hỏi",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if (choice == JOptionPane.YES_OPTION && productBUS.importExcel(file.getAbsolutePath())) {
+                            initTableData();
                         }
-                        else{
-                            int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm sản phẩm từ tập tin " + filename + " không ?", "Câu hỏi",
-                                    JOptionPane.YES_NO_OPTION);
-                            if (choice == JOptionPane.YES_OPTION) {{
-                                productBUS.importExcel(file);
-                            }}
-                        }
-                    }
-                    catch (Exception ex){
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
