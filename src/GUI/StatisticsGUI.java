@@ -18,6 +18,7 @@ public class StatisticsGUI {
 
     public StatisticsGUI() {
         statisticsBUS = new StatisticsBUS();
+        initComboBoxYear();
         setCurrentMonth();
         initDoanhThu();
         initBestSeller();
@@ -89,6 +90,17 @@ public class StatisticsGUI {
                 false, true, false
         );
         return barChart;
+    }
+
+    public void initComboBoxYear() {
+        LocalDate currentDate = LocalDate.now();
+        int year = Integer.parseInt(String.valueOf(currentDate.getYear()));
+
+        for (int i = 2023; i <= year; i++) {
+            cbxYearOfRevenue.addItem(i);
+        }
+
+        cbxYearOfRevenue.setSelectedItem(year);
     }
 
     public void setCurrentMonth() {

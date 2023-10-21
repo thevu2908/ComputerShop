@@ -64,13 +64,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <model>
-                        <item value="2023"/>
-                        <item value="2022"/>
-                        <item value="2021"/>
-                        <item value="2020"/>
-                        <item value="2019"/>
-                      </model>
+                      <model/>
                     </properties>
                   </component>
                 </children>
