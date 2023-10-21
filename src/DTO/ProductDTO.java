@@ -1,8 +1,5 @@
 package DTO;
 
-import DAO.ProductDAO;
-import java.util.ArrayList;
-
 public class ProductDTO{
     private String productId;
     private String productType;
