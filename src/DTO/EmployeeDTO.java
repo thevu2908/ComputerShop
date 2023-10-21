@@ -10,6 +10,7 @@ public class EmployeeDTO {
     private String employeeGender;
     private String employeeEmail;
     private String employeePassword;
+    private double total;
     private int isDeleted;
 
     public EmployeeDTO() {
@@ -27,6 +28,11 @@ public class EmployeeDTO {
         this.employeeEmail = employeeEmail;
         this.employeePassword = employeePassword;
         this.isDeleted = isDeleted;
+    }
+
+    public EmployeeDTO(String employeeId, double total) {
+        this.employeeId = employeeId;
+        this.total = total;
     }
 
     public String getEmployeeId() {
@@ -100,6 +106,14 @@ public class EmployeeDTO {
 
     public void setEmployeePassword(String employeePassword) {
         this.employeePassword = employeePassword;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public int getIsDeleted() {

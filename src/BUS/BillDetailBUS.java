@@ -1,18 +1,15 @@
 package BUS;
 
 import DAO.BillDetailDAO;
-import DTO.BillDTO;
 import DTO.BillDetailDTO;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.time.LocalDate;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class BillDetailBUS {
     private ArrayList<BillDetailDTO> billDetailList;
@@ -285,6 +282,41 @@ public class BillDetailBUS {
         }
     }
 
+    public ArrayList<BillDetailDTO> getListSoldProductInMonth(String month, int year) {
+        loadData();
+
+        ArrayList<String> ListBillIdInMonth = billBUS.getListBillIdInMonth(month, year);
+        ArrayList<BillDetailDTO> ListSoldProductInMonth = new ArrayList<>();
+
+        for (BillDetailDTO item : billDetailList) {
+            boolean isExistedProduct = ListSoldProductInMonth.stream().anyMatch(
+                    billDetail -> billDetail.getProductId().contains(item.getProductId())
+            );
+            boolean flag = false;
+
+            if (ListBillIdInMonth.contains(item.getBillId())) {
+                if (isExistedProduct) {
+                    int quantityOfBillDetail = item.getQuantity();
+                    int index = ListSoldProductInMonth.indexOf(
+                            ListSoldProductInMonth.stream().filter(
+                                    billDetail -> billDetail.getProductId().contains(item.getProductId())).findFirst().orElse(null)
+                    );
+                    ListSoldProductInMonth.get(index).setQuantity(ListSoldProductInMonth.get(index).getQuantity() + quantityOfBillDetail);
+                    flag = true;
+                }
+
+                if (!flag) {
+                    BillDetailDTO billDetailDTO = new BillDetailDTO(item.getProductId(), item.getQuantity());
+                    ListSoldProductInMonth.add(billDetailDTO);
+                }
+            }
+        }
+
+        Collections.sort(ListSoldProductInMonth, (x, y) -> (int) (y.getQuantity() - x.getQuantity()));
+
+        return ListSoldProductInMonth;
+    }
+
     public void renderToTable(DefaultTableModel model, ArrayList<BillDetailDTO> list) {
         model.setRowCount(0);
 
@@ -324,34 +356,5 @@ public class BillDetailBUS {
         }
 
         model.fireTableDataChanged();
-    }
-
-    public ArrayList<BillDetailDTO> getListSoldProductInMonth() {
-        loadData();
-        ArrayList<String> ListBillIdInMonth = billBUS.getListBillIdInMonth(); // biến chứa danh sách các hóa đơn trong tháng hiện tại
-        ArrayList<BillDetailDTO> ListSoldProductInMonth = new ArrayList<>(); // biến chứa danh sách sản phẩm bán được trong tháng hiện tại
-        for(BillDetailDTO item : billDetailList) {
-            boolean isExistedProduct = ListSoldProductInMonth.stream().anyMatch( billDetail -> billDetail.getProductId().contains(item.getProductId()));
-            boolean flag = false;
-            if(ListBillIdInMonth.contains(item.getBillId())) { // kiểm tra mã hóa đơn của chi tiết hóa đơn có chứa trong danh sách các hóa đơn tháng hiện tại
-
-                if(isExistedProduct){ // kiểm tra đã tồn tại sản phẩm của chi tiết hóa đơn trong danh sách sản phẩm bán được trong tháng hiện tại chưa
-                    int quantityOfBillDetail = item.getQuantity(); // số lượng của chi tiết hóa đơn
-                    int index = ListSoldProductInMonth.indexOf(ListSoldProductInMonth.stream().filter(billDetail -> billDetail.getProductId().contains(item.getProductId())).findFirst().orElse(null));
-                    ListSoldProductInMonth.get(index).setQuantity(ListSoldProductInMonth.get(index).getQuantity() + quantityOfBillDetail);
-                    flag = true;
-                }
-
-                if(!flag){ // nếu flag là false tức là sản phẩm trong chi tiết hóa đơn chưa tồn tại trong danh sách sản phẩm bán được trong tháng hiện tại thì tạo mới và thêm vào danh sách sản phẩm trong tháng hiện tại
-                    BillDetailDTO billDetailDTO = new BillDetailDTO(item.getProductId(), item.getQuantity());
-                    ListSoldProductInMonth.add(billDetailDTO);
-                }
-
-            }
-        }
-        Comparator<BillDetailDTO> quantityComparator = (e1, e2) -> Integer.compare(e1.getQuantity(), e2.getQuantity());
-        Collections.sort(ListSoldProductInMonth, quantityComparator);
-        Collections.reverse(ListSoldProductInMonth);
-        return ListSoldProductInMonth;
     }
 }

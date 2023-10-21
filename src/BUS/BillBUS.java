@@ -11,21 +11,17 @@ import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class BillBUS {
     private BillDAO billDAO;
     private CustomerBUS customerBUS;
     private ArrayList<BillDTO> billList;
-    EmployeeBUS employeeBUS;
-    EmployeeDTO employeeDTO;
-    private final int _MONTHS = 12;
+    private EmployeeBUS employeeBUS;
 
     public BillBUS() {
         billDAO = new BillDAO();
         customerBUS = new CustomerBUS();
         employeeBUS = new EmployeeBUS();
-        employeeDTO = new EmployeeDTO();
         employeeBUS = new EmployeeBUS();
     }
 
@@ -58,6 +54,80 @@ public class BillBUS {
             JOptionPane.showMessageDialog(null, "Thanh toán thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+
+    public double[] getRevenueBillOfMonths(int year) {
+        loadData();
+
+        double[] listDT = new double[12];
+
+        for (int i = 0; i < listDT.length; i++) {
+            listDT[i] = 0;
+        }
+
+        for (BillDTO billDTO : billList) {
+            int monthOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
+            int yearOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[0]);
+            if (yearOfBill == year) {
+                listDT[monthOfBill - 1] += billDTO.getTotal() * 1.0 / 1000000;
+            }
+        }
+
+        return listDT;
+    }
+
+    public double getRevenueByEmployeeId(String employeeId, String month, int year) {
+        double tong = 0;
+        for (BillDTO billDTO : billList) {
+            String[] date = billDTO.getBillDate().split("-");
+            String billMonth = date[1];
+            int billYear = Integer.parseInt(date[0]);
+
+            if (billDTO.getEmployeeId().equals(employeeId) && billMonth.equals(month) && billYear == year) {
+                tong += billDTO.getTotal() * 1.0 / 1000000;
+            }
+        }
+        return tong;
+    }
+
+    public ArrayList<EmployeeDTO> getExcellentEmployee(String month, int year) {
+        loadData();
+
+        ArrayList<EmployeeDTO> listExcellentEmployee = new ArrayList<>();
+        ArrayList<EmployeeDTO> empList = employeeBUS.getEmployeeList();
+
+        for (EmployeeDTO employee : empList) {
+            double total = getRevenueByEmployeeId(employee.getEmployeeId(), month, year);
+
+            if (employee.getEmployeeType().equals("LNV03") && total > 0) {
+                EmployeeDTO employeeDTO = new EmployeeDTO(
+                        employee.getEmployeeId(),
+                        total
+                );
+
+                listExcellentEmployee.add(employeeDTO);
+            }
+        }
+
+        Collections.sort(listExcellentEmployee, (x, y) -> (int) (y.getTotal() - x.getTotal()));
+        return listExcellentEmployee;
+    }
+
+    public ArrayList<String> getListBillIdInMonth(String month, int year) {
+        loadData();
+        ArrayList<String> ListBillIdInMonth = new ArrayList<>();
+
+        for (BillDTO billDTO : billList) {
+            String[] date = billDTO.getBillDate().split("-");
+            String billMonth = date[1];
+            int billYear = Integer.parseInt(date[0]);
+
+            if (billMonth.equals(month) && billYear == year) {
+                ListBillIdInMonth.add(billDTO.getBillId());
+            }
+        }
+
+        return ListBillIdInMonth;
     }
 
     public BillDTO getBillById(String billId) {
@@ -109,72 +179,4 @@ public class BillBUS {
 
         model.fireTableDataChanged();
     }
-
-    public int[] getRevenueBillOfMonths(int year) {
-        loadData();
-        int[] listDT = new int[12];
-        for (int i = 0; i < listDT.length; i++) {
-            listDT[i] = 0;
-        }
-
-        for (BillDTO billDTO : billList) {
-            int monthOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
-            int yearOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[0]);
-            if (yearOfBill == year) {
-                listDT[monthOfBill - 1] += billDTO.getTotal();
-            }
-        }
-        return listDT;
-    }
-
-
-    public int getRevenueByEmployeeId(String employeeId, int month) {
-        int tong = 0;
-        for (BillDTO billDTO : billList) {
-            int monthOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
-            if (billDTO.getEmployeeId().equals(employeeId) && monthOfBill == month) {
-                tong += billDTO.getTotal();
-            }
-        }
-        return tong;
-    }
-
-
-
-    public ArrayList<BillDTO> getExcellentEmployee() {
-        loadData();
-        LocalDate currentDate = LocalDate.now();
-        int month = Integer.parseInt(String.valueOf(currentDate.getMonthValue()));
-        ArrayList<BillDTO> listExcellentEmployee = new ArrayList<>();
-        ArrayList<String> listEmpId = employeeBUS.getListEmployeeId();
-
-        for (String id : listEmpId) {
-            BillDTO billDTO = new BillDTO(id, getRevenueByEmployeeId(id, month));
-            listExcellentEmployee.add(billDTO);
-//            }
-        }
-        Comparator<BillDTO> revenueComparator = (e1, e2) -> Integer.compare(e1.getTotal(), e2.getTotal());
-        Collections.sort(listExcellentEmployee, revenueComparator);
-        Collections.reverse(listExcellentEmployee);
-        return listExcellentEmployee;
-    }
-
-    public ArrayList<String> getListBillIdInMonth() {
-        loadData();
-        ArrayList<String> ListBillIdInMonth = new ArrayList<>();
-        LocalDate currentDate = LocalDate.now();
-        int currentMonth = Integer.parseInt(String.valueOf(currentDate.getMonthValue()));
-        int currentYear = Integer.parseInt(String.valueOf(currentDate.getYear()));
-        for (BillDTO billDTO : billList) {
-//            String[] dateOfBill = billDTO.getBillDate().split("-");
-            int monthOfBill = Integer.parseInt(billDTO.getBillDate().split("-")[1]);
-            int yearOfBill = Integer.parseInt(billDTO.getBillDate().split("-")[0]);
-            if ( monthOfBill == currentMonth && yearOfBill == currentYear ) {
-                ListBillIdInMonth.add(billDTO.getBillId());
-            }
-        }
-        return ListBillIdInMonth;
-    }
-
-
 }

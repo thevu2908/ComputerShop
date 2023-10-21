@@ -294,6 +294,11 @@ public class EmployeeBUS {
         return null;
     }
 
+    public ArrayList<EmployeeDTO> getEmployeeList() {
+        loadData();
+        return employeeList;
+    }
+
     public void renderToTable(DefaultTableModel model) {
         loadData();
         model.setRowCount(0);
@@ -312,17 +317,4 @@ public class EmployeeBUS {
 
         model.fireTableDataChanged();
     }
-
-    public ArrayList<String> getListEmployeeId(){
-        loadData();
-        ArrayList<String> listEmpId = new ArrayList<>();
-        for(EmployeeDTO employeeDTO : employeeList){
-            if(employeeDTO.getEmployeeType().equals("LNV03")){
-                listEmpId.add(employeeDTO.getEmployeeId());
-            }
-        }
-        return listEmpId;
-    }
-
-
 }

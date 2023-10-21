@@ -6,56 +6,68 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class StatisticsGUI {
     private StatisticsBUS statisticsBUS;
+
     public StatisticsGUI() {
         statisticsBUS = new StatisticsBUS();
+        setCurrentMonth();
         initDoanhThu();
         initBestSeller();
         initBestEmployee();
-
 
         cbxYearOfRevenue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int year = Integer.parseInt(String.valueOf(cbxYearOfRevenue.getSelectedItem()));
-                System.out.println(year);
-                initBarChart("Doanh thu",doanhThuChartPanel,year);
-
+                initBarChart("Doanh thu", doanhThuChartPanel, year);
             }
         });
 
+        cbxFilterEmployeeMonth.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initBarChart("Doanh thu bán được", bestEmployeeChartPanel, 2023);
+            }
+        });
 
-
+        cbxFilterProductMonth.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initBarChart("Số lượng bán", bestSellerChartPanel, 2023);
+            }
+        });
     }
 
     public void initBestEmployee() {
-        initBarChart("Doanh thu đem về", bestEmployeeChartPanel,2023);
+        initBarChart("Doanh thu bán được", bestEmployeeChartPanel, 2023);
     }
 
     public void initBestSeller() {
-        initBarChart("Số lượng sản phẩm", bestSellerChartPanel,2023);
+        initBarChart("Số lượng bán", bestSellerChartPanel, 2023);
     }
 
     public void initDoanhThu() {
-        initBarChart("Doanh thu", doanhThuChartPanel,2023);
+        initBarChart("Doanh thu", doanhThuChartPanel, 2023);
     }
 
-    public  void initBarChart(String name, JPanel panel,int year) {
+    public void initBarChart(String name, JPanel panel, int year) {
         CategoryDataset dataset = null;
         if (name.equals("Doanh thu")) {
             dataset = statisticsBUS.createDoanhThuDataset(year);
-        } else if (name.equals("Số lượng sản phẩm")) {
-            dataset = statisticsBUS.createBestSellerDataset();
-        } else if (name.equals("Doanh thu đem về")) {
-            dataset = statisticsBUS.createBestEmployeeDataset();
+            name = name + " (triệu đồng)";
+        } else if (name.equals("Số lượng bán")) {
+            dataset = statisticsBUS.createBestSellerDataset(cbxFilterProductMonth.getSelectedItem().toString(), year);
+        } else if (name.equals("Doanh thu bán được")) {
+            dataset = statisticsBUS.createBestEmployeeDataset(cbxFilterEmployeeMonth.getSelectedItem().toString(), year);
+            name = name + " (triệu đồng)";
         }
 
         JFreeChart chart = createBarChart(dataset, name);
@@ -67,21 +79,23 @@ public class StatisticsGUI {
         panel.add(chartPanel,BorderLayout.CENTER);
     }
 
-
-
-
-
-
-
-    private JFreeChart createBarChart(CategoryDataset dataset, String name) {
+    public JFreeChart createBarChart(CategoryDataset dataset, String name) {
         JFreeChart barChart = ChartFactory.createBarChart(
                 "",
                 "",
                 name,
                 dataset,
                 PlotOrientation.VERTICAL,
-                false, true, false);
+                false, true, false
+        );
         return barChart;
+    }
+
+    public void setCurrentMonth() {
+        LocalDate currentDate = LocalDate.now();
+        String month = String.valueOf(currentDate.getMonthValue());
+        cbxFilterEmployeeMonth.setSelectedItem(month);
+        cbxFilterProductMonth.setSelectedItem(month);
     }
 
     public JPanel getMainPanel() {
@@ -94,4 +108,6 @@ public class StatisticsGUI {
     private JPanel doanhThuChartPanel;
     private JPanel bestSellerChartPanel;
     private JPanel bestEmployeeChartPanel;
+    private JComboBox cbxFilterEmployeeMonth;
+    private JComboBox cbxFilterProductMonth;
 }
