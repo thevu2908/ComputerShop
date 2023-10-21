@@ -2,19 +2,26 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.nio.Buffer;
 import java.nio.file.Path;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class ProductBUS {
@@ -281,6 +288,43 @@ public class ProductBUS {
         cell = row.createCell(8);
         cell.setCellStyle(cellStyle);
         cell.setCellValue("Card màn hình");
+    }
+
+    public void importExcel(File path){
+        FileInputStream excelFIS = null;
+        try {
+            excelFIS = new FileInputStream(path);
+            BufferedInputStream excelBIS = new BufferedInputStream(excelFIS);
+
+            XSSFWorkbook excelJTableImport = new XSSFWorkbook(excelBIS);
+            XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
+
+            for (int row = 0; row <= excelSheet.getLastRowNum();row++){
+                XSSFRow excelRow = excelSheet.getRow(row);
+                if(excelRow.getLastCellNum() != 9){
+                    JOptionPane.showMessageDialog(null, "Tải danh sách sản phẩm thành file excel thất bại", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                ArrayList<String> listInfo = new ArrayList<>();
+                for (int column = 0; column < excelRow.getLastCellNum(); column++) {
+                    DataFormatter formatter = new DataFormatter();
+                    Cell cell = excelSheet.getRow(row).getCell(column);
+                    String value = formatter.formatCellValue(cell);
+                    listInfo.add(value);
+                }
+                try{
+                    int price = Integer.parseInt(listInfo.get(3));
+                }
+                catch(Exception e){
+                    continue;
+                }
+                loadProductData();
+                addProduct(createNewProductID(),listInfo.get(1),productTypeBUS.getNameById(listInfo.get(2)),listInfo.get(3).toString(),listInfo.get(4),listInfo.get(5),listInfo.get(6),listInfo.get(7),listInfo.get(8));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void autoResizeColumn(SXSSFSheet sheet, int columns) {

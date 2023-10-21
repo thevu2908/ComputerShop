@@ -3,6 +3,7 @@ package GUI;
 import BUS.ProductBUS;
 import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -149,7 +150,35 @@ public class ProductGUI {
                     try {
                         File file = fileChooser.getSelectedFile();
                         productBUS.exportExcel(file);
+
                     } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        btnImportExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser= new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION){
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        String filename = file.getName();
+                        if (!FilenameUtils.isExtension(filename,"xlsx")){
+                            JOptionPane.showMessageDialog(null, "Hãy chọn file excel!");
+                        }
+                        else{
+                            int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm sản phẩm từ tập tin " + filename + " không ?", "Câu hỏi",
+                                    JOptionPane.YES_NO_OPTION);
+                            if (choice == JOptionPane.YES_OPTION) {{
+                                productBUS.importExcel(file);
+                            }}
+                        }
+                    }
+                    catch (Exception ex){
                         ex.printStackTrace();
                     }
                 }
