@@ -31,7 +31,7 @@ public class Validate {
     }
 
     public static boolean isValidDOB(String date) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         try {
             LocalDate dob = LocalDate.parse(date, dateFormatter);
             LocalDate currentDate = LocalDate.now();

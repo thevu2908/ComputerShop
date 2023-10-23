@@ -171,7 +171,7 @@ public class EmployeeGUI {
                 switch (searchType) {
                     case "Mã nhân viên":
                         return rowId.contains(employeeInfo) && rowType.contains(employeeType);
-                    case "Họ và Tên":
+                    case "Tên nhân viên":
                         return rowName.contains(employeeInfo) && rowType.contains(employeeType);
                     case "Giới tính":
                         return rowGender.contains(employeeInfo) && rowType.contains(employeeType);

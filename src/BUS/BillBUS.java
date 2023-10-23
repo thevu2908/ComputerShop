@@ -100,10 +100,7 @@ public class BillBUS {
             double total = getRevenueByEmployeeId(employee.getEmployeeId(), month, year);
 
             if (employee.getEmployeeType().equals("LNV03") && total > 0) {
-                EmployeeDTO employeeDTO = new EmployeeDTO(
-                        employee.getEmployeeId(),
-                        total
-                );
+                EmployeeDTO employeeDTO = new EmployeeDTO(employee.getEmployeeId(), total);
 
                 listExcellentEmployee.add(employeeDTO);
             }

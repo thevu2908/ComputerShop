@@ -37,6 +37,50 @@ public class CustomerDAO {
         }
     }
 
+    public int addCustomer(CustomerDTO customer) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `khach_hang` values (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, customer.getCustomerId());
+            ptmt.setString(2, customer.getCustomerName());
+            ptmt.setString(3, customer.getCustomerAddress());
+            ptmt.setString(4, customer.getCustomerPhone());
+            ptmt.setString(5, customer.getCustomerDOB());
+            ptmt.setString(6, customer.getCustomerGender());
+            ptmt.setInt(7, customer.getCustomerPoint());
+            ptmt.setInt(8, customer.getIsDelete());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int updateCustomer(CustomerDTO customer) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `khach_hang` set ho_ten = ?, dia_chi = ?, so_dien_thoai = ?, ngay_sinh = ?, gioi_tinh = ?, " +
+                    "diem_tich_luy = ? where ma_kh = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, customer.getCustomerName());
+            ptmt.setString(2, customer.getCustomerAddress());
+            ptmt.setString(3, customer.getCustomerPhone());
+            ptmt.setString(4, customer.getCustomerDOB());
+            ptmt.setString(5, customer.getCustomerGender());
+            ptmt.setInt(6, customer.getCustomerPoint());
+            ptmt.setString(7, customer.getCustomerId());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int updatePoint(String customerId, int point) {
         try {
             Connection connection = MyConnection.getConnect();
@@ -48,6 +92,21 @@ public class CustomerDAO {
 
             return ptmt.executeUpdate();
         } catch(Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int deleteCustomer(String customerId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `khach_hang` set trang_thai = 1 where ma_kh = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, customerId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

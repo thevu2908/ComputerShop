@@ -158,6 +158,7 @@ public class ProductGUI {
                 }
             }
         });
+
         btnImportExcel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

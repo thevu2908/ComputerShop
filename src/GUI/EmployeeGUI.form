@@ -263,7 +263,7 @@
                             <properties>
                               <model>
                                 <item value="Mã nhân viên"/>
-                                <item value="Họ và Tên"/>
+                                <item value="Tên nhân viên"/>
                                 <item value="Giới tính"/>
                                 <item value="Số điện thoại"/>
                               </model>
