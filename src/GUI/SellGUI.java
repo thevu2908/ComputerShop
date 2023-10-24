@@ -167,12 +167,14 @@ public class SellGUI {
                         JOptionPane.YES_NO_OPTION);
 
                 if (choice == JOptionPane.YES_OPTION) {
+                    int total = Integer.parseInt(txtTotal.getText());
                     int finalTotal = Integer.parseInt(txtFinalTotal.getText());
+                    int discount = txtDiscount.getText().equals("") ? 0 : Integer.parseInt(txtDiscount.getText());
                     String phone = txtCustomerPhone.getText();
                     String usedPoint = txtCustomerPoint.getText();
                     int bonusPoint = calculateBonusPoint(finalTotal);
 
-                    if (billBUS.addBill(employeeId, phone, finalTotal) && sellBUS.addBillDetail()
+                    if (billBUS.addBill(employeeId, phone, total, discount) && sellBUS.addBillDetail()
                             && sellBUS.decreaseProductQuantity() && customerBUS.increasePoint(phone, bonusPoint)) {
 
                         sellBUS.resetBillDetailList();
@@ -508,7 +510,7 @@ public class SellGUI {
             }
         };
 
-        String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày lập", "Tổng tiền"};
+        String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày lập", "Tạm tính", "Giảm giá", "Tổng tiền"};
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));

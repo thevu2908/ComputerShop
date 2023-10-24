@@ -6,17 +6,19 @@ public class BillDTO {
     private String employeeId;
     private String billDate;
     private int total;
+    private int discount;
     private int isDeleted;
 
     public BillDTO() {
     }
 
-    public BillDTO(String billId, String customerId, String employeeId, String billDate, int total, int isDeleted) {
+    public BillDTO(String billId, String customerId, String employeeId, String billDate, int total, int discount, int isDeleted) {
         this.billId = billId;
         this.customerId = customerId;
         this.employeeId = employeeId;
         this.billDate = billDate;
         this.total = total;
+        this.discount = discount;
         this.isDeleted = isDeleted;
     }
 
@@ -58,6 +60,14 @@ public class BillDTO {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public int getIsDeleted() {

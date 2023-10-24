@@ -83,7 +83,7 @@ public class BillDetailGUI {
     public void setTotalPrice() {
         BillDTO bill = billBUS.getBillById(billId);
         if (bill != null) {
-            txtTotalPrice.setText(bill.getTotal() + "");
+            txtTotalPrice.setText(bill.getTotal() - bill.getDiscount() + "");
         }
     }
 

@@ -35,7 +35,7 @@ public class BillBUS {
         return "HD" + String.format("%03d", id);
     }
 
-    public boolean addBill(String employeeId, String phone, int finalTotal) {
+    public boolean addBill(String employeeId, String phone, int total, int discount) {
         if (employeeId.equals("") || phone.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -45,7 +45,7 @@ public class BillBUS {
         String billId = getNewBillId();
         String currentDate = DateTime.getCurrentDate();
 
-        BillDTO billDTO = new BillDTO(billId, customerDTO.getCustomerId(), employeeId, currentDate, finalTotal, 0);
+        BillDTO billDTO = new BillDTO(billId, customerDTO.getCustomerId(), employeeId, currentDate, total, discount, 0);
 
         if (billDAO.addBill(billDTO) > 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công");
@@ -150,7 +150,9 @@ public class BillBUS {
                         billDTO.getCustomerId(),
                         billDTO.getEmployeeId(),
                         DateTime.formatDate(billDTO.getBillDate()),
-                        billDTO.getTotal()
+                        billDTO.getTotal(),
+                        billDTO.getDiscount(),
+                        billDTO.getTotal() - billDTO.getDiscount()
                 });
             }
         }
@@ -169,7 +171,9 @@ public class BillBUS {
                         billDTO.getCustomerId(),
                         billDTO.getEmployeeId(),
                         DateTime.formatDate(billDTO.getBillDate()),
-                        billDTO.getTotal()
+                        billDTO.getTotal(),
+                        billDTO.getDiscount(),
+                        billDTO.getTotal() - billDTO.getDiscount()
                 });
             }
         }

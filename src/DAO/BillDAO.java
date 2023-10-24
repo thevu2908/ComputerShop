@@ -23,9 +23,10 @@ public class BillDAO {
                 String employeeId = rs.getString("ma_nv");
                 String date = rs.getString("ngay_lap");
                 int total = rs.getInt("tong_tien");
+                int discount = rs.getInt("giam_gia");
                 int isDeleted = rs.getInt("trang_thai");
 
-                list.add(new BillDTO(billId, customerId, employeeId, date, total, isDeleted));
+                list.add(new BillDTO(billId, customerId, employeeId, date, total, discount, isDeleted));
             }
 
             return list;
@@ -38,7 +39,7 @@ public class BillDAO {
     public int addBill(BillDTO billDTO) {
         try {
             Connection connection = MyConnection.getConnect();
-            String query = "insert into `hoa_don` values (?, ?, ?, ?, ?, ?)";
+            String query = "insert into `hoa_don` values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ptmt = connection.prepareStatement(query);
 
             ptmt.setString(1, billDTO.getBillId());
@@ -46,7 +47,8 @@ public class BillDAO {
             ptmt.setString(3, billDTO.getEmployeeId());
             ptmt.setString(4, billDTO.getBillDate());
             ptmt.setInt(5, billDTO.getTotal());
-            ptmt.setInt(6, billDTO.getIsDeleted());
+            ptmt.setInt(6, billDTO.getDiscount());
+            ptmt.setInt(7, billDTO.getIsDeleted());
 
             return ptmt.executeUpdate();
         } catch (Exception e) {

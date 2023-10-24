@@ -206,7 +206,7 @@ public class BillGUI {
             }
         };
 
-        String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày lập", "Tổng tiền"};
+        String[] cols = {"Mã hóa đơn", "Mã khách hàng", "Mã nhân viên", "Ngày lập", "Tạm tính", "Giảm giá", "Tổng tiền"};
         billModel.setColumnIdentifiers(cols);
         tblBills.setModel(billModel);
         tblBills.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));

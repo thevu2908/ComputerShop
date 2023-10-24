@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class BillDetailBUS {
@@ -55,7 +56,7 @@ public class BillDetailBUS {
             setPDFHeader(document, pdfWriter, billId);
             setPDFInformation(document, billId);
             setPDFProductTable(document, billId);
-            setPDFFooter(document, billId);
+            setPDFFooter(document, pdfWriter, billId);
 
             document.close();
             JOptionPane.showMessageDialog(null, "In hóa đơn thành công");
@@ -65,7 +66,7 @@ public class BillDetailBUS {
         }
     }
 
-    public void setPDFFooter(Document document, String billId) {
+    public void setPDFFooter(Document document, PdfWriter pdfWriter, String billId) {
         try {
             Font fontBold = new Font(
                     BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
@@ -79,16 +80,50 @@ public class BillDetailBUS {
                     Font.NORMAL
             );
 
+            int billTmpPrice = billBUS.getBillById(billId).getTotal();
+            int billDiscount = billBUS.getBillById(billId).getDiscount();
+            int billTotal = billTmpPrice - billDiscount;
+
+            int maxLength = getMaxLength(billTmpPrice, billDiscount, billTotal);
+            String format = "%1$" + maxLength + "s";
+
+            Paragraph tmpBox = new Paragraph();
+            tmpBox.setAlignment(Element.ALIGN_RIGHT);
+            tmpBox.setSpacingBefore(10);
+
+            Chunk tmpPriceTitle = new Chunk("Tạm tính:  ", fontBold);
+            Chunk tmpPrice = new Chunk(String.format(format, billTmpPrice) + " VNĐ", font);
+            tmpBox.add(tmpPriceTitle);
+            tmpBox.add(tmpPrice);
+
+            Paragraph discountBox = new Paragraph();
+            discountBox.setAlignment(Element.ALIGN_RIGHT);
+            discountBox.setSpacingBefore(5);
+
+            Chunk discountTitle = new Chunk("Giảm giá:   ", fontBold);
+            Chunk discount = new Chunk(String.format(format, billDiscount) + " VNĐ", font);
+            discountBox.add(discountTitle);
+            discountBox.add(discount);
+
+            PdfContentByte content = pdfWriter.getDirectContent();
+            content.setLineWidth(1f);
+            content.setColorStroke(BaseColor.BLACK);
+
+            content.moveTo(430f, 490f);
+            content.lineTo(560f, 490f);
+            content.stroke();
+
             Paragraph totalBox = new Paragraph();
             totalBox.setAlignment(Element.ALIGN_RIGHT);
             totalBox.setSpacingBefore(10);
 
-            Chunk title = new Chunk("TỔNG TIỀN: ", fontBold);
-            Chunk totalPrice = new Chunk(billBUS.getBillById(billId).getTotal() + " VNĐ", font);
+            Chunk totalTitle = new Chunk("Tổng tiền:  ", fontBold);
+            Chunk total = new Chunk(String.format(format, billTotal) + " VNĐ", font);
+            totalBox.add(totalTitle);
+            totalBox.add(total);
 
-            totalBox.add(title);
-            totalBox.add(totalPrice);
-
+            document.add(tmpBox);
+            document.add(discountBox);
             document.add(totalBox);
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,6 +315,11 @@ public class BillDetailBUS {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getMaxLength(int tmpPrice, int discount, int total) {
+        String[] arr = {String.valueOf(tmpPrice), String.valueOf(discount), String.valueOf(total)};
+        return Arrays.asList(arr).stream().map(String::length).max(Integer::compareTo).get();
     }
 
     public ArrayList<BillDetailDTO> getListSoldProductInMonth(String month, int year) {
