@@ -140,7 +140,7 @@ INSERT INTO `loai_nhan_vien` (`ma_lnv`, `ten_lnv`, `trang_thai`) VALUES
 ('LNV01', 'Admin', 0),
 ('LNV02', 'Quản lý', 0),
 ('LNV03', 'Nhân viên bán hàng', 0),
-('LNV04', 'Nhân viên thủ kho', 0)
+('LNV04', 'Nhân viên thủ kho', 0);
 
 -- --------------------------------------------------------
 
