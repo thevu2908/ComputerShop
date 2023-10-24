@@ -143,7 +143,6 @@ public class ExportDetailBUS {
             return;
         }
 
-        loadData();
         try {
             Document document = new Document();
 
@@ -199,6 +198,7 @@ public class ExportDetailBUS {
     }
 
     public void setPDFProductTable(Document document, String exportId) {
+        loadData();
         try {
             Font font = new Font(
                     BaseFont.createFont("/fonts/ARIAL.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
