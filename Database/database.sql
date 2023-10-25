@@ -230,6 +230,9 @@ CREATE TABLE `phieu_xuat` (
 CREATE TABLE `chuong_trinh_khuyen_mai` (
   `ma_ctkm` varchar(10) NOT NULL,
   `thong_tin` nvarchar(30) NOT NULL,
+  `ngay_bat_dau` date NOT NULL,
+  `ngay_ket_thuc` date NOT NULL,
+  `tinh_trang` nvarchar(30) NOT NULL,
   `trang_thai` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -237,9 +240,9 @@ CREATE TABLE `chuong_trinh_khuyen_mai` (
 -- Dumping data for table `chuong_trinh_khuyen_mai`
 --
 
-INSERT INTO `chuong_trinh_khuyen_mai` (`ma_ctkm`, `thong_tin`, `trang_thai`) VALUES
-('CTKM01', "15%", 0),
-('CTKM02', "29%", 0);
+INSERT INTO `chuong_trinh_khuyen_mai` (`ma_ctkm`, `thong_tin`, `ngay_bat_dau`, `ngay_ket_thuc`, `tinh_trang`, `trang_thai`) VALUES
+('CTKM01', "15%", '2023-10-01', '2023-10-31', 'Đang áp dụng', 0),
+('CTKM02', "20%", '2023-11-01', '2023-10-30', 'Chưa áp dụng', 0);
 
 --
 -- Table structure for table `san_pham`
@@ -265,10 +268,10 @@ CREATE TABLE `san_pham` (
 --
 
 INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ma_ctkm`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
-('SP001', 'HSP01', null, 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 0),
-('SP002', 'HSP02', null, 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 0),
+('SP001', 'HSP01', 'CTKM01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 0),
+('SP002', 'HSP02', 'CTKM01', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 0),
 ('SP003', 'HSP06', 'CTKM01', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 0),
-('SP004', 'HSP03', null, 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 0);
+('SP004', 'HSP03', 'CTKM01', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 0);
 
 --
 -- Table structure for table `san_pham_kho`
