@@ -372,7 +372,7 @@ public class SellGUI {
     }
 
     public int calculateBonusPoint(long totalPrice) {
-        return (int) (totalPrice * 100 / 1000000);
+        return (int) (totalPrice * 100 / 10000000);
     }
 
     public int calculateDiscount(int point) {

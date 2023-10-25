@@ -69,7 +69,7 @@ public class BillBUS {
             int monthOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
             int yearOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[0]);
             if (yearOfBill == year) {
-                listDT[monthOfBill - 1] += billDTO.getTotal() * 1.0 / 1000000;
+                listDT[monthOfBill - 1] += (billDTO.getTotal() - billDTO.getDiscount()) * 1.0 / 1000000;
             }
         }
 
@@ -84,7 +84,7 @@ public class BillBUS {
             int billYear = Integer.parseInt(date[0]);
 
             if (billDTO.getEmployeeId().equals(employeeId) && billMonth.equals(month) && billYear == year) {
-                tong += billDTO.getTotal() * 1.0 / 1000000;
+                tong += (billDTO.getTotal() - billDTO.getDiscount()) * 1.0 / 1000000;
             }
         }
         return tong;
