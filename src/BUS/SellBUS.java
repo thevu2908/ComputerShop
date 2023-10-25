@@ -24,7 +24,7 @@ public class SellBUS {
 
     public void chooseProduct(DefaultTableModel model, String productId, int quantity) {
         String billId = billBUS.getNewBillId();
-        BillDetailDTO billDetailDTO = new BillDetailDTO(billId,productId, quantity);
+        BillDetailDTO billDetailDTO = new BillDetailDTO(billId, productId, quantity);
 
         if (billDetailDTO != null) {
             boolean flag = true;

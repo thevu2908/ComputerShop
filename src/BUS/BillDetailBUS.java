@@ -19,6 +19,7 @@ public class BillDetailBUS {
     private ProductBUS productBUS;
     private EmployeeBUS employeeBUS;
     private CustomerBUS customerBUS;
+    private SaleBUS saleBUS;
 
     public BillDetailBUS() {
         billDetailDAO = new BillDetailDAO();
@@ -26,6 +27,7 @@ public class BillDetailBUS {
         billBUS = new BillBUS();
         employeeBUS = new EmployeeBUS();
         customerBUS = new CustomerBUS();
+        saleBUS = new SaleBUS();
     }
 
     public void loadData() {
@@ -361,7 +363,13 @@ public class BillDetailBUS {
         model.setRowCount(0);
 
         for (BillDetailDTO billDetailDTO : list) {
+            String saleId = productBUS.getProductById(billDetailDTO.getProductId()).getSaleId();
+            int discount = saleId == null || saleId.equals("")
+                    ? 0
+                    : Integer.parseInt(saleBUS.getSaleById(saleId).getSaleInfo().
+                        substring(0, saleBUS.getSaleById(saleId).getSaleInfo().length() - 1));
             int price = productBUS.getPriceById(billDetailDTO.getProductId());
+            price = price - (price * discount / 100);
             int quantity = billDetailDTO.getQuantity();
 
             model.addRow(new Object[]{

@@ -89,7 +89,7 @@ public class SellGUI {
                     }
                 }
 
-                if (quantity > Integer.parseInt(tblProducts.getValueAt(rowSelected, 3).toString()) - boughtQuantity) {
+                if (quantity > Integer.parseInt(tblProducts.getValueAt(rowSelected, 5).toString()) - boughtQuantity) {
                     JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm không đủ", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     return;
@@ -558,7 +558,7 @@ public class SellGUI {
             }
         };
 
-        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Hãng", "Giá", "Số lượng còn"};
+        String[] cols = {"Mã sản phẩm", "Tên sản phẩm", "Hãng", "Giá", "CTKM áp dụng", "Số lượng còn"};
         productModel.setColumnIdentifiers(cols);
         tblProducts.setModel(productModel);
         tblProducts.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));

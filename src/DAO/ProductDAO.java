@@ -20,6 +20,7 @@ public class ProductDAO {
             while (rs.next()) {
                 String id = rs.getString("ma_sp");
                 String type = rs.getString("ma_hsp");
+                String sale = rs.getString("ma_ctkm");
                 String name = rs.getString("ten_sp");
                 int price = rs.getInt("gia");
                 String cpu = rs.getString("cpu");
@@ -30,7 +31,7 @@ public class ProductDAO {
                 int quantity = rs.getInt("so_luong");
                 int isDeleted = rs.getInt("trang_thai");
 
-                list.add(new ProductDTO(id, type, name, price, cpu, ram, oCung, screen, screenCard, quantity, isDeleted));
+                list.add(new ProductDTO(id, type, sale, name, price, cpu, ram, oCung, screen, screenCard, quantity, isDeleted));
             }
 
             return list;
@@ -64,20 +65,21 @@ public class ProductDAO {
     public int addProduct(ProductDTO product) {
         try {
             Connection connection = MyConnection.getConnect();
-            String query = "insert into `san_pham` values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "insert into `san_pham` values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ptmt = connection.prepareStatement(query);
 
             ptmt.setString(1, product.getProductId());
             ptmt.setString(2, product.getProductType());
-            ptmt.setString(3, product.getProductName());
-            ptmt.setInt(4, product.getProductPrice());
-            ptmt.setString(5, product.getProductCPU());
-            ptmt.setString(6, product.getProductRAM());
-            ptmt.setString(7, product.getProductDisk());
-            ptmt.setString(8, product.getProductScreen());
-            ptmt.setString(9, product.getProductScreenCard());
-            ptmt.setInt(10, product.getProductQuantity());
-            ptmt.setInt(11, product.getIsDeleted());
+            ptmt.setString(3, product.getSaleId());
+            ptmt.setString(4, product.getProductName());
+            ptmt.setInt(5, product.getProductPrice());
+            ptmt.setString(6, product.getProductCPU());
+            ptmt.setString(7, product.getProductRAM());
+            ptmt.setString(8, product.getProductDisk());
+            ptmt.setString(9, product.getProductScreen());
+            ptmt.setString(10, product.getProductScreenCard());
+            ptmt.setInt(11, product.getProductQuantity());
+            ptmt.setInt(12, product.getIsDeleted());
 
             return ptmt.executeUpdate();
         } catch (Exception e) {

@@ -1,7 +1,6 @@
 package BUS;
 
 import DAO.ProductDAO;
-import DTO.EmployeeDTO;
 import DTO.ProductDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -24,12 +23,14 @@ import java.util.Iterator;
 public class ProductBUS {
     private ProductDAO productDAO;
     private ProductTypeBUS productTypeBUS;
+    private SaleBUS saleBUS;
     private ArrayList<ProductDTO> productList = new ArrayList<>();
     private ArrayList<ProductDTO> productStorageList = new ArrayList<>();
 
     public ProductBUS() {
         productDAO = new ProductDAO();
         productTypeBUS = new ProductTypeBUS();
+        saleBUS = new SaleBUS();
     }
 
     public void loadProductData() {
@@ -59,7 +60,7 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        ProductDTO product = new ProductDTO(id, typeId, null, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.addProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
@@ -116,7 +117,7 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        ProductDTO product = new ProductDTO(id, typeId, null, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.updateProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
@@ -523,6 +524,9 @@ public class ProductBUS {
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
                         productDTO.getProductPrice(),
+                        saleBUS.getSaleById(productDTO.getSaleId()) == null
+                                ? ""
+                                : "Giảm " + saleBUS.getSaleById(productDTO.getSaleId()).getSaleInfo(),
                         productDTO.getProductQuantity()
                 });
             }
