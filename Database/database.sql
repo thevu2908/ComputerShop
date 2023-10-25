@@ -224,12 +224,31 @@ CREATE TABLE `phieu_xuat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Table structure for table `chuong_trinh_khuyen_mai`
+--
+
+CREATE TABLE `chuong_trinh_khuyen_mai` (
+  `ma_ctkm` varchar(10) NOT NULL,
+  `thong_tin` nvarchar(30) NOT NULL,
+  `trang_thai` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `chuong_trinh_khuyen_mai`
+--
+
+INSERT INTO `chuong_trinh_khuyen_mai` (`ma_ctkm`, `thong_tin`, `trang_thai`) VALUES
+('CTKM01', "15%", 0),
+('CTKM02', "29%", 0);
+
+--
 -- Table structure for table `san_pham`
 --
 
 CREATE TABLE `san_pham` (
   `ma_sp` varchar(10) NOT NULL,
   `ma_hsp` varchar(10) NOT NULL,
+  `ma_ctkm` varchar(10),
   `ten_sp` varchar(255) NOT NULL,
   `gia` int NOT NULL,
   `cpu` varchar(50) NOT NULL,
@@ -245,11 +264,11 @@ CREATE TABLE `san_pham` (
 -- Dumping data for table `san_pham`
 --
 
-INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
-('SP001', 'HSP01', 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 0),
-('SP002', 'HSP02', 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 0),
-('SP003', 'HSP06', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 0),
-('SP004', 'HSP03', 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 0);
+INSERT INTO `san_pham` (`ma_sp`, `ma_hsp`, `ma_ctkm`, `ten_sp`, `gia`, `cpu`, `ram`, `o_cung`, `man_hinh`, `card_man_hinh`, `so_luong`, `trang_thai`) VALUES
+('SP001', 'HSP01', null, 'Dell Vostro 3510 R1501B', 20500000, 'Intel core I5 1135G7', '8GB', '512GB SSD', '15.6 inch FHD', '2GB MX350', 100, 0),
+('SP002', 'HSP02', null, 'Laptop HP Pavilion 14-DV2074TU', 15790000, 'Intel core I5 1235U', '8GB', '512GB SSD', '14 inch Full HD (1920 x 1080)', 'Intel Iris Xe Graphics', 100, 0),
+('SP003', 'HSP06', 'CTKM01', 'Macbook Pro 14\'\' M1 Pro 2021', 42990000, 'Apple M1 Pro', '16GB', '512GB SSD', '14.2 inch Liquid Retina XDR display (3024 x 1964)', '14 core-GPU', 100, 0),
+('SP004', 'HSP03', null, 'Laptop Acer Nitro AN515-58-769J i7-12700H', 24190000, 'Intel core I7', '8GB', '512GB SSD', '15.6 inch Full HD (1920 x 1080)', 'NVIDIA GeForce RTX 3050', 100, 0);
 
 --
 -- Table structure for table `san_pham_kho`
@@ -343,14 +362,22 @@ ALTER TABLE `phieu_nhap`
 --
 ALTER TABLE `phieu_xuat`
   ADD PRIMARY KEY (`ma_px`),
-  ADD KEY `ctpx_constraint_nv` (`ma_nv`);
+  ADD KEY `nv_constraint_px` (`ma_nv`);
+
+--
+-- Indexes for table `chuong_trinh_khuyen_mai`
+--
+
+ALTER TABLE `chuong_trinh_khuyen_mai`
+  ADD PRIMARY KEY (`ma_ctkm`);
 
 --
 -- Indexes for table `san_pham`
 --
 ALTER TABLE `san_pham`
   ADD PRIMARY KEY (`ma_sp`),
-  ADD KEY `hsp_constraint_sp` (`ma_hsp`);
+  ADD KEY `hsp_constraint_sp` (`ma_hsp`),
+  ADD KEY `ctkm_constraint_sp` (`ma_ctkm`);
 
 --
 -- Indexes for table `san_pham_kho`
@@ -408,13 +435,14 @@ ALTER TABLE `phieu_nhap`
 -- Constraints for table `phieu_xuat`
 --
 ALTER TABLE `phieu_xuat`
-  ADD CONSTRAINT `ctpx_constraint_nv` FOREIGN KEY (`ma_nv`) REFERENCES `nhan_vien` (`ma_nv`);
+  ADD CONSTRAINT `nv_constraint_px` FOREIGN KEY (`ma_nv`) REFERENCES `nhan_vien` (`ma_nv`);
 
 --
 -- Constraints for table `san_pham`
 --
 ALTER TABLE `san_pham`
-  ADD CONSTRAINT `hsp_constraint_sp` FOREIGN KEY (`ma_hsp`) REFERENCES `hang_san_pham` (`ma_hsp`);
+  ADD CONSTRAINT `hsp_constraint_sp` FOREIGN KEY (`ma_hsp`) REFERENCES `hang_san_pham` (`ma_hsp`),
+  ADD CONSTRAINT `ctkm_constraint_sp` FOREIGN KEY (`ma_ctkm`) REFERENCES `chuong_trinh_khuyen_mai` (`ma_ctkm`);
 
 --
 -- Constraints for table `san_pham_kho`
