@@ -3,6 +3,7 @@ package BUS;
 import DAO.SaleDAO;
 import DTO.SaleDTO;
 
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class SaleBUS {
@@ -27,5 +28,19 @@ public class SaleBUS {
         }
 
         return null;
+    }
+
+    public void renderToTable(DefaultTableModel model) {
+        loadData();
+        model.setRowCount(0);
+
+        for (SaleDTO saleDTO : salesList) {
+            if (saleDTO.getIsDeleted() == 0) {
+                model.addRow(new Object[]{
+                        saleDTO.getSaleId(),
+                        saleDTO.getSaleInfo()
+                });
+            }
+        }
     }
 }

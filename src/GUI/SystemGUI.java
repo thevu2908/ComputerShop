@@ -16,6 +16,7 @@ public class SystemGUI {
     private StatisticsGUI statisticsGUI;
     private EmployeeTypeGUI accessGUI;
     private EmployeeGUI employeeGUI;
+    private SaleGUI saleGUI;
     private ProductGUI productGUI;
     private BillGUI billGUI;
     private CustomerGUI customerGUI;
@@ -59,7 +60,7 @@ public class SystemGUI {
         ArrayList<JPanel> panels = new ArrayList<>();
         List<JPanel> list;
         if (employeeType.equals("LNV01")) {
-            list = Arrays.asList(statisticsPanel, productPanel, billPanel, customerPanel,
+            list = Arrays.asList(statisticsPanel, salePanel, productPanel, billPanel, customerPanel,
                     storagePanel, supplierPanel);
             panels.addAll(list);
             hidePanel(panels);
@@ -71,12 +72,13 @@ public class SystemGUI {
             card.show(contentPanel, "Statistics");
         } else if (employeeType.equals("LNV03")) {
             lblLogout.setText("Về trang bán hàng");
-            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, storagePanel, supplierPanel, billPanel);
+            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, salePanel,
+                    productPanel, storagePanel, supplierPanel, billPanel);
             panels.addAll(list);
             hidePanel(panels);
             card.show(contentPanel, "Customer");
         } else if (employeeType.equals("LNV04")) {
-            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, productPanel, billPanel, customerPanel,
+            list = Arrays.asList(statisticsPanel, accessPanel, employeePanel, salePanel, productPanel, billPanel, customerPanel,
                     supplierPanel);
             panels.addAll(list);
             hidePanel(panels);
@@ -104,6 +106,9 @@ public class SystemGUI {
                     employeeGUI.initComboBoxData();
                     employeeGUI.initTableData();
                     card.show(contentPanel, "Employee");
+                } else if (e.getSource() == lblSale) {
+                    saleGUI.initTableData();
+                    card.show(contentPanel, "Sale");
                 } else if (e.getSource() == lblProduct) {
                     productGUI.initComboBoxTypeData();
                     productGUI.initTableData();
@@ -127,6 +132,7 @@ public class SystemGUI {
         lblStatistics.addMouseListener(showContent);
         lblAccess.addMouseListener(showContent);
         lblEmployee.addMouseListener(showContent);
+        lblSale.addMouseListener(showContent);
         lblProduct.addMouseListener(showContent);
         lblBill.addMouseListener(showContent);
         lblCustomer.addMouseListener(showContent);
@@ -138,6 +144,7 @@ public class SystemGUI {
         statisticsGUI = new StatisticsGUI();
         accessGUI = new EmployeeTypeGUI();
         employeeGUI = new EmployeeGUI();
+        saleGUI = new SaleGUI();
         productGUI = new ProductGUI();
         billGUI = new BillGUI();
         customerGUI = new CustomerGUI();
@@ -147,6 +154,7 @@ public class SystemGUI {
         contentPanel.add("Statistics", statisticsGUI.getMainPanel());
         contentPanel.add("Access", accessGUI.getMainPanel());
         contentPanel.add("Employee", employeeGUI.getMainPanel());
+        contentPanel.add("Sale", saleGUI.getMainPanel());
         contentPanel.add("Product", productGUI.getMainPanel());
         contentPanel.add("Bill", billGUI.getMainPanel());
         contentPanel.add("Customer", customerGUI.getMainPanel());
@@ -164,6 +172,7 @@ public class SystemGUI {
         lblStatistics.setBorder(border);
         lblAccess.setBorder(border);
         lblEmployee.setBorder(border);
+        lblSale.setBorder(border);
         lblProduct.setBorder(border);
         lblBill.setBorder(border);
         lblCustomer.setBorder(border);
@@ -191,6 +200,9 @@ public class SystemGUI {
                 } else if (e.getSource() == lblEmployee) {
                     lblEmployee.setBackground(new Color(86, 132, 242));
                     lblEmployee.setForeground(new Color(255, 255, 255));
+                } else if (e.getSource() == lblSale) {
+                    lblSale.setBackground(new Color(86, 132, 242));
+                    lblSale.setForeground(new Color(255, 255, 255));
                 } else if (e.getSource() == lblProduct) {
                     lblProduct.setBackground(new Color(86, 132, 242));
                     lblProduct.setForeground(new Color(255, 255, 255));
@@ -220,6 +232,9 @@ public class SystemGUI {
                 } else if (e.getSource() == lblEmployee) {
                     lblEmployee.setBackground(new Color(255, 255, 255));
                     lblEmployee.setForeground(new Color(0, 0, 0));
+                } else if (e.getSource() == lblSale) {
+                    lblSale.setBackground(new Color(255, 255, 255));
+                    lblSale.setForeground(new Color(0, 0, 0));
                 } else if (e.getSource() == lblProduct) {
                     lblProduct.setBackground(new Color(255, 255, 255));
                     lblProduct.setForeground(new Color(0, 0, 0));
@@ -241,6 +256,7 @@ public class SystemGUI {
         lblStatistics.addMouseListener(hover);
         lblAccess.addMouseListener(hover);
         lblEmployee.addMouseListener(hover);
+        lblSale.addMouseListener(hover);
         lblProduct.addMouseListener(hover);
         lblBill.addMouseListener(hover);
         lblCustomer.addMouseListener(hover);
@@ -253,6 +269,7 @@ public class SystemGUI {
         lblStatistics.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblAccess.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblEmployee.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lblSale.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblProduct.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblBill.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblCustomer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -292,4 +309,6 @@ public class SystemGUI {
     private JPanel storagePanel;
     private JPanel supplierPanel;
     private JLabel lblCurrentDate;
+    private JPanel salePanel;
+    private JLabel lblSale;
 }
