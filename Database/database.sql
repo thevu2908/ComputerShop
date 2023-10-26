@@ -242,7 +242,7 @@ CREATE TABLE `chuong_trinh_khuyen_mai` (
 
 INSERT INTO `chuong_trinh_khuyen_mai` (`ma_ctkm`, `thong_tin`, `ngay_bat_dau`, `ngay_ket_thuc`, `tinh_trang`, `trang_thai`) VALUES
 ('CTKM01', "15%", '2023-10-01', '2023-10-31', 'Đang áp dụng', 0),
-('CTKM02', "20%", '2023-11-01', '2023-10-30', 'Chưa áp dụng', 0);
+('CTKM02', "20%", '2023-11-01', '2023-11-30', 'Chưa áp dụng', 0);
 
 --
 -- Table structure for table `san_pham`
