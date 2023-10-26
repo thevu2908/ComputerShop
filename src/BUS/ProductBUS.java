@@ -135,6 +135,14 @@ public class ProductBUS {
         return false;
     }
 
+    public void stopApplySaleToProduct() {
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            productDAO.stopApplySaleToProduct(productDTO.getProductId());
+        }
+    }
+
     public boolean addProductStorage(String productId, int quantity) {
         ProductDTO product = new ProductDTO(productId, quantity);
 

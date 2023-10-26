@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.SaleDAO;
 import DTO.SaleDTO;
+import utils.DateTime;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -38,7 +39,10 @@ public class SaleBUS {
             if (saleDTO.getIsDeleted() == 0) {
                 model.addRow(new Object[]{
                         saleDTO.getSaleId(),
-                        saleDTO.getSaleInfo()
+                        saleDTO.getSaleInfo(),
+                        DateTime.formatDate(saleDTO.getStartDate()),
+                        DateTime.formatDate(saleDTO.getEndDate()),
+                        saleDTO.getSaleStatus()
                 });
             }
         }

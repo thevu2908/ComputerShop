@@ -144,6 +144,21 @@ public class ProductDAO {
         }
     }
 
+    public int stopApplySaleToProduct(String productId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set ma_ctkm = null where ma_sp = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int addPProductStorage(ProductDTO product) {
         try {
             Connection connection = MyConnection.getConnect();
