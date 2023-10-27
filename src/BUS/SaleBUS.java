@@ -7,8 +7,6 @@ import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -63,6 +61,7 @@ public class SaleBUS {
                 return false;
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Thêm chương trình khuyến mãi thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return false;
         }
@@ -129,6 +128,8 @@ public class SaleBUS {
         if (saleDAO.applySale(saleId) > 0) {
             return true;
         } else {
+            JOptionPane.showMessageDialog(null, "Áp dụng chương trình khuyến mãi thất bại", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

@@ -54,7 +54,7 @@
                 <properties>
                   <model>
                     <item value="Mã khuyến mãi"/>
-                    <item value="Thông tin khuyến mãi"/>
+                    <item value="Giá khuyến mãi"/>
                   </model>
                 </properties>
               </component>

@@ -8,16 +8,16 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 
 public class SaleGUI {
     private DefaultTableModel model;
+    private TableRowSorter<DefaultTableModel> sorter;
     private SaleBUS saleBUS;
     private ProductBUS productBUS;
 
@@ -157,11 +157,92 @@ public class SaleGUI {
                 }
             }
         });
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                filter();
+            }
+        });
+
+        cbxFilterStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filter();
+            }
+        });
+
+        btnFilterDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filter();
+            }
+        });
     }
 
     public void autoStopApplySale() {
         Timer timer = new Timer();
         timer.schedule(new AutoStopApplySaleBUS(), 0, 3600000);
+    }
+
+    public void filter() {
+        try {
+            String searchType = cbxSearchType.getSelectedItem().toString();
+            String info = txtSearch.getText().toLowerCase();
+            String status = cbxFilterStatus.getSelectedItem() == null
+                    || cbxFilterStatus.getSelectedItem().toString().equals("Tất cả")
+                    ? ""
+                    : cbxFilterStatus.getSelectedItem().toString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateFrom = startDate.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : formatter.parse(formatter.format(startDate.getDate()));
+
+            Date dateTo = endDate.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : formatter.parse(formatter.format(endDate.getDate()));
+
+            if (dateTo.compareTo(dateFrom) < 0) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            sorter = new TableRowSorter<>(model);
+            tblSales.setRowSorter(sorter);
+
+            RowFilter<DefaultTableModel, Object> filter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ?> entry) {
+                    try {
+                        String rowId = entry.getStringValue(0).toLowerCase();
+                        String rowInfo = entry.getStringValue(1).toLowerCase();
+                        Date rowStartDate = formatter.parse(entry.getStringValue(2));
+                        Date rowEndDate = formatter.parse(entry.getStringValue(3));
+                        String rowStatus = entry.getStringValue(4);
+
+                        switch (searchType) {
+                            case "Mã khuyến mãi":
+                                return rowId.contains(info) && rowStatus.contains(status)
+                                        && rowStartDate.compareTo(dateFrom) >= 0 && rowEndDate.compareTo(dateTo) <= 0;
+                            case "Giá khuyến mãi":
+                                return rowInfo.contains(info) && rowStatus.contains(status)
+                                        && rowStartDate.compareTo(dateFrom) >= 0 && rowEndDate.compareTo(dateTo) <= 0;
+                            default:
+                                return true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                }
+            };
+
+            sorter.setRowFilter(filter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void reset() {
@@ -176,6 +257,9 @@ public class SaleGUI {
         saleEndDate.setDate(null);
         txtSaleStatus.setText("");
         initTableData();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }
 
     public void initTableData() {
