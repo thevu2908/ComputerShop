@@ -28,7 +28,7 @@ public class ExportBUS {
             return false;
         }
 
-        String currentDate = DateTime.getCurrentDate();
+        String currentDate = DateTime.getStringCurrentDate();
         ExportDTO exportDTO = new ExportDTO(exportId, employeeId, currentDate, 0, "Chưa duyệt", 0);
 
         if (exportDAO.addExport(exportDTO) > 0) {

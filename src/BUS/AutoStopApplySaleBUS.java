@@ -2,19 +2,18 @@ package BUS;
 
 import DAO.SaleDAO;
 import DTO.SaleDTO;
+import utils.DateTime;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimerTask;
 
-public class StopApplySale extends TimerTask {
+public class AutoStopApplySaleBUS extends TimerTask {
     private ArrayList<SaleDTO> salesList;
     private SaleDAO saleDAO;
     private ProductBUS productBUS;
 
-    public StopApplySale() {
+    public AutoStopApplySaleBUS() {
         saleDAO = new SaleDAO();
         productBUS = new ProductBUS();
         salesList = saleDAO.getData();
@@ -23,13 +22,17 @@ public class StopApplySale extends TimerTask {
     @Override
     public void run() {
         try {
-            Date currentDate = new Date();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date currentDate = DateTime.getCurrentDate();
 
             for (SaleDTO saleDTO : salesList) {
-                if (currentDate.after(df.parse(saleDTO.getEndDate()))) {
+                if (
+                        saleDTO.getSaleStatus().equals("Đang áp dụng")
+                        &&
+                        currentDate.after(DateTime.parseDate(saleDTO.getEndDate()))
+                ) {
                     saleDAO.stopApplySale(saleDTO.getSaleId());
-                    productBUS.stopApplySaleToProduct();
+                    productBUS.autoStopApplySale();
+                    return;
                 }
             }
         } catch (Exception e) {

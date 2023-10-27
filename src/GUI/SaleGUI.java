@@ -1,30 +1,181 @@
 package GUI;
 
+import BUS.ProductBUS;
 import BUS.SaleBUS;
-import BUS.StopApplySale;
+import BUS.AutoStopApplySaleBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Timer;
 
 public class SaleGUI {
     private DefaultTableModel model;
     private SaleBUS saleBUS;
+    private ProductBUS productBUS;
 
     public SaleGUI() {
         saleBUS = new SaleBUS();
+        productBUS = new ProductBUS();
         initDateChooser();
         initTable();
         initTableData();
-        stopApplySale();
+        autoStopApplySale();
+
+        tblSales.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                int selectedRow = tblSales.getSelectedRow();
+
+                if (selectedRow >= 0) {
+                    try {
+                        String id = tblSales.getValueAt(selectedRow, 0).toString();
+                        String info = tblSales.getValueAt(selectedRow, 1).toString();
+                        String startDateStr = tblSales.getValueAt(selectedRow, 2).toString();
+                        String endDateStr = tblSales.getValueAt(selectedRow, 3).toString();
+                        String status = tblSales.getValueAt(selectedRow, 4).toString();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+                        txtSaleId.setText(id);
+                        txtSaleInfo.setText(info);
+                        saleStartDate.setDate(sdf.parse(startDateStr));
+                        saleEndDate.setDate(sdf.parse(endDateStr));
+                        txtSaleStatus.setText(status);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        btnAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String saleId = txtSaleId.getText();
+                String saleInfo = txtSaleInfo.getText();
+                String sDate = ((JTextField) saleStartDate.getDateEditor().getUiComponent()).getText();
+                String eDate = ((JTextField) saleEndDate.getDateEditor().getUiComponent()).getText();
+                if (saleBUS.addSale(saleId, saleInfo, sDate, eDate)) {
+                    reset();
+                }
+            }
+        });
+
+        btnCreateNewId.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String newId = saleBUS.createNewId();
+                txtSaleId.setText(newId);
+            }
+        });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reset();
+            }
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblSales.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chương trình khuyến mãi muốn xóa", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa chương trình khuyến mãi này ?", "Hỏi",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String saleId = tblSales.getValueAt(selectedRow, 0).toString();
+
+                    if (saleBUS.deleteSale(saleId)) {
+                        reset();
+                    }
+                }
+            }
+        });
+
+        btnApply.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblSales.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chương trình khuyến mãi", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn muốn áp dụng chương trình khuyến mãi này ?", "Hỏi",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String saleId = tblSales.getValueAt(selectedRow, 0).toString();
+
+                    if (productBUS.applySale(saleId)) {
+                        reset();
+                    }
+                }
+            }
+        });
+
+        btnStopApply.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblSales.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn chương trình khuyến mãi", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn muốn ngưng áp dụng chương trình khuyến mãi này ?", "Hỏi",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    String saleId = tblSales.getValueAt(selectedRow, 0).toString();
+
+                    if (productBUS.stopApplySale(saleId)) {
+                        reset();
+                    }
+                }
+            }
+        });
     }
 
-    public void stopApplySale() {
+    public void autoStopApplySale() {
         Timer timer = new Timer();
-        timer.schedule(new StopApplySale(), 0, 3600000);
+        timer.schedule(new AutoStopApplySaleBUS(), 0, 3600000);
+    }
+
+    public void reset() {
+        cbxSearchType.setSelectedIndex(0);
+        txtSearch.setText("");
+        cbxFilterStatus.setSelectedIndex(0);
+        startDate.setDate(null);
+        endDate.setDate(null);
+        txtSaleId.setText("");
+        txtSaleInfo.setText("");
+        saleStartDate.setDate(null);
+        saleEndDate.setDate(null);
+        txtSaleStatus.setText("");
+        initTableData();
     }
 
     public void initTableData() {
@@ -39,7 +190,7 @@ public class SaleGUI {
             }
         };
 
-        String[] cols = {"Mã CTKM", "Thông tin KM", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng"};
+        String[] cols = {"Mã CTKM", "Giá khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng"};
         model.setColumnIdentifiers(cols);
         tblSales.setModel(model);
         tblSales.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));
@@ -54,15 +205,23 @@ public class SaleGUI {
     }
 
     public void initDateChooser() {
+        saleStartDate = new JDateChooser();
+        saleStartDate.setDateFormatString("dd-MM-yyyy");
+        saleStartDate.setPreferredSize(new Dimension(-1, 30));
+        startDatePanel.add(saleStartDate);
+
+        saleEndDate = new JDateChooser();
+        saleEndDate.setDateFormatString("dd-MM-yyyy");
+        saleEndDate.setPreferredSize(new Dimension(-1, 30));
+        endDatePanel.add(saleEndDate);
+
         startDate = new JDateChooser();
         startDate.setDateFormatString("dd-MM-yyyy");
-        startDate.setPreferredSize(new Dimension(-1, 30));
-        startDatePanel.add(startDate);
+        filterStartDatePanel.add(startDate);
 
         endDate = new JDateChooser();
         endDate.setDateFormatString("dd-MM-yyyy");
-        endDate.setPreferredSize(new Dimension(-1, 30));
-        endDatePanel.add(endDate);
+        filterEndDatePanel.add(endDate);
     }
 
     public JPanel getMainPanel() {
@@ -74,7 +233,6 @@ public class SaleGUI {
     private JComboBox cbxSearchType;
     private JTextField txtSearch;
     private JButton btnAdd;
-    private JButton btnUpdate;
     private JButton btnApply;
     private JButton btnDelete;
     private JButton btnReset;
@@ -82,9 +240,17 @@ public class SaleGUI {
     private JTextField txtSaleId;
     private JTextField txtSaleInfo;
     private JButton btnCreateNewId;
-    private JTextField textField1;
+    private JTextField txtSaleStatus;
     private JPanel startDatePanel;
     private JPanel endDatePanel;
+    private JButton btnStopApply;
+    private JComboBox cbxFilterStatus;
+    private JPanel filterDatePanel;
+    private JPanel filterStartDatePanel;
+    private JPanel filterEndDatePanel;
+    private JButton btnFilterDate;
+    private JDateChooser saleStartDate;
+    private JDateChooser saleEndDate;
     private JDateChooser startDate;
     private JDateChooser endDate;
 }

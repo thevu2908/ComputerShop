@@ -36,7 +36,7 @@ public class ImportBUS {
             return false;
         }
 
-        String currentDate = DateTime.getCurrentDate();
+        String currentDate = DateTime.getStringCurrentDate();
         ImportDTO importDTO = new ImportDTO(importId, employeeId, supplierId, currentDate, 0, "Chưa duyệt", 0);
 
         if (importDAO.addImport(importDTO) > 0) {

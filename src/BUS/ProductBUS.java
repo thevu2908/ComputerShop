@@ -135,11 +135,50 @@ public class ProductBUS {
         return false;
     }
 
-    public void stopApplySaleToProduct() {
+    public boolean applySale(String saleId) {
+        loadProductData();
+
+        if (saleBUS.applySale(saleId)) {
+            for (ProductDTO productDTO : productList) {
+                if (productDAO.applySale(productDTO.getProductId(), saleId) <= 0) {
+                    JOptionPane.showMessageDialog(null, "Áp dụng chương trình khuyến mãi thất bại", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, "Áp dụng chương trình khuyến mãi thành công");
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean stopApplySale(String saleId) {
+        loadProductData();
+
+        if (saleBUS.stopApplySale(saleId)) {
+            for (ProductDTO productDTO : productList) {
+                if (productDAO.stopApplySale(productDTO.getProductId()) <= 0) {
+                    System.out.println(productDTO.getProductId());
+                    JOptionPane.showMessageDialog(null, "Ngưng áp dụng chương trình khuyến mãi thất bại", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, "Ngưng áp dụng chương trình khuyến mãi thành công");
+            return true;
+        }
+
+        return false;
+    }
+
+    public void autoStopApplySale() {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            productDAO.stopApplySaleToProduct(productDTO.getProductId());
+            productDAO.stopApplySale(productDTO.getProductId());
         }
     }
 

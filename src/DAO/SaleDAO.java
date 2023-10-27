@@ -35,6 +35,57 @@ public class SaleDAO {
         }
     }
 
+    public int addSale(SaleDTO saleDTO) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "insert into `chuong_trinh_khuyen_mai` values (?, ?, ?, ?, ?, ?)";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, saleDTO.getSaleId());
+            ptmt.setString(2, saleDTO.getSaleInfo());
+            ptmt.setString(3, saleDTO.getStartDate());
+            ptmt.setString(4, saleDTO.getEndDate());
+            ptmt.setString(5, saleDTO.getSaleStatus());
+            ptmt.setInt(6, saleDTO.getIsDeleted());
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int deleteSale(String saleId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `chuong_trinh_khuyen_mai` set trang_thai = 1 where ma_ctkm = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, saleId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int applySale(String saleId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `chuong_trinh_khuyen_mai` set tinh_trang = ? where ma_ctkm = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, "Đang áp dụng");
+            ptmt.setString(2, saleId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public int stopApplySale(String saleId) {
         try {
             Connection connection = MyConnection.getConnect();

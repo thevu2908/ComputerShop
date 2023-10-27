@@ -3,9 +3,14 @@ package BUS;
 import DAO.SaleDAO;
 import DTO.SaleDTO;
 import utils.DateTime;
+import validation.Validate;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SaleBUS {
     private ArrayList<SaleDTO> salesList;
@@ -17,6 +22,173 @@ public class SaleBUS {
 
     public void loadData() {
         salesList = saleDAO.getData();
+    }
+
+    public boolean addSale(String saleId, String saleInfo, String startDate, String endDate) {
+        if (saleId.equals("") || saleInfo.equals("") || startDate.equals("") || endDate.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!saleInfo.endsWith("%")) {
+            saleInfo = saleInfo + "%";
+        }
+
+        if (!Validate.isValidNumber(saleInfo.substring(0, saleInfo.length() - 1), "Giá khuyến mãi")) {
+            return false;
+        }
+
+        if (!Validate.isValidDate(startDate)) {
+            JOptionPane.showMessageDialog(null, "Ngày bắt đầu không hợp lệ (dd-MM-yyyy)", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!Validate.isValidDate(endDate)) {
+            JOptionPane.showMessageDialog(null, "Ngày kết thúc không hợp lệ (dd-MM-yyyy)", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        try {
+            Date currentDate = DateTime.getCurrentDate();
+            Date startDateObj = DateTime.parseDate(startDate);
+            Date endDateObj = DateTime.parseDate(endDate);
+
+            if (startDateObj.before(currentDate)) {
+                JOptionPane.showMessageDialog(null, "Ngày bắt đầu đã trước ngày hiện tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (endDateObj.before(startDateObj)) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        SaleDTO sale = new SaleDTO(saleId, saleInfo, DateTime.formatDate(startDate), DateTime.formatDate(endDate),
+                "Chưa áp dụng", 0);
+
+        if (saleDAO.addSale(sale) > 0) {
+            JOptionPane.showMessageDialog(null, "Thêm chương trình khuyến mãi thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm chương trình khuyến mãi thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public boolean deleteSale(String saleId) {
+        if (saleDAO.deleteSale(saleId) > 0) {
+            JOptionPane.showMessageDialog(null, "Xóa chương trình khuyến mãi thành công");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Xóa chương trình khuyến mãi thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public boolean applySale(String saleId) {
+        SaleDTO sale = getSaleById(saleId);
+
+        if (sale.getSaleStatus().equals("Đang áp dụng")) {
+            JOptionPane.showMessageDialog(null, "Chương trình khuyến này đang áp dụng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (checkExistedAppliedSale()) {
+            JOptionPane.showMessageDialog(null, "Hiện đang có chương trình khuyến mãi khác đang áp dụng", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        try {
+            Date currentDate = DateTime.getCurrentDate();
+            Date startDate = DateTime.parseDate(sale.getStartDate());
+            Date endDate = DateTime.parseDate(sale.getEndDate());
+
+            if (startDate.after(currentDate)) {
+                JOptionPane.showMessageDialog(null, "Chương trình khuyến mãi này chưa tới ngày áp dụng", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (endDate.before(currentDate)) {
+                JOptionPane.showMessageDialog(null, "Chương trình khuyến mãi này đã hết hạn ngày áp dụng", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Áp dụng chương trình khuyến mãi thất bại", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return false;
+        }
+
+        if (saleDAO.applySale(saleId) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean stopApplySale(String saleId) {
+        try {
+            SaleDTO sale = getSaleById(saleId);
+
+            if (!sale.getSaleStatus().equals("Đang áp dụng")) {
+                JOptionPane.showMessageDialog(null, "Chương trình khuyến mãi này đang không được áp dụng", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            Date currentDate = DateTime.getCurrentDate();
+            Date endDate = DateTime.parseDate(sale.getEndDate());
+
+            if (currentDate.before(endDate)) {
+                String question = "Chương trình khuyến mãi này còn áp dụng tới ngày "
+                        + DateTime.formatDate(sale.getEndDate())
+                        + "\nBạn có muốn ngưng áp dụng không ?";
+
+                int choice = JOptionPane.showConfirmDialog(null, question, "Hỏi", JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    if (saleDAO.stopApplySale(saleId) > 0) {
+                        return true;
+                    }
+                }
+            } else {
+                if (saleDAO.stopApplySale(saleId) > 0) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ngưng áp dụng chương trình khuyến mãi thất bại", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String createNewId() {
+        loadData();
+        int id = salesList.size() + 1;
+        return "CTKM" + String.format("%02d", id);
+    }
+
+    public boolean checkExistedAppliedSale() {
+        loadData();
+
+        for (SaleDTO saleDTO : salesList) {
+            if (saleDTO.getSaleStatus().equals("Đang áp dụng")) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public SaleDTO getSaleById(String id) {

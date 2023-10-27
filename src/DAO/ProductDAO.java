@@ -144,7 +144,23 @@ public class ProductDAO {
         }
     }
 
-    public int stopApplySaleToProduct(String productId) {
+    public int applySale(String productId, String saleId) {
+        try {
+            Connection connection = MyConnection.getConnect();
+            String query = "update `san_pham` set ma_ctkm = ? where ma_sp = ?";
+            PreparedStatement ptmt = connection.prepareStatement(query);
+
+            ptmt.setString(1, saleId);
+            ptmt.setString(2, productId);
+
+            return ptmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int stopApplySale(String productId) {
         try {
             Connection connection = MyConnection.getConnect();
             String query = "update `san_pham` set ma_ctkm = null where ma_sp = ?";

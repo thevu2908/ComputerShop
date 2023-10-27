@@ -43,7 +43,7 @@ public class BillBUS {
 
         CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
         String billId = getNewBillId();
-        String currentDate = DateTime.getCurrentDate();
+        String currentDate = DateTime.getStringCurrentDate();
 
         BillDTO billDTO = new BillDTO(billId, customerDTO.getCustomerId(), employeeId, currentDate, total, discount, 0);
 
