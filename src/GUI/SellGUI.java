@@ -415,8 +415,13 @@ public class SellGUI {
             String searchInfo = txtSearchBill.getText().toLowerCase();
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            Date dateFrom = billDateFrom.getDate() == null ? formatter.parse("01-01-1970") : billDateFrom.getDate();
-            Date dateTo = billDateTo.getDate() == null ? formatter.parse("31-12-2050") : billDateTo.getDate();
+            Date dateFrom = billDateFrom.getDate() == null
+                    ? formatter.parse("01-01-1970")
+                    : formatter.parse(formatter.format(billDateFrom.getDate()));
+
+            Date dateTo = billDateTo.getDate() == null
+                    ? formatter.parse("31-12-2050")
+                    : formatter.parse(formatter.format(billDateTo.getDate()));
 
             if (dateFrom.compareTo(dateTo) > 0) {
                 JOptionPane.showMessageDialog(null, "Ngày đến phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);

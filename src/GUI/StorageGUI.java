@@ -348,11 +348,11 @@ public class StorageGUI {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date dateFrom = exportDateFrom.getDate() == null
                     ? formatter.parse("01-01-1970")
-                    : exportDateFrom.getDate();
+                    : formatter.parse(formatter.format(exportDateFrom.getDate()));
 
             Date dateTo = exportDateTo.getDate() == null
                     ? formatter.parse("31-12-2050")
-                    : exportDateTo.getDate();
+                    : formatter.parse(formatter.format(exportDateTo.getDate()));
 
             if (dateTo.compareTo(dateFrom) < 0) {
                 JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -452,11 +452,11 @@ public class StorageGUI {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date dateFrom = importDateFrom.getDate() == null
                     ? formatter.parse("01-01-1970")
-                    : importDateFrom.getDate();
+                    : formatter.parse(formatter.format(importDateFrom.getDate()));
 
             Date dateTo = importDateTo.getDate() == null
                     ? formatter.parse("31-12-2050")
-                    : importDateTo.getDate();
+                    : formatter.parse(formatter.format(importDateTo.getDate()));
 
             if (dateTo.compareTo(dateFrom) < 0) {
                 JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau ngày bắt đầu", "Lỗi", JOptionPane.ERROR_MESSAGE);
