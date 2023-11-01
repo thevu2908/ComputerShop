@@ -35,7 +35,7 @@ public class ExportBUS {
             JOptionPane.showMessageDialog(null, "Thêm phiếu xuất thành công");
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "VThêm phiếu xuất thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Thêm phiếu xuất thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -49,7 +49,7 @@ public class ExportBUS {
         ExportDTO exportDTO = getExportById(exportId);
 
         if (exportDTO != null) {
-            exportDTO.setStatus("Đã duyết");
+            exportDTO.setStatus("Đã duyệt");
         }
 
         if (exportDTO != null && exportDAO.updateExport(exportDTO) > 0) {

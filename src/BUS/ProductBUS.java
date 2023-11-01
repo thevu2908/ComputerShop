@@ -524,7 +524,7 @@ public class ProductBUS {
         return "";
     }
 
-    public int getStorageProductQuantityById(String productId) {
+    public int getProductStorageQuantityById(String productId) {
         loadProductStorageData();
 
         for (ProductDTO productDTO : productStorageList) {

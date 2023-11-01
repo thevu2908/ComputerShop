@@ -406,7 +406,7 @@ public class StorageGUI {
             }
         };
 
-        String[] cols = {"Mã phiếu nhập", "Mã nhân viên", "Ngày xuất", "Tổng số lượng", "Tình trạng"};
+        String[] cols = {"Mã phiếu xuất", "Mã nhân viên", "Ngày xuất", "Tổng số lượng", "Tình trạng"};
         exportModel.setColumnIdentifiers(cols);
         tblExports.setModel(exportModel);
         tblExports.getTableHeader().setFont(new Font("Time News Roman", Font.BOLD, 14));

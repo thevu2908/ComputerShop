@@ -52,7 +52,7 @@ public class ExportDetailBUS {
         }
 
         int numQuantity = Integer.parseInt(quantity);
-        if (productBUS.getStorageProductQuantityById(productId) < numQuantity) {
+        if (productBUS.getProductStorageQuantityById(productId) < numQuantity) {
             JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm trong kho không đủ", "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
             return false;
