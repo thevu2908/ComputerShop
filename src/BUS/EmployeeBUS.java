@@ -85,6 +85,11 @@ public class EmployeeBUS {
             return false;
         }
 
+        if (checkExistedManager()) {
+            JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         EmployeeDTO employee = new EmployeeDTO(id, type, name, address, phone, DateTime.formatDate(dob), gender, email, password, 0);
 
         if (employeeDAO.addEmployee(employee) > 0) {
@@ -134,6 +139,12 @@ public class EmployeeBUS {
             return false;
         }
 
+        if (!employeeTypeBUS.getTypeNameById(getTypeById(id)).toLowerCase().equals("quản lý") &&
+                checkExistedManager()) {
+            JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         EmployeeDTO employee = new EmployeeDTO(id, type, name, address, phone, DateTime.formatDate(dob), gender, email, password, 0);
 
         if (employeeDAO.updateEmployee(employee) > 0) {
@@ -161,6 +172,18 @@ public class EmployeeBUS {
             } else {
                 JOptionPane.showMessageDialog(null, "Xoá nhân viên thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkExistedManager() {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeTypeBUS.getTypeNameById(employeeDTO.getEmployeeType()).toLowerCase().equals("quản lý")) {
+                return true;
             }
         }
 
