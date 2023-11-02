@@ -56,10 +56,16 @@ public class LoginGUI {
             String employeeId = employeeBUS.getIdByEmail(username);
             String employeeType = employeeBUS.getTypeByEmail(username);
 
-            if (employeeType.equals("LNV03")) {
+            if (employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("nhân viên bán hàng")) {
                 SellGUI sellGUI = new SellGUI(employeeId);
                 sellGUI.openSellGUI();
-            } else if (employeeType.equals("LNV01") || employeeType.equals("LNV02") || employeeType.equals("LNV04")) {
+            } else if (
+                    employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("admin")
+                    ||
+                    employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("quản lý")
+                    ||
+                    employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("nhân viên thủ kho"))
+            {
                 SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
                 systemGUI.openSystemGUI();
             } else {
