@@ -19,18 +19,23 @@ public class EmployeeTypeBUS {
         employeeTypeList = employeeTypeDAO.getData();
     }
 
-    public boolean addEmployeeType(String maLoaiNhanVien, String tenLoaiNhanVien) {
-        if (maLoaiNhanVien.isEmpty() || tenLoaiNhanVien.isEmpty()) {
+    public boolean addEmployeeType(String employeeTypeId, String employeeTypeName) {
+        if (employeeTypeId.isEmpty() || employeeTypeName.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if (checkExistedEmployTypeId(maLoaiNhanVien)) {
+        if (checkExistedEmployeeTypeId(employeeTypeId)) {
             JOptionPane.showMessageDialog(null, "Mã loại nhân viên đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(maLoaiNhanVien, tenLoaiNhanVien, 0);
+        if (checkExistedEmployeeTypeName(employeeTypeName)) {
+            JOptionPane.showMessageDialog(null, "Loại nhân viên đã có trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        EmployeeTypeDTO employeeType = new EmployeeTypeDTO(employeeTypeId, employeeTypeName, 0);
 
         if (employeeTypeDAO.addEmployeeType(employeeType) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm loại nhân viên thành công");
@@ -46,17 +51,30 @@ public class EmployeeTypeBUS {
        int id = employeeTypeList.size() + 1;
        return "LNV" + String.format("%02d", id);
    }
-   public boolean checkExistedEmployTypeId(String maLoaiNhanVien) {
+
+   public boolean checkExistedEmployeeTypeId(String employeeTypeID) {
        loadData();
 
        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-           if (employeeTypeDTO.getTypeId().equals(maLoaiNhanVien)) {
+           if (employeeTypeDTO.getTypeId().equals(employeeTypeID)) {
                return true;
            }
        }
 
        return false;
    }
+
+    public boolean checkExistedEmployeeTypeName(String employeeTypeName) {
+        loadData();
+
+        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
+            if (employeeTypeDTO.getTypeName().equals(employeeTypeName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
    public EmployeeTypeDTO getEmployeeTypeById(String employeeTypeID) {
        loadData();

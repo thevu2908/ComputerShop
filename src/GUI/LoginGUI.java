@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.EmployeeBUS;
+import BUS.EmployeeTypeBUS;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
@@ -13,9 +14,11 @@ import java.awt.event.KeyEvent;
 
 public class LoginGUI {
     private EmployeeBUS employeeBUS;
+    private EmployeeTypeBUS employeeTypeBUS;
 
     public LoginGUI() {
         employeeBUS = new EmployeeBUS();
+        employeeTypeBUS = new EmployeeTypeBUS();
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
@@ -56,9 +59,13 @@ public class LoginGUI {
             if (employeeType.equals("LNV03")) {
                 SellGUI sellGUI = new SellGUI(employeeId);
                 sellGUI.openSellGUI();
-            } else {
+            } else if (employeeType.equals("LNV01") || employeeType.equals("LNV02") || employeeType.equals("LNV04")) {
                 SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
                 systemGUI.openSystemGUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Loại nhân viên này chưa được hỗ trợ trong hệ thống", "Thông báo",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
             }
 
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
