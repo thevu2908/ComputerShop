@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AddProductGUI {
+public class AddDetailGUI {
     private String invoiceId;
     private ImportDetailGUI importDetailGUI;
     private ExportDetailGUI exportDetailGUI;
@@ -20,7 +20,7 @@ public class AddProductGUI {
     private ImportDetailBUS importDetailBUS;
     private ExportDetailBUS exportDetailBUS;
 
-    public AddProductGUI(String invoiceId, ImportDetailGUI importDetailGUI, ExportDetailGUI exportDetailGUI) {
+    public AddDetailGUI(String invoiceId, ImportDetailGUI importDetailGUI, ExportDetailGUI exportDetailGUI) {
         this.invoiceId = invoiceId;
         this.importDetailGUI = importDetailGUI;
         this.exportDetailGUI = exportDetailGUI;
@@ -94,7 +94,7 @@ public class AddProductGUI {
 
     public void openAddProductGUI() {
         JFrame frame = new JFrame("Thêm sản phẩm");
-        frame.setContentPane(new AddProductGUI(invoiceId, importDetailGUI, exportDetailGUI).mainPanel);
+        frame.setContentPane(new AddDetailGUI(invoiceId, importDetailGUI, exportDetailGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);

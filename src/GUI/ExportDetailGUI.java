@@ -30,8 +30,8 @@ public class ExportDetailGUI {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddProductGUI addProductGUI = new AddProductGUI(exportId, null, ExportDetailGUI.this);
-                addProductGUI.openAddProductGUI();
+                AddDetailGUI addDetailGUI = new AddDetailGUI(exportId, null, ExportDetailGUI.this);
+                addDetailGUI.openAddProductGUI();
             }
         });
 
