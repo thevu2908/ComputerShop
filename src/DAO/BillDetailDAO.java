@@ -48,22 +48,4 @@ public class BillDetailDAO {
             return 0;
         }
     }
-
-    public String getDateByProductId(String productId) {
-        try {
-            Connection connection = MyConnection.getConnect();
-            String ngayLap = "";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select `ngay_lap` from `hoa_don` ");
-
-            while (rs.next()) {
-                ngayLap = rs.getString("ngay_lap");
-            }
-            return ngayLap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
 }

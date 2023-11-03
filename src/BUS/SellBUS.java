@@ -67,41 +67,25 @@ public class SellBUS {
     }
 
     public boolean addBillDetail() {
-        boolean flag = false;
-
         for (BillDetailDTO billDetailDTO : billDetailList) {
-            if (billDetailBUS.addBillDetail(billDetailDTO)) {
-                flag = true;
-            } else {
-                flag = false;
+            if (!billDetailBUS.addBillDetail(billDetailDTO)) {
+                JOptionPane.showMessageDialog(null, "Thất bại khi thêm chi tiết hóa đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
-        }
-
-        if (!flag) {
-            JOptionPane.showMessageDialog(null, "Thất bại khi thêm chi tiết hóa đơn", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
         return true;
     }
 
     public boolean decreaseProductQuantity() {
-        boolean flag = false;
-
         for (BillDetailDTO billDetailDTO : billDetailList) {
             String productId = billDetailDTO.getProductId();
             ProductDTO product = productBUS.getProductById(productId);
 
-            if (productBUS.updateProductQuantity(productId, product.getProductQuantity() - billDetailDTO.getQuantity())) {
-                flag = true;
-            } else {
-                flag = false;
+            if (!productBUS.updateProductQuantity(productId, product.getProductQuantity() - billDetailDTO.getQuantity())) {
+                JOptionPane.showMessageDialog(null, "Thất bại khi cập nhật số lượng sản phẩm sau khi thanh toán", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
             }
-        }
-
-        if(!flag) {
-            JOptionPane.showMessageDialog(null, "Thất bại khi cập nhật số lượng sản phẩm sau khi thanh toán", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
         }
         return true;
     }
@@ -125,9 +109,10 @@ public class SellBUS {
 
         JOptionPane.showMessageDialog(
                 null,
-                String.format(" Mã khách hàng: \t%s\n Tên khách hàng: \t%s\n Địa chỉ: \t%s\n Số điện thoại: \t%s\n Ngày sinh: \t%s\n Giới tính: \t%s\n Điểm tích lũy: \t%s\n"
-                        ,customerDTO.getCustomerId(), customerDTO.getCustomerName(), customerDTO.getCustomerAddress(), customerDTO.getCustomerPhone(), customerDTO.getCustomerDOB(), customerDTO.getCustomerGender(), customerDTO.getCustomerPoint())
-                ,
+                String.format(
+                        " Mã khách hàng: \t%s\n Tên khách hàng: \t%s\n Địa chỉ: \t%s\n Số điện thoại: \t%s\n Ngày sinh: \t%s\n Giới tính: \t%s\n Điểm tích lũy: \t%s\n"
+                        , customerDTO.getCustomerId(), customerDTO.getCustomerName(), customerDTO.getCustomerAddress(), customerDTO.getCustomerPhone(), customerDTO.getCustomerDOB(), customerDTO.getCustomerGender(), customerDTO.getCustomerPoint()
+                ),
                 "Thông tin khách hàng",
                 JOptionPane.INFORMATION_MESSAGE
         );

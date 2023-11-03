@@ -143,27 +143,16 @@ public class SellGUI {
             }
         });
 
-        btnAddOrder.addActionListener(new ActionListener() {
+        btnAddBill.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtCustomerPhone.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
                 if (tblSellBills.getRowCount() <= 0) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm trước khi thanh toán", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                int choice = JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn thanh toán ?","Question",
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thanh toán ?","Question",
                         JOptionPane.YES_NO_OPTION);
 
                 if (choice == JOptionPane.YES_OPTION) {
@@ -596,7 +585,7 @@ public class SellGUI {
     private JTable tblProducts;
     private JComboBox cbxSearchProdType;
     private JTextField txtSearchProd;
-    private JButton btnAddOrder;
+    private JButton btnAddBill;
     private JTextField txtTotal;
     private JTable tblBills;
     private JComboBox cbxBillPrice;

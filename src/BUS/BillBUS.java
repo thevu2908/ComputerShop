@@ -5,10 +5,10 @@ import DTO.BillDTO;
 import DTO.CustomerDTO;
 import DTO.EmployeeDTO;
 import utils.DateTime;
+import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -36,8 +36,14 @@ public class BillBUS {
     }
 
     public boolean addBill(String employeeId, String phone, int total, int discount) {
-        if (employeeId.equals("") || phone.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (phone.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!Validate.isValidPhone(phone)) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
