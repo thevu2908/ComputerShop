@@ -180,6 +180,18 @@ public class SaleBUS {
         return "CTKM" + String.format("%02d", id);
     }
 
+    public SaleDTO findApplyingSale() {
+        loadData();
+
+        for (SaleDTO saleDTO : salesList) {
+            if (saleDTO.getSaleStatus().equals("Đang áp dụng")) {
+                return saleDTO;
+            }
+        }
+
+        return null;
+    }
+
     public boolean checkExistedAppliedSale() {
         loadData();
 

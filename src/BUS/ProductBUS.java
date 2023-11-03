@@ -2,6 +2,7 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
+import DTO.SaleDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFCell;
@@ -24,8 +25,8 @@ public class ProductBUS {
     private ProductDAO productDAO;
     private ProductTypeBUS productTypeBUS;
     private SaleBUS saleBUS;
-    private ArrayList<ProductDTO> productList = new ArrayList<>();
-    private ArrayList<ProductDTO> productStorageList = new ArrayList<>();
+    private ArrayList<ProductDTO> productList;
+    private ArrayList<ProductDTO> productStorageList;
 
     public ProductBUS() {
         productDAO = new ProductDAO();
@@ -60,7 +61,8 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, null, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        String saleId = saleBUS.findApplyingSale() == null ? null : saleBUS.findApplyingSale().getSaleId();
+        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.addProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
@@ -117,7 +119,8 @@ public class ProductBUS {
 
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
-        ProductDTO product = new ProductDTO(id, typeId, null, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        String saleId = saleBUS.findApplyingSale() == null ? null : saleBUS.findApplyingSale().getSaleId();
+        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
 
         if (productDAO.updateProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
