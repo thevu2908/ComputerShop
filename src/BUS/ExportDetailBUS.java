@@ -97,7 +97,6 @@ public class ExportDetailBUS {
 
     public boolean changeProductQuantity(String exportId) {
         loadData();
-        boolean flag = false;
 
         for (ExportDetailDTO exportDetailDTO : exportDetailList) {
             if (exportDetailDTO.getExportId().equals(exportId)) {
@@ -108,18 +107,16 @@ public class ExportDetailBUS {
                 ProductDTO storageProduct = productBUS.getProductStorageById(productId);
 
                 if (
-                        productBUS.updateProductQuantity(productId, product.getProductQuantity() + quantity)
+                        !(productBUS.updateProductQuantity(productId, product.getProductQuantity() + quantity)
                         &&
-                        productBUS.updateProductStorageQuantity(productId, storageProduct.getProductQuantity() - quantity)
+                        productBUS.updateProductStorageQuantity(productId, storageProduct.getProductQuantity() - quantity))
                 ) {
-                    flag = true;
-                } else {
-                    flag = false;
+                    return false;
                 }
             }
         }
 
-        return flag;
+        return true;
     }
 
     public boolean deleteExportDetail(String exportId, String productId) {
