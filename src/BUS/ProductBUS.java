@@ -108,12 +108,12 @@ public class ProductBUS {
             return false;
         }
 
-        if (!Validate.isValidNumber(price, "Giá")) {
+        if (!checkExistedProductId(id)) {
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if (!checkExistedProductId(id)) {
-            JOptionPane.showMessageDialog(null, "Không tồn tại mã sản phẩm này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (!Validate.isValidNumber(price, "Giá")) {
             return false;
         }
 

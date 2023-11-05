@@ -71,6 +71,11 @@ public class CustomerBUS {
             return false;
         }
 
+        if (!checkExistedId(id)) {
+            JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (!Validate.isValidPhone(phone)) {
             JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
