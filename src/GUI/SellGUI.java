@@ -209,6 +209,11 @@ public class SellGUI {
                     return;
                 }
 
+                if (point > 5000) {
+                    JOptionPane.showMessageDialog(null, "Chỉ được quy đổi tối đa 5000 điểm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn quy đổi điểm tích lũy ?", "Câu hỏi",
                         JOptionPane.YES_NO_OPTION);
 
@@ -220,7 +225,7 @@ public class SellGUI {
                         return;
                     }
 
-                    int discount = calculateDiscount(point);
+                    long discount = calculateDiscount(point);
                     txtDiscount.setText(discount + "");
                     txtTotal.setText(total + "");
                     txtFinalTotal.setText(total - discount + "");
@@ -364,8 +369,8 @@ public class SellGUI {
         return (int) (totalPrice * 100 / 10000000);
     }
 
-    public int calculateDiscount(int point) {
-        return point * 1000000 / 1000;
+    public long calculateDiscount(long point) {
+        return (long) ((point * 1.0 / 1000) * 1000000);
     }
 
     public void filterProduct() {
