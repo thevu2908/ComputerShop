@@ -53,7 +53,7 @@ public class Validate {
         try {
             int num = Integer.parseInt(number);
 
-            if (num < 0) {
+            if (num <= 0) {
                 JOptionPane.showMessageDialog(null, text + " phải là số dương", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
