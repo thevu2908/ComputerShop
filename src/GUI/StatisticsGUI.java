@@ -8,6 +8,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,7 @@ public class StatisticsGUI {
         statisticsBUS = new StatisticsBUS();
         initComboBoxYear();
         setCurrentMonth();
-        initDoanhThu();
+        initRevenue();
         initBestSeller();
         initBestEmployee();
 
@@ -45,6 +47,22 @@ public class StatisticsGUI {
                 initBarChart("Số lượng bán", bestSellerChartPanel, 2023);
             }
         });
+
+        mainTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (mainTabbedPane.getSelectedComponent() == revenuePanel) {
+                    initComboBoxYear();
+                    initRevenue();
+                } else if (mainTabbedPane.getSelectedComponent() == bestEmployeePanel) {
+                    setCurrentMonth();
+                    initBestEmployee();
+                } else if (mainTabbedPane.getSelectedComponent() == bestSellerPanel) {
+                    setCurrentMonth();
+                    initBestSeller();
+                }
+            }
+        });
     }
 
     public void initBestEmployee() {
@@ -55,7 +73,7 @@ public class StatisticsGUI {
         initBarChart("Số lượng bán", bestSellerChartPanel, 2023);
     }
 
-    public void initDoanhThu() {
+    public void initRevenue() {
         initBarChart("Doanh thu", doanhThuChartPanel, 2023);
     }
 
@@ -115,11 +133,14 @@ public class StatisticsGUI {
     }
 
     private JPanel mainPanel;
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane mainTabbedPane;
     private JComboBox cbxYearOfRevenue;
     private JPanel doanhThuChartPanel;
     private JPanel bestSellerChartPanel;
     private JPanel bestEmployeeChartPanel;
     private JComboBox cbxFilterEmployeeMonth;
     private JComboBox cbxFilterProductMonth;
+    private JPanel revenuePanel;
+    private JPanel bestSellerPanel;
+    private JPanel bestEmployeePanel;
 }
