@@ -16,7 +16,7 @@ public class Validate {
     }
 
     public static boolean isValidPhone(String phone) {
-        return phone.matches("[0-9]{10}");
+        return phone.matches("^0\\d{9}$");
     }
 
     public static boolean isValidDate(String date) {

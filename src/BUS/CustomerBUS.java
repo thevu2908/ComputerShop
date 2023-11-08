@@ -34,7 +34,8 @@ public class CustomerBUS {
         }
 
         if (!Validate.isValidPhone(phone)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -77,7 +78,8 @@ public class CustomerBUS {
         }
 
         if (!Validate.isValidPhone(phone)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

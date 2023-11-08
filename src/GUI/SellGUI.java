@@ -203,7 +203,8 @@ public class SellGUI {
                 }
 
                 if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -248,7 +249,8 @@ public class SellGUI {
                 }
 
                 if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại phải là 10 chữ số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 String phone = txtCustomerPhone.getText();
