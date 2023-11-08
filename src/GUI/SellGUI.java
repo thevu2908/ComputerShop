@@ -52,10 +52,15 @@ public class SellGUI {
         menuLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginGUI loginGUI = new LoginGUI();
-                loginGUI.openLoginGUI();
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-                frame.dispose();
+                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất ?", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    LoginGUI loginGUI = new LoginGUI();
+                    loginGUI.openLoginGUI();
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                    frame.dispose();
+                }
             }
         });
 
