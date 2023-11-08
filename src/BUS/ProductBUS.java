@@ -2,7 +2,6 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
-import DTO.SaleDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFCell;
@@ -223,6 +222,7 @@ public class ProductBUS {
 
         writeExcelTitle(sheet, rowIndex);
 
+        loadProductData();
         for (ProductDTO productDTO : productList) {
             if (productDTO.getIsDeleted() == 0) {
                 rowIndex++;
