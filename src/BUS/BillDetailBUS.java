@@ -324,10 +324,10 @@ public class BillDetailBUS {
         return Arrays.asList(arr).stream().map(String::length).max(Integer::compareTo).get();
     }
 
-    public ArrayList<BillDetailDTO> getListSoldProductInMonth(String month, int year) {
+    public ArrayList<BillDetailDTO> getSoldProductListInMonth(String month, int year) {
         loadData();
 
-        ArrayList<String> ListBillIdInMonth = billBUS.getListBillIdInMonth(month, year);
+        ArrayList<String> ListBillIdInMonth = billBUS.getBillListIdInMonth(month, year);
         ArrayList<BillDetailDTO> ListSoldProductInMonth = new ArrayList<>();
 
         for (BillDetailDTO item : billDetailList) {
@@ -343,7 +343,8 @@ public class BillDetailBUS {
                             ListSoldProductInMonth.stream().filter(
                                     billDetail -> billDetail.getProductId().contains(item.getProductId())).findFirst().orElse(null)
                     );
-                    ListSoldProductInMonth.get(index).setQuantity(ListSoldProductInMonth.get(index).getQuantity() + quantityOfBillDetail);
+                    ListSoldProductInMonth.get(index).setQuantity(
+                            ListSoldProductInMonth.get(index).getQuantity() + quantityOfBillDetail);
                     flag = true;
                 }
 
@@ -355,7 +356,6 @@ public class BillDetailBUS {
         }
 
         Collections.sort(ListSoldProductInMonth, (x, y) -> (int) (y.getQuantity() - x.getQuantity()));
-
         return ListSoldProductInMonth;
     }
 
@@ -366,8 +366,10 @@ public class BillDetailBUS {
             String saleId = productBUS.getProductById(billDetailDTO.getProductId()).getSaleId();
             int discount = saleId == null || saleId.equals("")
                     ? 0
-                    : Integer.parseInt(saleBUS.getSaleById(saleId).getSaleInfo().
-                        substring(0, saleBUS.getSaleById(saleId).getSaleInfo().length() - 1));
+                    : Integer.parseInt(saleBUS.getSaleById(saleId).getSaleInfo().substring(
+                            0,
+                            saleBUS.getSaleById(saleId).getSaleInfo().length() - 1));
+
             int price = productBUS.getPriceById(billDetailDTO.getProductId());
             price = price - (price * discount / 100);
             int quantity = billDetailDTO.getQuantity();

@@ -80,7 +80,7 @@ public class StatisticsGUI {
     public void initBarChart(String name, JPanel panel, int year) {
         CategoryDataset dataset = null;
         if (name.equals("Doanh thu")) {
-            dataset = statisticsBUS.createDoanhThuDataset(year);
+            dataset = statisticsBUS.createRevenueDataset(year);
             name = name + " (triệu đồng)";
         } else if (name.equals("Số lượng bán")) {
             dataset = statisticsBUS.createBestSellerDataset(cbxFilterProductMonth.getSelectedItem().toString(), year);

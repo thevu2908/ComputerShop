@@ -21,7 +21,7 @@ public class StatisticsBUS {
     }
 
     public double[] getRevenueOfMonth(int year) {
-        double[] revenueOfMonth = billBUS.getRevenueBillOfMonths(year);
+        double[] revenueOfMonth = billBUS.getBillRevenueOfMonths(year);
         double[] totalRevenue = new double[12];
         for (int i = 0; i < 12; i++) {
             totalRevenue[i] += revenueOfMonth[i];
@@ -29,9 +29,9 @@ public class StatisticsBUS {
         return totalRevenue;
     }
 
-    public CategoryDataset createDoanhThuDataset(int year) {
-        var dataset = new DefaultCategoryDataset();
-        double [] totalRevenue = getRevenueOfMonth(year);
+    public CategoryDataset createRevenueDataset(int year) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        double[] totalRevenue = getRevenueOfMonth(year);
 
         for (int i = 0; i < 12; i++) {
             dataset.setValue(totalRevenue[i], "Doanh thu (triệu đồng)", "Tháng " + (i + 1));
@@ -41,8 +41,8 @@ public class StatisticsBUS {
     }
 
     public CategoryDataset createBestEmployeeDataset(String month, int year) {
-        var dataset = new DefaultCategoryDataset();
-        ArrayList<EmployeeDTO> listExcellentEmployee = billBUS.getExcellentEmployee(month, year);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        ArrayList<EmployeeDTO> listExcellentEmployee = billBUS.getBestEmployee(month, year);
 
         for (int i = 0; i < listExcellentEmployee.size(); i++) {
             if (i == 10) {
@@ -61,8 +61,8 @@ public class StatisticsBUS {
     }
 
     public CategoryDataset createBestSellerDataset(String month, int year) {
-        var dataset = new DefaultCategoryDataset();
-        ArrayList <BillDetailDTO> listBestSeller = billDetailBUS.getListSoldProductInMonth(month, year);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        ArrayList <BillDetailDTO> listBestSeller = billDetailBUS.getSoldProductListInMonth(month, year);
 
         for (int i = 0; i < listBestSeller.size(); i++) {
             if (i == 10) {

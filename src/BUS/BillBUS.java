@@ -63,24 +63,23 @@ public class BillBUS {
         }
     }
 
-    public double[] getRevenueBillOfMonths(int year) {
+    public double[] getBillRevenueOfMonths(int year) {
         loadData();
+        double[] list = new double[12];
 
-        double[] listDT = new double[12];
-
-        for (int i = 0; i < listDT.length; i++) {
-            listDT[i] = 0;
+        for (int i = 0; i < list.length; i++) {
+            list[i] = 0;
         }
 
         for (BillDTO billDTO : billList) {
-            int monthOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
-            int yearOfBill = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[0]);
-            if (yearOfBill == year) {
-                listDT[monthOfBill - 1] += (billDTO.getTotal() - billDTO.getDiscount()) * 1.0 / 1000000;
+            int billMonth = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[1]);
+            int billYear = Integer.parseInt(String.valueOf(billDTO.getBillDate()).split("-")[0]);
+            if (billYear == year) {
+                list[billMonth - 1] += (billDTO.getTotal() - billDTO.getDiscount()) * 1.0 / 1000000;
             }
         }
 
-        return listDT;
+        return list;
     }
 
     public double getRevenueByEmployeeId(String employeeId, String month, int year) {
@@ -97,10 +96,10 @@ public class BillBUS {
         return tong;
     }
 
-    public ArrayList<EmployeeDTO> getExcellentEmployee(String month, int year) {
+    public ArrayList<EmployeeDTO> getBestEmployee(String month, int year) {
         loadData();
 
-        ArrayList<EmployeeDTO> listExcellentEmployee = new ArrayList<>();
+        ArrayList<EmployeeDTO> bestList = new ArrayList<>();
         ArrayList<EmployeeDTO> empList = employeeBUS.getEmployeeList();
 
         for (EmployeeDTO employee : empList) {
@@ -108,16 +107,15 @@ public class BillBUS {
 
             if (employee.getEmployeeType().equals("LNV03") && total > 0) {
                 EmployeeDTO employeeDTO = new EmployeeDTO(employee.getEmployeeId(), total);
-
-                listExcellentEmployee.add(employeeDTO);
+                bestList.add(employeeDTO);
             }
         }
 
-        Collections.sort(listExcellentEmployee, (x, y) -> (int) (y.getTotal() - x.getTotal()));
-        return listExcellentEmployee;
+        Collections.sort(bestList, (x, y) -> (int) (y.getTotal() - x.getTotal()));
+        return bestList;
     }
 
-    public ArrayList<String> getListBillIdInMonth(String month, int year) {
+    public ArrayList<String> getBillListIdInMonth(String month, int year) {
         loadData();
         ArrayList<String> ListBillIdInMonth = new ArrayList<>();
 
