@@ -77,7 +77,7 @@ public class StorageGUI {
         btnAddImport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu nhập", employeeId, StorageGUI.this);
+                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("", "phiếu nhập", employeeId, StorageGUI.this);
                 addInvoiceGUI.openInvoiceGUI();
             }
         });
@@ -85,7 +85,7 @@ public class StorageGUI {
         btnAddExport.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InvoiceInformationGUI addInvoiceGUI = new InvoiceInformationGUI("", "phiếu xuất", employeeId, StorageGUI.this);
+                AddInvoiceGUI addInvoiceGUI = new AddInvoiceGUI("", "phiếu xuất", employeeId, StorageGUI.this);
                 addInvoiceGUI.openInvoiceGUI();
             }
         });
@@ -102,7 +102,7 @@ public class StorageGUI {
 
                 String importId = tblImports.getValueAt(rowSelected, 0).toString();
 
-                InvoiceInformationGUI editInvoiceGUI = new InvoiceInformationGUI(importId, "phiếu nhập", employeeId, StorageGUI.this);
+                AddInvoiceGUI editInvoiceGUI = new AddInvoiceGUI(importId, "phiếu nhập", employeeId, StorageGUI.this);
                 editInvoiceGUI.openInvoiceGUI();
             }
         });

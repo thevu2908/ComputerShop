@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class InvoiceInformationGUI {
+public class AddInvoiceGUI {
     private String invoiceId;
     private String invoiceName;
     private String employeeId;
@@ -21,7 +21,7 @@ public class InvoiceInformationGUI {
     private SupplierBUS supplierBUS;
     private JTextField txtSupplierId;
 
-    public InvoiceInformationGUI(String invoiceId, String invoiceName, String employeeId, StorageGUI storageGUI) {
+    public AddInvoiceGUI(String invoiceId, String invoiceName, String employeeId, StorageGUI storageGUI) {
         this.invoiceName = invoiceName;
         this.employeeId = employeeId;
         this.storageGUI = storageGUI;
@@ -121,7 +121,7 @@ public class InvoiceInformationGUI {
 
     public void openInvoiceGUI() {
         JFrame frame = new JFrame(invoiceName.toUpperCase());
-        frame.setContentPane(new InvoiceInformationGUI(invoiceId, invoiceName, employeeId, storageGUI).mainPanel);
+        frame.setContentPane(new AddInvoiceGUI(invoiceId, invoiceName, employeeId, storageGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
