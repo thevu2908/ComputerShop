@@ -41,10 +41,10 @@ public class ProductBUS {
         productStorageList = productDAO.getStorageData();
     }
 
-    public boolean addProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+    public boolean addProduct(String id, String name, String type, String price, String cpu, String ram, String storage,
                           String screen, String screenCard) {
         if (id.equals("") || name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
-                || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
+                || storage.equals("") || screen.equals("") || screenCard.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -61,7 +61,7 @@ public class ProductBUS {
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
         String saleId = saleBUS.findApplyingSale() == null ? null : saleBUS.findApplyingSale().getSaleId();
-        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, storage, screen, screenCard, 0, 0);
 
         if (productDAO.addProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
@@ -94,7 +94,7 @@ public class ProductBUS {
         return false;
     }
 
-    public boolean updateProduct(String id, String name, String type, String price, String cpu, String ram, String oCung,
+    public boolean updateProduct(String id, String name, String type, String price, String cpu, String ram, String storage,
                               String screen, String screenCard) {
         if (id.equals("")){
             JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -102,7 +102,7 @@ public class ProductBUS {
         }
 
         if (name.equals("") ||type.equals("") || price.equals("") || cpu.equals("") || ram.equals("")
-                || oCung.equals("") || screen.equals("") || screenCard.equals("")) {
+                || storage.equals("") || screen.equals("") || screenCard.equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -119,7 +119,7 @@ public class ProductBUS {
         int intPrice = Integer.parseInt(price);
         String typeId = productTypeBUS.getIdByName(type);
         String saleId = saleBUS.findApplyingSale() == null ? null : saleBUS.findApplyingSale().getSaleId();
-        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, oCung, screen, screenCard, 0, 0);
+        ProductDTO product = new ProductDTO(id, typeId, saleId, name, intPrice, cpu, ram, storage, screen, screenCard, 0, 0);
 
         if (productDAO.updateProduct(product) > 0) {
             JOptionPane.showMessageDialog(null, "Sửa thông tin sản phẩm thành công");
@@ -277,7 +277,7 @@ public class ProductBUS {
         cell.setCellValue(productDTO.getProductRAM());
 
         cell = row.createCell(6);
-        cell.setCellValue(productDTO.getProductDisk());
+        cell.setCellValue(productDTO.getProductStorage());
 
         cell = row.createCell(7);
         cell.setCellValue(productDTO.getProductScreen());
@@ -383,7 +383,7 @@ public class ProductBUS {
                             product.setProductRAM(cellValue.toString());
                             break;
                         case 6:
-                            product.setProductDisk(cellValue.toString());
+                            product.setProductStorage(cellValue.toString());
                             break;
                         case 7:
                             product.setProductScreen(cellValue.toString());

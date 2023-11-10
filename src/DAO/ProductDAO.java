@@ -75,7 +75,7 @@ public class ProductDAO {
             ptmt.setInt(5, product.getProductPrice());
             ptmt.setString(6, product.getProductCPU());
             ptmt.setString(7, product.getProductRAM());
-            ptmt.setString(8, product.getProductDisk());
+            ptmt.setString(8, product.getProductStorage());
             ptmt.setString(9, product.getProductScreen());
             ptmt.setString(10, product.getProductScreenCard());
             ptmt.setInt(11, product.getProductQuantity());
@@ -100,7 +100,7 @@ public class ProductDAO {
             ptmt.setInt(3, product.getProductPrice());
             ptmt.setString(4, product.getProductCPU());
             ptmt.setString(5, product.getProductRAM());
-            ptmt.setString(6, product.getProductDisk());
+            ptmt.setString(6, product.getProductStorage());
             ptmt.setString(7, product.getProductScreen());
             ptmt.setString(8, product.getProductScreenCard());
             ptmt.setString(9, product.getProductId());

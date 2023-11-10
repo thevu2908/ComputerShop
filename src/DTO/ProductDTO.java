@@ -8,7 +8,7 @@ public class ProductDTO{
     private int productPrice;
     private String productCPU;
     private String productRAM;
-    private String productDisk;
+    private String productStorage;
     private String productScreen;
     private String productScreenCard;
     private int productQuantity;
@@ -18,7 +18,7 @@ public class ProductDTO{
     }
 
     public ProductDTO(String productId, String productType, String saleId, String productName, int productPrice, String productCPU,
-                      String productRAM, String productDisk, String productScreen, String productScreenCard, int productQuantity,
+                      String productRAM, String productStorage, String productScreen, String productScreenCard, int productQuantity,
                       int isDeleted) {
         this.productId = productId;
         this.productType = productType;
@@ -27,7 +27,7 @@ public class ProductDTO{
         this.productPrice = productPrice;
         this.productCPU = productCPU;
         this.productRAM = productRAM;
-        this.productDisk = productDisk;
+        this.productStorage = productStorage;
         this.productScreen = productScreen;
         this.productScreenCard = productScreenCard;
         this.productQuantity = productQuantity;
@@ -95,12 +95,12 @@ public class ProductDTO{
         this.productRAM = productRAM;
     }
 
-    public String getProductDisk() {
-        return productDisk;
+    public String getProductStorage() {
+        return productStorage;
     }
 
-    public void setProductDisk(String productDisk) {
-        this.productDisk = productDisk;
+    public void setProductStorage(String productStorage) {
+        this.productStorage = productStorage;
     }
 
     public String getProductScreen() {

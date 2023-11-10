@@ -3,7 +3,6 @@ package GUI;
 import BUS.ProductBUS;
 import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -43,11 +42,11 @@ public class ProductGUI {
                 String price = txtProductPrice.getText();
                 String cpu = txtCPU.getText();
                 String ram = txtRAM.getText();
-                String oCung = txtOCung.getText();
+                String storage = txtStorage.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if (productBUS.addProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)
+                if (productBUS.addProduct(id, name, type, price, cpu, ram, storage, screen, screenCard)
                         && productBUS.addProductStorage(id, 0)
                 ) {
                     reset();
@@ -70,7 +69,7 @@ public class ProductGUI {
                     txtProductPrice.setText(product.getProductPrice() + "");
                     txtCPU.setText(product.getProductCPU());
                     txtRAM.setText(product.getProductRAM());
-                    txtOCung.setText(product.getProductDisk());
+                    txtStorage.setText(product.getProductStorage());
                     txtScreen.setText(product.getProductScreen());
                     txtScreenCard.setText(product.getProductScreenCard());
                 }
@@ -93,11 +92,11 @@ public class ProductGUI {
                 String price = txtProductPrice.getText();
                 String cpu = txtCPU.getText();
                 String ram = txtRAM.getText();
-                String oCung = txtOCung.getText();
+                String storage = txtStorage.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
 
-                if (productBUS.updateProduct(id, name, type, price, cpu, ram, oCung, screen, screenCard)) {
+                if (productBUS.updateProduct(id, name, type, price, cpu, ram, storage, screen, screenCard)) {
                     reset();
                 }
             }
@@ -226,7 +225,7 @@ public class ProductGUI {
         txtProductPrice.setText("");
         txtCPU.setText("");
         txtRAM.setText("");
-        txtOCung.setText("");
+        txtStorage.setText("");
         txtScreen.setText("");
         txtScreenCard.setText("");
         txtSearch.setText("");
@@ -316,7 +315,7 @@ public class ProductGUI {
     private JPanel mainPanel;
     private JTextField txtSearch;
     private JTextField txtCPU;
-    private JTextField txtOCung;
+    private JTextField txtStorage;
     private JTextField txtRAM;
     private JTextField txtScreen;
     private JTextField txtScreenCard;

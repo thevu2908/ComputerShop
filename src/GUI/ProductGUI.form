@@ -290,7 +290,7 @@
                       <text value="Ổ cứng:"/>
                     </properties>
                   </component>
-                  <component id="b9494" class="javax.swing.JTextField" binding="txtOCung">
+                  <component id="b9494" class="javax.swing.JTextField" binding="txtStorage">
                     <constraints>
                       <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="-1" height="35"/>
