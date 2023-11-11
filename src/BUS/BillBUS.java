@@ -49,6 +49,12 @@ public class BillBUS {
         }
 
         CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
+        if (customerDTO == null) {
+            JOptionPane.showMessageDialog(null, "Không có khách hàng nào có số điện thoại này", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
         String billId = getNewBillId();
         String currentDate = DateTime.getStringCurrentDate();
 

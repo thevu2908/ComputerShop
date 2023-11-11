@@ -187,9 +187,7 @@ public class SellGUI {
         btnExchangePoint.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtCustomerPhone.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
+                if (!sellBUS.checkCustomerPhone(txtCustomerPhone.getText())) {
                     return;
                 }
 
@@ -199,12 +197,6 @@ public class SellGUI {
                 }
 
                 if (!Validate.isValidNumber(txtCustomerPoint.getText(), "Điểm tích lũy")) {
-                    return;
-                }
-
-                if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -242,17 +234,6 @@ public class SellGUI {
         btnViewCustomerInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtCustomerPhone.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (!Validate.isValidPhone(txtCustomerPhone.getText())) {
-                    JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
                 String phone = txtCustomerPhone.getText();
                 sellBUS.showInfoCustomer(phone);
             }

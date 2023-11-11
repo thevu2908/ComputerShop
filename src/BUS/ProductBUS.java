@@ -162,7 +162,6 @@ public class ProductBUS {
         if (saleBUS.stopApplySale(saleId)) {
             for (ProductDTO productDTO : productList) {
                 if (productDAO.stopApplySale(productDTO.getProductId()) <= 0) {
-                    System.out.println(productDTO.getProductId());
                     JOptionPane.showMessageDialog(null, "Ngưng áp dụng chương trình khuyến mãi thất bại", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     return false;

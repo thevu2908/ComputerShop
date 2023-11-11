@@ -3,6 +3,7 @@ package BUS;
 import DTO.BillDetailDTO;
 import DTO.CustomerDTO;
 import DTO.ProductDTO;
+import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,12 +15,14 @@ public class SellBUS {
     private BillBUS billBUS;
     private BillDetailBUS billDetailBUS;
     private CustomerBUS customerBUS;
+    private SaleBUS saleBUS;
 
     public SellBUS() {
         productBUS = new ProductBUS();
         billDetailBUS = new BillDetailBUS();
         billBUS = new BillBUS();
         customerBUS = new CustomerBUS();
+        saleBUS = new SaleBUS();
     }
 
     public void chooseProduct(DefaultTableModel model, String productId, int quantity) {
@@ -61,7 +64,17 @@ public class SellBUS {
     public int calculateTotalPrice() {
         int total = 0;
         for (BillDetailDTO billDetailDTO : billDetailList) {
-            total += productBUS.getPriceById(billDetailDTO.getProductId()) * billDetailDTO.getQuantity();
+            String saleId = productBUS.getProductById(billDetailDTO.getProductId()).getSaleId();
+            int discount = saleId == null || saleId.equals("")
+                    ? 0
+                    : Integer.parseInt(saleBUS.getSaleById(saleId).getSaleInfo().substring(
+                        0,
+                        saleBUS.getSaleById(saleId).getSaleInfo().length() - 1));
+
+            int price = productBUS.getPriceById(billDetailDTO.getProductId());
+            price = price - (price * discount / 100);
+
+            total += price * billDetailDTO.getQuantity();
         }
         return total;
     }
@@ -90,22 +103,36 @@ public class SellBUS {
         return true;
     }
 
-    public void resetBillDetailList() {
-        billDetailList.removeAll(billDetailList);
-    }
+    public boolean checkCustomerPhone(String phone) {
+        if (phone.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
-    public void renderToTableBillSell(DefaultTableModel model){
-        billDetailBUS.renderToTable(model, billDetailList);
-    }
+        if (!Validate.isValidPhone(phone)) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
-    public void showInfoCustomer(String phone){
         CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
 
         if (customerDTO == null) {
             JOptionPane.showMessageDialog(null, "Không có khách hàng nào có số điện thoại này", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    public void showInfoCustomer(String phone) {
+        if (!checkCustomerPhone(phone)) {
             return;
         }
+
+        CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
 
         JOptionPane.showMessageDialog(
                 null,
@@ -116,5 +143,13 @@ public class SellBUS {
                 "Thông tin khách hàng",
                 JOptionPane.INFORMATION_MESSAGE
         );
+    }
+
+    public void resetBillDetailList() {
+        billDetailList.removeAll(billDetailList);
+    }
+
+    public void renderToTableBillSell(DefaultTableModel model){
+        billDetailBUS.renderToTable(model, billDetailList);
     }
 }
