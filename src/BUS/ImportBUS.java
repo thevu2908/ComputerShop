@@ -66,14 +66,19 @@ public class ImportBUS {
         }
 
         ImportDTO importDTO = getImportById(importId);
+        if (importDTO != null) {
+            importDTO.setSupplierId(supplierId);
 
-        if (importDTO != null && importDAO.updateImport(importDTO) > 0) {
-            JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thành công");
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
+            if (importDAO.updateImport(importDTO) > 0) {
+                JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thành công");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Sửa thông tin phiếu nhập thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
         }
+
+        return false;
     }
 
     public boolean confirmImport(String importId) {
