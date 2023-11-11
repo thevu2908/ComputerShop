@@ -24,8 +24,13 @@ public class EmployeeBUS {
     }
 
     public boolean login(String username, String password) {
-        if (username.equals("") || password.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ tài khoản và mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tài khoản", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (password.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
