@@ -99,6 +99,14 @@ public class ImportDetailBUS {
     }
 
     public boolean confirmImport(String importId) {
+        ArrayList<ImportDetailDTO> list = getImportDetailsByImportId(importId);
+
+        if (list.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Không thể duyệt phiếu nhập chưa có sản phẩm nhập", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (importBUS.confirmImport(importId) && increaseProductStorageQuantity(importId)) {
             JOptionPane.showMessageDialog(null, "Duyệt phiếu nhập thành công");
             return true;
@@ -376,6 +384,19 @@ public class ImportDetailBUS {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ImportDetailDTO> getImportDetailsByImportId(String importId) {
+        loadData();
+        ArrayList<ImportDetailDTO> list = new ArrayList<>();
+
+        for (ImportDetailDTO importDetailDTO : importDetailList) {
+            if (importDetailDTO.getImportId().equals(importId)) {
+                list.add(importDetailDTO);
+            }
+        }
+
+        return list;
     }
 
     public ImportDetailDTO getImportDetailById(String importId, String productId) {

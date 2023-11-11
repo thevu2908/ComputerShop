@@ -91,13 +91,15 @@ public class ImportBUS {
 
         if (importDTO != null) {
             importDTO.setImportStatus("Đã duyệt");
+
+            if (importDAO.updateImport(importDTO) > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        if (importDTO != null && importDAO.updateImport(importDTO) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     public ImportDTO getImportById(String id) {
