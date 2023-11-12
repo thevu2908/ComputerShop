@@ -28,6 +28,11 @@ public class SaleBUS {
             return false;
         }
 
+        if (checkExistedSaleId(saleId)) {
+            JOptionPane.showMessageDialog(null, "Mã chương trình khuyến mãi đã tồn tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (!saleInfo.endsWith("%")) {
             saleInfo = saleInfo + "%";
         }
@@ -48,8 +53,8 @@ public class SaleBUS {
 
         try {
             Date currentDate = DateTime.getCurrentDate();
-            Date startDateObj = DateTime.parseDate(startDate);
-            Date endDateObj = DateTime.parseDate(endDate);
+            Date startDateObj = DateTime.parseDate(DateTime.formatDate(startDate));
+            Date endDateObj = DateTime.parseDate(DateTime.formatDate(endDate));
 
             if (startDateObj.before(currentDate)) {
                 JOptionPane.showMessageDialog(null, "Ngày bắt đầu đã trước ngày hiện tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -79,6 +84,17 @@ public class SaleBUS {
     }
 
     public boolean deleteSale(String saleId) {
+        String status = getSaleById(saleId).getSaleStatus();
+        if (status.equals("Đang áp dụng")) {
+            JOptionPane.showMessageDialog(null, "Không thể xóa chương trình khuyến mãi đang áp dụng", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (status.equals("Ngưng áp dụng")) {
+            JOptionPane.showMessageDialog(null, "Không thể xóa chương trình khuyến mãi ngưng áp dụng", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (saleDAO.deleteSale(saleId) > 0) {
             JOptionPane.showMessageDialog(null, "Xóa chương trình khuyến mãi thành công");
             return true;
@@ -197,6 +213,18 @@ public class SaleBUS {
 
         for (SaleDTO saleDTO : salesList) {
             if (saleDTO.getSaleStatus().equals("Đang áp dụng")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkExistedSaleId(String saleId) {
+        loadData();
+
+        for (SaleDTO saleDTO : salesList) {
+            if (saleDTO.getSaleId().equals(saleId)) {
                 return true;
             }
         }
