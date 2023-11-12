@@ -82,7 +82,14 @@ public class SupplierGUI {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = txtSupplierId.getText();
+                int selectedRow = tblSuppliers.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String id = tblSuppliers.getValueAt(selectedRow, 0).toString();
                 if (supplierBUS.deleteSupplier(id)) {
                     reset();
                 }

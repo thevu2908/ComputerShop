@@ -53,11 +53,6 @@ public class SupplierBUS {
     }
 
     public boolean deleteSupplier(String id) {
-        if (id.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá nhà cung cấp " + id + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
 
