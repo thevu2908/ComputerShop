@@ -87,6 +87,14 @@ public class ExportDetailBUS {
     }
 
     public boolean confirmExport(String exportId) {
+        ArrayList<ExportDetailDTO> list = getExportDetailsByExportId(exportId);
+
+        if (list.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Không thể duyệt phiếu nhập không có chi tiết phiếu nhập", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (exportBUS.confirmExport(exportId) && changeProductQuantity(exportId)) {
             JOptionPane.showMessageDialog(null, "Duyệt phiếu xuất thành công");
             return true;
@@ -329,6 +337,19 @@ public class ExportDetailBUS {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ExportDetailDTO> getExportDetailsByExportId(String exportId) {
+        loadData();
+        ArrayList<ExportDetailDTO> list = new ArrayList<>();
+
+        for (ExportDetailDTO exportDetailDTO : exportDetailList) {
+            if (exportDetailDTO.getExportId().equals(exportId)) {
+                list.add(exportDetailDTO);
+            }
+        }
+
+        return list;
     }
 
     public ExportDetailDTO getExportDetailById(String exportId, String productId) {
