@@ -105,7 +105,14 @@ public class ProductGUI {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = txtProductID.getText();
+                int selectedRow = tblProducts.getSelectedRow();
+
+                if (selectedRow <= 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String id = tblProducts.getValueAt(selectedRow, 0).toString();
                 if (productBUS.deleteProduct(id)) {
                     reset();
                 }

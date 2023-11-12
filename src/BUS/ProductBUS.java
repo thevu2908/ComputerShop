@@ -73,11 +73,6 @@ public class ProductBUS {
     }
 
     public boolean deleteProduct(String id) {
-        if (id.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá sản phẩm " + id + " không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
 
