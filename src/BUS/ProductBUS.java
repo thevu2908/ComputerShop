@@ -292,11 +292,11 @@ public class ProductBUS {
 
         SXSSFCell cell = row.createCell(0);
         cell.setCellStyle(cellStyle);
-        cell.setCellValue("Mã sản phẩn");
+        cell.setCellValue("Mã sản phẩm");
 
         cell = row.createCell(1);
         cell.setCellStyle(cellStyle);
-        cell.setCellValue("Tên sản phẩn");
+        cell.setCellValue("Tên sản phẩm");
 
         cell = row.createCell(2);
         cell.setCellStyle(cellStyle);

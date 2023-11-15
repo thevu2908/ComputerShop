@@ -148,7 +148,7 @@ public class ProductGUI {
                 String defaultFileName = "sanpham.xlsx";
                 fileChooser.setSelectedFile(new File(defaultFileName));
 
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files (.xlsx)", "xlsx");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel (.xlsx)", "xlsx");
                 fileChooser.setFileFilter(filter);
 
                 int result = fileChooser.showSaveDialog(null);
