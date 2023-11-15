@@ -146,7 +146,7 @@
                   <icon value="images/bill_icon.png"/>
                   <iconTextGap value="10"/>
                   <opaque value="true"/>
-                  <text value="Quản lý hóa đơn"/>
+                  <text value="Hóa đơn"/>
                 </properties>
               </component>
             </children>
