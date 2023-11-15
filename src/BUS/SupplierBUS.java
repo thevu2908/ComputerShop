@@ -2,10 +2,18 @@ package BUS;
 
 import DAO.SupplierDAO;
 import DTO.SupplierDTO;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.xssf.streaming.SXSSFCell;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import validation.Validate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class SupplierBUS {
@@ -107,6 +115,103 @@ public class SupplierBUS {
         }
     }
 
+    public String createNewSupplierID() {
+        loadData();
+        int id = supplierList.size() + 1;
+        return "NCC" + String.format("%02d", id);
+    }
+
+    public void exportExcel(File path) {
+        SXSSFWorkbook workbook = new SXSSFWorkbook();
+        SXSSFSheet sheet = workbook.createSheet("Khách hàng");
+        sheet.trackAllColumnsForAutoSizing();
+
+        int rowIndex = 0;
+
+        writeExcelTitle(sheet, rowIndex);
+
+        loadData();
+        for (SupplierDTO supplierDTO : supplierList) {
+            if (supplierDTO.getIsDeleted() == 0) {
+                rowIndex++;
+                SXSSFRow row = sheet.createRow(rowIndex);
+                writeExcelData(supplierDTO, row);
+            }
+        }
+
+        autoResizeColumn(sheet, 11);
+
+        if(writeExcel(workbook, path)) {
+            JOptionPane.showMessageDialog(null, "Xuất danh sách nhà cung cấp thành file excel thành công");
+        } else {
+            JOptionPane.showMessageDialog(null, "Xuất danh sách nhà cung cấp thành file excel thất bại", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public boolean writeExcel(SXSSFWorkbook workbook, File path) {
+        try {
+            String fileName = path.getName();
+            if (!fileName.endsWith(".xlsx")) {
+                path = new File(path.getParentFile(), fileName + ".xlsx");
+            }
+
+            FileOutputStream fos = new FileOutputStream(path.toString());
+            workbook.write(fos);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public void writeExcelData(SupplierDTO supplierDTO, SXSSFRow row) {
+        SXSSFCell cell = row.createCell(0);
+        cell.setCellValue(supplierDTO.getSupplierId());
+
+        cell = row.createCell(1);
+        cell.setCellValue(supplierDTO.getSupplierName());
+
+        cell = row.createCell(2);
+        cell.setCellValue(supplierDTO.getSupplierPhone());
+
+        cell = row.createCell(3);
+        cell.setCellValue(supplierDTO.getSupplierAddress());
+    }
+
+    public void writeExcelTitle(SXSSFSheet sheet, int rowIndex) {
+        Font font = sheet.getWorkbook().createFont();
+        font.setFontHeightInPoints((short) 14);
+        font.setBold(true);
+
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(font);
+
+        SXSSFRow row = sheet.createRow(rowIndex);
+
+        SXSSFCell cell = row.createCell(0);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Mã nhà cung cấp");
+
+        cell = row.createCell(1);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Tên nhà cung cấp");
+
+        cell = row.createCell(2);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Số điện thoại");
+
+        cell = row.createCell(3);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue("Địa chỉ");
+    }
+
+    public void autoResizeColumn(SXSSFSheet sheet, int columns) {
+        for (int i = 0; i < columns; i++) {
+            sheet.autoSizeColumn(i);
+        }
+    }
+
     public String getNameById(String id) {
         loadData();
 
@@ -141,12 +246,6 @@ public class SupplierBUS {
         }
 
         return "";
-    }
-
-    public String createNewSupplierID() {
-        loadData();
-        int id = supplierList.size() + 1;
-        return "NCC" + String.format("%02d", id);
     }
 
     public boolean checkExistedPhone(String phone) {

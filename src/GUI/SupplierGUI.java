@@ -1,11 +1,13 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import BUS.SupplierBUS;
 import DTO.SupplierDTO;
@@ -102,6 +104,31 @@ public class SupplierGUI {
                 filter();
             }
         });
+
+        btnExportExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = "dsncc.xlsx";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel (.xlsx)", "xlsx");
+                fileChooser.setFileFilter(filter);
+
+                int result = fileChooser.showSaveDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        supplierBUS.exportExcel(file);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     public void filter() {
@@ -193,4 +220,5 @@ public class SupplierGUI {
     private JButton btnDelete;
     private JButton btnReset;
     private JButton btnCreateId;
+    private JButton btnExportExcel;
 }
