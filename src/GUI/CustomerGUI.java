@@ -4,11 +4,13 @@ import BUS.CustomerBUS;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 public class CustomerGUI {
@@ -141,6 +143,31 @@ public class CustomerGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filter();
+            }
+        });
+
+        btnExportExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                String defaultFileName = "dskh.xlsx";
+                fileChooser.setSelectedFile(new File(defaultFileName));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel (.xlsx)", "xlsx");
+                fileChooser.setFileFilter(filter);
+
+                int result = fileChooser.showSaveDialog(null);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        customerBUS.exportExcel(file);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -277,5 +304,6 @@ public class CustomerGUI {
     private JTextField txtSearch;
     private JButton btnCreateNewId;
     private JTextField txtCustomerPoint;
+    private JButton btnExportExcel;
     private JDateChooser customerDOB;
 }
