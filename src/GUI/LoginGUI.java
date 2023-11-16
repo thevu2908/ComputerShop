@@ -64,8 +64,8 @@ public class LoginGUI {
                     ||
                     employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("quản lý")
                     ||
-                    employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("nhân viên thủ kho"))
-            {
+                    employeeTypeBUS.getTypeNameById(employeeType).toLowerCase().equals("nhân viên thủ kho")
+            ) {
                 SystemGUI systemGUI = new SystemGUI(employeeId, employeeType);
                 systemGUI.openSystemGUI();
             } else {
