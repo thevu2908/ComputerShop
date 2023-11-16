@@ -146,8 +146,7 @@ public class EmployeeBUS {
             return false;
         }
 
-        if (!employeeTypeBUS.getTypeNameById(getTypeById(id)).toLowerCase().equals("quản lý") &&
-                checkExistedManager()) {
+        if (!employeeTypeBUS.getTypeNameById(getTypeById(id)).toLowerCase().equals("quản lý") && checkExistedManager()) {
             JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -164,11 +163,6 @@ public class EmployeeBUS {
     }
 
     public boolean deleteEmployee(String id) {
-        if (id.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá nhân viên này không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
 

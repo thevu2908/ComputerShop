@@ -82,7 +82,14 @@ public class EmployeeGUI {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String id = txtEmpId.getText();
+                int selectedRow = tblEmployees.getSelectedRow();
+
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String id = tblEmployees.getValueAt(selectedRow, 0).toString();
                 if (employeeBUS.deleteEmployee(id)) {
                     resetData();
                 }
