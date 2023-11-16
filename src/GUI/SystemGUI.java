@@ -42,17 +42,19 @@ public class SystemGUI {
         lblLogout.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất ?", "Xác nhận",
-                        JOptionPane.YES_NO_OPTION);
+                if (!employeeType.equals("LNV03")) {
+                    int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất ?", "Xác nhận",
+                            JOptionPane.YES_NO_OPTION);
 
-                if (choice == JOptionPane.YES_OPTION) {
-                    if (employeeType.equals("LNV03")) {
-                        SellGUI sellGUI = new SellGUI(employeeId);
-                        sellGUI.openSellGUI();
-                    } else {
+                    if (choice == JOptionPane.YES_OPTION) {
                         LoginGUI loginGUI = new LoginGUI();
                         loginGUI.openLoginGUI();
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+                        frame.dispose();
                     }
+                } else {
+                    SellGUI sellGUI = new SellGUI(employeeId);
+                    sellGUI.openSellGUI();
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                     frame.dispose();
                 }

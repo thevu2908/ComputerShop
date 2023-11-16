@@ -399,10 +399,11 @@ public class ProductBUS {
         }
 
         if (cnt > 0) {
-            JOptionPane.showMessageDialog(null, "Đã import " + cnt + " dòng excel");
+            JOptionPane.showMessageDialog(null, "Đã import " + cnt + " sản phẩm");
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "Import excel thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Import excel thất bại \nHãy kiểm tra lại thông tin các sản phẩm trong file",
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
