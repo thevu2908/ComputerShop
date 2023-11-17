@@ -21,7 +21,6 @@ public class EmployeeGUI {
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
-        employeeBUS = new EmployeeBUS();
         employeeTypeBUS = new EmployeeTypeBUS();
         intiDateChooser();
         initTable();
