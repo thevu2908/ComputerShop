@@ -118,7 +118,7 @@ public class SellGUI {
         btnUnchooseProd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int rowSelected = tblProducts.getSelectedRow();
+                int rowSelected = tblSellBills.getSelectedRow();
                 if (rowSelected < 0) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -128,7 +128,7 @@ public class SellGUI {
                         JOptionPane.YES_NO_OPTION);
 
                 if (choice == JOptionPane.YES_OPTION) {
-                    sellBUS.unchooseProduct(sellBillModel, tblProducts.getValueAt(rowSelected, 0).toString());
+                    sellBUS.unchooseProduct(sellBillModel, tblSellBills.getValueAt(rowSelected, 0).toString());
                     JOptionPane.showMessageDialog(null, "Bỏ chọn sản phẩm thành công");
 
                     int total = sellBUS.calculateTotalPrice();
