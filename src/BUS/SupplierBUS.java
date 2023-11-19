@@ -123,7 +123,7 @@ public class SupplierBUS {
 
     public void exportExcel(File path) {
         SXSSFWorkbook workbook = new SXSSFWorkbook();
-        SXSSFSheet sheet = workbook.createSheet("Khách hàng");
+        SXSSFSheet sheet = workbook.createSheet("Nhà cung cấp");
         sheet.trackAllColumnsForAutoSizing();
 
         int rowIndex = 0;
