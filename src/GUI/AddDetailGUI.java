@@ -65,14 +65,14 @@ public class AddDetailGUI {
                 if (importDetailGUI != null && importDetailBUS.addImportDetail(invoiceId, productId, quantity)) {
                     importDetailGUI.initTableData();
                     importDetailGUI.setTotalPrice();
-                    closeAddProductGUI();
+                    closeAddDetailGUI();
                 }
 
                 // add exportDetail
                 if (exportDetailGUI != null && exportDetailBUS.addExportDetail(invoiceId, productId, quantity)) {
                     exportDetailGUI.initTableData();
                     exportDetailGUI.setTotalQuantity();
-                    closeAddProductGUI();
+                    closeAddDetailGUI();
                 }
             }
         });
@@ -80,7 +80,7 @@ public class AddDetailGUI {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                closeAddProductGUI();
+                closeAddDetailGUI();
             }
         });
     }
@@ -92,7 +92,7 @@ public class AddDetailGUI {
         }
     }
 
-    public void openAddProductGUI() {
+    public void openAddDetailGUI() {
         JFrame frame = new JFrame("Thêm sản phẩm");
         frame.setContentPane(new AddDetailGUI(invoiceId, importDetailGUI, exportDetailGUI).mainPanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -101,7 +101,7 @@ public class AddDetailGUI {
         frame.setVisible(true);
     }
 
-    public void closeAddProductGUI() {
+    public void closeAddDetailGUI() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
         frame.dispose();
     }

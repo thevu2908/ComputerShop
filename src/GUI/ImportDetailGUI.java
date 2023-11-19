@@ -32,7 +32,7 @@ public class ImportDetailGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddDetailGUI addDetailGUI = new AddDetailGUI(importId, ImportDetailGUI.this, null);
-                addDetailGUI.openAddProductGUI();
+                addDetailGUI.openAddDetailGUI();
             }
         });
 

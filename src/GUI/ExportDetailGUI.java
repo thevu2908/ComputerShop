@@ -31,7 +31,7 @@ public class ExportDetailGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddDetailGUI addDetailGUI = new AddDetailGUI(exportId, null, ExportDetailGUI.this);
-                addDetailGUI.openAddProductGUI();
+                addDetailGUI.openAddDetailGUI();
             }
         });
 
