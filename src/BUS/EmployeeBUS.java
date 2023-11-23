@@ -24,8 +24,13 @@ public class EmployeeBUS {
     }
 
     public boolean login(String username, String password) {
-        if (username.equals("") || password.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ tài khoản và mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tài khoản", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (password.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -66,7 +71,8 @@ public class EmployeeBUS {
         }
 
         if (!Validate.isValidPhone(phone)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số)", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -82,6 +88,11 @@ public class EmployeeBUS {
 
         if (checkExistedEmail(email)) {
             JOptionPane.showMessageDialog(null, "Email này đã được sử dụng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (checkExistedManager() && type.toLowerCase().equals("quản lý")) {
+            JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -115,7 +126,8 @@ public class EmployeeBUS {
         }
 
         if (!Validate.isValidPhone(phone)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số)", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -134,6 +146,11 @@ public class EmployeeBUS {
             return false;
         }
 
+        if (!employeeTypeBUS.getTypeNameById(getTypeById(id)).toLowerCase().equals("quản lý") && checkExistedManager()) {
+            JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         EmployeeDTO employee = new EmployeeDTO(id, type, name, address, phone, DateTime.formatDate(dob), gender, email, password, 0);
 
         if (employeeDAO.updateEmployee(employee) > 0) {
@@ -146,11 +163,6 @@ public class EmployeeBUS {
     }
 
     public boolean deleteEmployee(String id) {
-        if (id.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên muốn xoá", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá nhân viên này không ?", "Câu hỏi",
                 JOptionPane.YES_NO_OPTION);
 
@@ -167,7 +179,19 @@ public class EmployeeBUS {
         return false;
     }
 
-    public boolean checkExistedEmployeeId(String  employeeID) {
+    public boolean checkExistedManager() {
+        loadData();
+
+        for (EmployeeDTO employeeDTO : employeeList) {
+            if (employeeTypeBUS.getTypeNameById(employeeDTO.getEmployeeType()).toLowerCase().equals("quản lý")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkExistedEmployeeId(String employeeID) {
         loadData();
 
         for (EmployeeDTO employeeDTO: employeeList) {
@@ -292,6 +316,11 @@ public class EmployeeBUS {
             }
         }
         return null;
+    }
+
+    public ArrayList<EmployeeDTO> getEmployeeList() {
+        loadData();
+        return employeeList;
     }
 
     public void renderToTable(DefaultTableModel model) {
