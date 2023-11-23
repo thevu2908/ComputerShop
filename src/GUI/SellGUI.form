@@ -301,6 +301,14 @@
                         <properties/>
                         <border type="etched" title="Tìm kiếm theo"/>
                         <children>
+                          <component id="7858d" class="javax.swing.JTextField" binding="txtSearchProd">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
                           <component id="e1004" class="javax.swing.JComboBox" binding="cbxSearchProdType">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
@@ -312,14 +320,6 @@
                                 <item value="Hãng sản phẩm"/>
                               </model>
                             </properties>
-                          </component>
-                          <component id="7858d" class="javax.swing.JTextField" binding="txtSearchProd">
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties/>
                           </component>
                         </children>
                       </grid>

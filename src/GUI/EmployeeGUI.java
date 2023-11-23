@@ -21,6 +21,7 @@ public class EmployeeGUI {
 
     public EmployeeGUI() {
         employeeBUS = new EmployeeBUS();
+        employeeBUS = new EmployeeBUS();
         employeeTypeBUS = new EmployeeTypeBUS();
         intiDateChooser();
         initTable();
@@ -147,6 +148,11 @@ public class EmployeeGUI {
         txtEmpEmail.setText("");
         txtEmpPassword.setText("");
         cbxEmpType.setSelectedIndex(0);
+        cbxEmpType.setSelectedIndex(0);
+        cbxSearchType.setSelectedIndex(0);
+        cbxFilterEmpType.setSelectedIndex(0);
+        employeeSorter.setRowFilter(null);
+        txtSearch.setText((""));
         initTableData();
         if (employeeSorter != null) {
             employeeSorter.setRowFilter(null);

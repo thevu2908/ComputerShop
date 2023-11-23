@@ -91,7 +91,7 @@ public class EmployeeBUS {
             return false;
         }
 
-        if (checkExistedManager()) {
+        if (employeeTypeBUS.getTypeNameById(type).toLowerCase().equals("quản lý") && checkExistedManager()) {
             JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
