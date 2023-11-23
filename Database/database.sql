@@ -62,7 +62,7 @@ CREATE TABLE `chi_tiet_phieu_xuat` (
 
 CREATE TABLE `hang_san_pham` (
   `ma_hsp` varchar(10) NOT NULL,
-  `ten_hsp` varchar(20) NOT NULL,
+  `ten_hsp` varchar(50) NOT NULL,
   `trang_thai` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -102,8 +102,8 @@ CREATE TABLE `hoa_don` (
 
 CREATE TABLE `khach_hang` (
   `ma_kh` varchar(10) NOT NULL,
-  `ho_ten` varchar(20) NOT NULL,
-  `dia_chi` varchar(20) NOT NULL,
+  `ho_ten` varchar(50) NOT NULL,
+  `dia_chi` varchar(50) NOT NULL,
   `so_dien_thoai` varchar(12) NOT NULL,
   `ngay_sinh` date NOT NULL,
   `gioi_tinh` varchar(10) NOT NULL,
@@ -128,7 +128,7 @@ INSERT INTO `khach_hang` (`ma_kh`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `ngay_s
 
 CREATE TABLE `loai_nhan_vien` (
   `ma_lnv` varchar(10) NOT NULL,
-  `ten_lnv` varchar(20) NOT NULL,
+  `ten_lnv` varchar(50) NOT NULL,
   `trang_thai` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -229,7 +229,7 @@ CREATE TABLE `phieu_xuat` (
 
 CREATE TABLE `chuong_trinh_khuyen_mai` (
   `ma_ctkm` varchar(10) NOT NULL,
-  `thong_tin` nvarchar(30) NOT NULL,
+  `thong_tin` nvarchar(50) NOT NULL,
   `ngay_bat_dau` date NOT NULL,
   `ngay_ket_thuc` date NOT NULL,
   `tinh_trang` nvarchar(30) NOT NULL,
@@ -255,8 +255,8 @@ CREATE TABLE `san_pham` (
   `ten_sp` varchar(255) NOT NULL,
   `gia` int NOT NULL,
   `cpu` varchar(50) NOT NULL,
-  `ram` varchar(30) NOT NULL,
-  `o_cung` varchar(30) NOT NULL,
+  `ram` varchar(50) NOT NULL,
+  `o_cung` varchar(50) NOT NULL,
   `man_hinh` nvarchar(50) NOT NULL,
   `card_man_hinh` nvarchar(50) NOT NULL,
   `so_luong` int NOT NULL,
