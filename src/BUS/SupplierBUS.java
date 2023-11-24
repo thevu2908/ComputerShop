@@ -99,7 +99,7 @@ public class SupplierBUS {
             return false;
         }
 
-        if (!getIdByPhone(Phone).equals(Id) && checkExistedPhone(Phone)) {
+        if (!Phone.equals(getSupplierById(Id).getSupplierPhone()) && checkExistedPhone(Phone)) {
             JOptionPane.showMessageDialog(null, "Số điện thoại này đã thuộc nhà cung cấp khác", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
