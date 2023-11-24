@@ -15,7 +15,7 @@ public class EmployeeDAO {
         try {
             Connection connection = MyConnection.getConnect();
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from `nhan_vien` where trang_thai = 0");
+            ResultSet rs = stmt.executeQuery("select * from `nhan_vien`");
 
             while (rs.next()) {
                 String id = rs.getString("ma_nv");
