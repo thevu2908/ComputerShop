@@ -91,7 +91,7 @@ public class CustomerBUS {
             return false;
         }
 
-        if (!getCustomerByPhone(phone).getCustomerId().equals(id) && checkExistedPhone(phone)) {
+        if (!phone.equals(getCustomerById(id).getCustomerPhone()) && checkExistedPhone(phone)) {
             JOptionPane.showMessageDialog(null, "Số điện thoại này đã thuộc khách hàng khác", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
