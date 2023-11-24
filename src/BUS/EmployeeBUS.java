@@ -136,17 +136,17 @@ public class EmployeeBUS {
             return false;
         }
 
-        if (!getIdByPhone(phone).equals(id) && checkExistedPhone(phone)) {
+        if (!phone.equals(getEmployeeById(id).getEmployeePhone()) && checkExistedPhone(phone)) {
             JOptionPane.showMessageDialog(null, "Số điện thoại này đã được sử dụng", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if (!getIdByEmail(email).equals(id) && checkExistedEmail(email)) {
+        if (!email.equals(getEmployeeById(id).getEmployeeEmail()) && checkExistedEmail(email)) {
             JOptionPane.showMessageDialog(null, "Email này đã được sử dụng", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if (!employeeTypeBUS.getTypeNameById(getTypeById(id)).toLowerCase().equals("quản lý") && checkExistedManager()) {
+        if (employeeTypeBUS.getTypeNameById(type).toLowerCase().equals("quản lý") && checkExistedManager()) {
             JOptionPane.showMessageDialog(null, "Đã có nhân viên quản lý trong hệ thống", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
