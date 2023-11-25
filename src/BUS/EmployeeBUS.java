@@ -115,6 +115,11 @@ public class EmployeeBUS {
             return false;
         }
 
+        if (!checkExistedEmployeeId(id)) {
+            JOptionPane.showMessageDialog(null, "Mã nhân viên không tồn tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (!Validate.isValidDate(dob)) {
             JOptionPane.showMessageDialog(null, "Ngày sinh không hợp lệ (dd-MM-yyyy)", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
