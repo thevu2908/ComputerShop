@@ -552,7 +552,9 @@ public class ProductBUS {
         ArrayList<String> list = new ArrayList<>();
 
         for (ProductDTO productDTO : productList) {
-            list.add(productDTO.getProductId());
+            if (productDTO.getIsDeleted() == 0) {
+                list.add(productDTO.getProductId());
+            }
         }
 
         return list;
