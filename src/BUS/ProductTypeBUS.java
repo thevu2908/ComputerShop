@@ -23,7 +23,7 @@ public class ProductTypeBUS {
         loadData();
 
         for (ProductTypeDTO productTypeDTO : list) {
-            if (productTypeDTO.getTypeName().equals(name)) {
+            if (productTypeDTO.getIsDeleted() == 0 && productTypeDTO.getTypeName().equals(name)) {
                 return productTypeDTO.getTypeId();
             }
         }
@@ -35,7 +35,7 @@ public class ProductTypeBUS {
         loadData();
 
         for (ProductTypeDTO productTypeDTO : list) {
-            if (productTypeDTO.getTypeId().equals(id)) {
+            if (productTypeDTO.getIsDeleted() == 0 && productTypeDTO.getTypeId().equals(id)) {
                 return productTypeDTO.getTypeName();
             }
         }

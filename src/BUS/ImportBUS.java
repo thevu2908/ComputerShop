@@ -106,7 +106,7 @@ public class ImportBUS {
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            if (importDTO.getImportId().equals(id)) {
+            if (importDTO.getIsDeleted() == 0 && importDTO.getImportId().equals(id)) {
                 return importDTO;
             }
         }
@@ -118,7 +118,7 @@ public class ImportBUS {
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            if (importDTO.getImportId().equals(importId)) {
+            if (importDTO.getIsDeleted() == 0 && importDTO.getImportId().equals(importId)) {
                 return importDTO.getImportStatus();
             }
         }
@@ -130,7 +130,7 @@ public class ImportBUS {
         loadData();
 
         for (ImportDTO importDTO : importList) {
-            if (importDTO.getImportId().equals(importId)) {
+            if (importDTO.getIsDeleted() == 0 && importDTO.getImportId().equals(importId)) {
                 return importDTO.getSupplierId();
             }
         }

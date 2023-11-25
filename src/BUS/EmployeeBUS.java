@@ -183,7 +183,8 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeTypeBUS.getTypeNameById(employeeDTO.getEmployeeType()).toLowerCase().equals("quản lý")) {
+            if (employeeDTO.getIsDeleted() == 0 &&
+                    employeeTypeBUS.getTypeNameById(employeeDTO.getEmployeeType()).toLowerCase().equals("quản lý")) {
                 return true;
             }
         }
@@ -233,7 +234,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeeEmail().equals(email)) {
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeEmail().equals(email)) {
                 return true;
             }
         }
@@ -251,7 +252,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeeId().equals(id)) {
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeId().equals(id)) {
                 return employeeDTO.getEmployeeName();
             }
         }
@@ -263,19 +264,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeeEmail().equals(email)) {
-                return employeeDTO.getEmployeeId();
-            }
-        }
-
-        return "";
-    }
-
-    public String getIdByPhone(String phone) {
-        loadData();
-
-        for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeePhone().equals(phone)) {
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeEmail().equals(email)) {
                 return employeeDTO.getEmployeeId();
             }
         }
@@ -287,7 +276,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeeId().equals(id)) {
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeId().equals(id)) {
                 return employeeDTO.getEmployeeType();
             }
         }
@@ -299,7 +288,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList) {
-            if (employeeDTO.getEmployeeEmail().equals(email)) {
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeEmail().equals(email)) {
                 return employeeDTO.getEmployeeType();
             }
         }
@@ -311,7 +300,7 @@ public class EmployeeBUS {
         loadData();
 
         for (EmployeeDTO employeeDTO : employeeList){
-            if (employeeDTO.getEmployeeId().equals(employeeID)){
+            if (employeeDTO.getIsDeleted() == 0 && employeeDTO.getEmployeeId().equals(employeeID)){
                 return employeeDTO;
             }
         }

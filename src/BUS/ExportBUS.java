@@ -63,7 +63,7 @@ public class ExportBUS {
         loadData();
 
         for (ExportDTO exportDTO : exportList) {
-            if (exportDTO.getExportId().equals(exportId)) {
+            if (exportDTO.getIsDeleted() == 0 && exportDTO.getExportId().equals(exportId)) {
                 return exportDTO;
             }
         }
@@ -75,7 +75,7 @@ public class ExportBUS {
         loadData();
 
         for (ExportDTO exportDTO : exportList) {
-            if (exportDTO.getExportId().equals(exportId)) {
+            if (exportDTO.getIsDeleted() == 0 && exportDTO.getExportId().equals(exportId)) {
                 return exportDTO.getStatus();
             }
         }

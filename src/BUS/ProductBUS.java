@@ -199,7 +199,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(productID)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(productID)) {
                 return true;
             }
         }
@@ -455,7 +455,7 @@ public class ProductBUS {
         loadProductStorageData();
 
         for (ProductDTO productDTO : productStorageList){
-            if (productDTO.getProductId().equals(productID)){
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(productID)){
                 return productDTO;
             }
         }
@@ -467,7 +467,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList){
-            if (productDTO.getProductId().equals(productID)){
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(productID)){
                 return productDTO;
             }
         }
@@ -478,7 +478,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(id)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(id)) {
                 return productDTO.getProductName();
             }
         }
@@ -490,7 +490,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(id)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(id)) {
                 return productDTO.getProductPrice();
             }
         }
@@ -502,7 +502,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(id)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(id)) {
                 return productDTO.getIsDeleted();
             }
         }
@@ -514,7 +514,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getProductId().equals(id)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(id)) {
                 return productDTO.getProductType();
             }
         }
@@ -526,7 +526,7 @@ public class ProductBUS {
         loadProductStorageData();
 
         for (ProductDTO productDTO : productStorageList) {
-            if (productDTO.getProductId().equals(productId)) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(productId)) {
                 return productDTO.getProductQuantity();
             }
         }
@@ -539,7 +539,7 @@ public class ProductBUS {
         ArrayList<String> list = new ArrayList<>();
 
         for (ProductDTO productDTO : productStorageList) {
-            if (productDTO.getProductQuantity() > 0) {
+            if (productDTO.getIsDeleted() == 0 && productDTO.getProductQuantity() > 0) {
                 list.add(productDTO.getProductId());
             }
         }

@@ -212,7 +212,7 @@ public class SaleBUS {
         loadData();
 
         for (SaleDTO saleDTO : salesList) {
-            if (saleDTO.getSaleStatus().equals("Đang áp dụng")) {
+            if (saleDTO.getIsDeleted() == 0 && saleDTO.getSaleStatus().equals("Đang áp dụng")) {
                 return true;
             }
         }
@@ -224,7 +224,7 @@ public class SaleBUS {
         loadData();
 
         for (SaleDTO saleDTO : salesList) {
-            if (saleDTO.getSaleId().equals(saleId)) {
+            if (saleDTO.getIsDeleted() == 0 && saleDTO.getSaleId().equals(saleId)) {
                 return true;
             }
         }
@@ -236,7 +236,7 @@ public class SaleBUS {
         loadData();
 
         for (SaleDTO saleDTO : salesList) {
-            if (saleDTO.getSaleId().equals(id)) {
+            if (saleDTO.getIsDeleted() == 0 && saleDTO.getSaleId().equals(id)) {
                 return saleDTO;
             }
         }

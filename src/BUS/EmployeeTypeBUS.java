@@ -56,7 +56,7 @@ public class EmployeeTypeBUS {
        loadData();
 
        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-           if (employeeTypeDTO.getTypeId().equals(employeeTypeID)) {
+           if (employeeTypeDTO.getIsDeleted() == 0 && employeeTypeDTO.getTypeId().equals(employeeTypeID)) {
                return true;
            }
        }
@@ -68,7 +68,7 @@ public class EmployeeTypeBUS {
         loadData();
 
         for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-            if (employeeTypeDTO.getTypeName().equals(employeeTypeName)) {
+            if (employeeTypeDTO.getIsDeleted() == 0 && employeeTypeDTO.getTypeName().equals(employeeTypeName)) {
                 return true;
             }
         }
@@ -80,7 +80,7 @@ public class EmployeeTypeBUS {
        loadData();
 
        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList){
-           if (employeeTypeDTO.getTypeId().equals(employeeTypeID)){
+           if (employeeTypeDTO.getIsDeleted() == 0 && employeeTypeDTO.getTypeId().equals(employeeTypeID)){
                return employeeTypeDTO;
            }
        }
@@ -92,7 +92,7 @@ public class EmployeeTypeBUS {
        loadData();
 
        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-           if (employeeTypeDTO.getTypeId().equals(id)) {
+           if (employeeTypeDTO.getIsDeleted() == 0 && employeeTypeDTO.getTypeId().equals(id)) {
                return employeeTypeDTO.getTypeName();
            }
        }
@@ -104,7 +104,7 @@ public class EmployeeTypeBUS {
        loadData();
 
        for (EmployeeTypeDTO employeeTypeDTO : employeeTypeList) {
-           if (employeeTypeDTO.getTypeName().equals(name)) {
+           if (employeeTypeDTO.getIsDeleted() == 0 && employeeTypeDTO.getTypeName().equals(name)) {
                return employeeTypeDTO.getTypeId();
            }
        }

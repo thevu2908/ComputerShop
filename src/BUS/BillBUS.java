@@ -111,7 +111,7 @@ public class BillBUS {
         for (EmployeeDTO employee : empList) {
             double total = getRevenueByEmployeeId(employee.getEmployeeId(), month, year);
 
-            if (employee.getEmployeeType().equals("LNV03") && total > 0) {
+            if (employee.getIsDeleted() == 0 && employee.getEmployeeType().equals("LNV03") && total > 0) {
                 EmployeeDTO employeeDTO = new EmployeeDTO(employee.getEmployeeId(), total);
                 bestList.add(employeeDTO);
             }
@@ -142,7 +142,7 @@ public class BillBUS {
         loadData();
 
         for (BillDTO billDTO : billList) {
-            if (billDTO.getBillId().equals(billId)) {
+            if (billDTO.getIsDeleted() == 0 && billDTO.getBillId().equals(billId)) {
                 return billDTO;
             }
         }

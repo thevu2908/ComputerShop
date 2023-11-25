@@ -216,7 +216,7 @@ public class SupplierBUS {
         loadData();
 
         for (SupplierDTO supplierDTO : supplierList) {
-            if (supplierDTO.getSupplierId().equals(id)) {
+            if (supplierDTO.getIsDeleted() == 0 && supplierDTO.getSupplierId().equals(id)) {
                 return supplierDTO.getSupplierName();
             }
         }
@@ -228,7 +228,7 @@ public class SupplierBUS {
         loadData();
 
         for (SupplierDTO supplierDTO : supplierList) {
-            if (supplierDTO.getSupplierId().equals(id)) {
+            if (supplierDTO.getIsDeleted() == 0 && supplierDTO.getSupplierId().equals(id)) {
                 return supplierDTO;
             }
         }
@@ -236,23 +236,11 @@ public class SupplierBUS {
         return null;
     }
 
-    public String getIdByPhone(String phone) {
-        loadData();
-
-        for (SupplierDTO supplierDTO : supplierList) {
-            if (supplierDTO.getSupplierPhone().equals(phone)) {
-                return supplierDTO.getSupplierId();
-            }
-        }
-
-        return "";
-    }
-
     public boolean checkExistedPhone(String phone) {
         loadData();
 
         for (SupplierDTO supplierDTO : supplierList) {
-            if (supplierDTO.getSupplierPhone().equals(phone)) {
+            if (supplierDTO.getIsDeleted() == 0 && supplierDTO.getSupplierPhone().equals(phone)) {
                 return true;
             }
         }
