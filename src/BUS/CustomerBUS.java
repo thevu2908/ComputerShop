@@ -255,7 +255,7 @@ public class CustomerBUS {
         loadData();
 
         for (CustomerDTO customerDTO : customerList) {
-            if (customerDTO.getCustomerPhone().equals(phone)) {
+            if (customerDTO.getIsDelete() == 0 && customerDTO.getCustomerPhone().equals(phone)) {
                 return true;
             }
         }
@@ -279,7 +279,7 @@ public class CustomerBUS {
         loadData();
 
         for (CustomerDTO customerDTO : customerList) {
-            if (customerDTO.getCustomerId().equals(id)) {
+            if (customerDTO.getIsDelete() == 0 && customerDTO.getCustomerId().equals(id)) {
                 return customerDTO;
             }
         }
@@ -291,7 +291,7 @@ public class CustomerBUS {
         loadData();
 
         for (CustomerDTO customerDTO : customerList) {
-            if (customerDTO.getCustomerPhone().equals(phone)) {
+            if (customerDTO.getIsDelete() == 0 && customerDTO.getCustomerPhone().equals(phone)) {
                 return customerDTO;
             }
         }
