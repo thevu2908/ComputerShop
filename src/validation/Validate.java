@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Validate {
-    private static Pattern emailPattern = Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+");
+    private static Pattern emailPattern = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
 
     public static boolean isValidEmail(String email) {
         return email.matches(emailPattern.pattern());
