@@ -44,6 +44,14 @@ public class SaleGUI {
                         String endDateStr = tblSales.getValueAt(selectedRow, 3).toString();
                         String status = tblSales.getValueAt(selectedRow, 4).toString();
 
+                        if (status.contains("Đang áp dụng")) {
+                            status = "Đang áp dụng";
+                        } else if (status.contains("Ngưng áp dụng")) {
+                            status = "Ngưng áp dụng";
+                        } else {
+                            status = "Chưa áp dụng";
+                        }
+
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
                         txtSaleId.setText(id);

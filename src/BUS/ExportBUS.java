@@ -105,12 +105,17 @@ public class ExportBUS {
         for (ExportDTO exportDTO : exportList) {
             if (exportDTO.getIsDeleted() == 0 && (employeeBUS.getTypeById(employeeId).equals("LNV02")
                     || exportDTO.getEmployeeId().equals(employeeId))) {
+
+                String status = exportDTO.getStatus().equals("Chưa duyệt")
+                        ? "<html><font color='red' style='font-weight:bold;'>Chưa duyệt</font></html>"
+                        : "<html><font color='green' style='font-weight: bold;'>Đã duyệt</font></html>";
+
                 model.addRow(new Object[]{
                         exportDTO.getExportId(),
                         exportDTO.getEmployeeId(),
                         DateTime.formatDate(exportDTO.getExportDate()),
                         exportDTO.getTotalQuantity(),
-                        exportDTO.getStatus()
+                        status
                 });
             }
         }

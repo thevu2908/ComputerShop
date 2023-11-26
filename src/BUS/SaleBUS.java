@@ -250,12 +250,21 @@ public class SaleBUS {
 
         for (SaleDTO saleDTO : salesList) {
             if (saleDTO.getIsDeleted() == 0) {
+                String status = saleDTO.getSaleStatus();
+                if (status.equals("Đang áp dụng")) {
+                    status = "<html><font color='#0d6efd' style='font-weight:bold;'>Đang áp dụng</font></html>";
+                } else if (status.equals("Ngưng áp dụng")) {
+                    status = "<html><font color='#dc3545' style='font-weight: bold;'>Ngưng áp dụng</font></html>";
+                } else {
+                    status = "<html><font color='#ffc107' style='font-weight: bold;'>Chưa áp dụng</font></html>";
+                }
+
                 model.addRow(new Object[]{
                         saleDTO.getSaleId(),
                         saleDTO.getSaleInfo(),
                         DateTime.formatDate(saleDTO.getStartDate()),
                         DateTime.formatDate(saleDTO.getEndDate()),
-                        saleDTO.getSaleStatus()
+                        status
                 });
             }
         }

@@ -155,13 +155,18 @@ public class ImportBUS {
         for (ImportDTO importDTO : importList) {
             if (importDTO.getIsDeleted() == 0 && (employeeBUS.getTypeById(employeeId).equals("LNV02")
                     || importDTO.getEmployeeId().equals(employeeId))) {
+
+                String status = importDTO.getImportStatus().equals("Chưa duyệt")
+                        ? "<html><font color='red' style='font-weight:bold;'>Chưa duyệt</font></html>"
+                        : "<html><font color='green' style='font-weight: bold;'>Đã duyệt</font></html>";
+
                 model.addRow(new Object[]{
                         importDTO.getImportId(),
                         importDTO.getEmployeeId(),
                         importDTO.getSupplierId(),
                         DateTime.formatDate(importDTO.getImportDate()),
                         importDTO.getImportTotalPrice(),
-                        importDTO.getImportStatus()
+                        status
                 });
             }
         }
