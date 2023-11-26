@@ -83,6 +83,11 @@ public class ExportBUS {
         return "";
     }
 
+    public ArrayList<ExportDTO> getExportList() {
+        loadData();
+        return exportList;
+    }
+
     public int setTotalQuantity(String id, int total) {
         return exportDAO.setTotalQuantity(id, total);
     }

@@ -1,6 +1,7 @@
 package BUS;
 
 import DAO.ExportDetailDAO;
+import DTO.ExportDTO;
 import DTO.ExportDetailDTO;
 import DTO.ProductDTO;
 import com.itextpdf.text.*;
@@ -51,9 +52,21 @@ public class ExportDetailBUS {
             return false;
         }
 
-        int numQuantity = Integer.parseInt(quantity);
-        if (productBUS.getProductStorageQuantityById(productId) < numQuantity) {
+        int productQuantity = productBUS.getProductStorageQuantityById(productId);
+        int orderedQuantity = getOrderedProductQuantity(productId);
+        int boughtQuantity = Integer.parseInt(quantity);
+
+        if (productQuantity < boughtQuantity) {
             JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm trong kho không đủ", "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (productQuantity - orderedQuantity < boughtQuantity) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Đã có phiếu xuất được lập để xuất sản phẩm này nhưng chưa được duyệt " +
+                            "\nSố lượng sản phẩm còn lại trong kho sẽ không đủ nếu duyệt phiếu xuất đó " +
+                            "\nVui lòng duyệt phiếu xuất đó hoặc nhập thêm sản phẩm",
+                    "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -62,12 +75,12 @@ public class ExportDetailBUS {
         ExportDetailDTO exportDetail = getExportDetailById(exportId, productId);
 
         if (exportDetail != null) { // case importDetail have already existed in list
-            exportDetail.setQuantity(exportDetail.getQuantity() + numQuantity);
+            exportDetail.setQuantity(exportDetail.getQuantity() + boughtQuantity);
             if (updateExportDetailQuantity(exportDetail)) {
                 flag = true;
             }
         } else { // case importDetail haven't existed in list
-            exportDetail = new ExportDetailDTO(exportId, productId, numQuantity);
+            exportDetail = new ExportDetailDTO(exportId, productId, boughtQuantity);
             if (exportDetailDAO.addExportDetail(exportDetail) > 0) {
                 flag = true;
             }
@@ -337,6 +350,27 @@ public class ExportDetailBUS {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getOrderedProductQuantity(String productId) {
+        loadData();
+
+        ArrayList<ExportDTO> exportList = exportBUS.getExportList();
+        int quantity = 0;
+
+        for (ExportDTO exportDTO : exportList) {
+            if (exportDTO.getStatus().toLowerCase().equals("chưa duyệt")) {
+                ArrayList<ExportDetailDTO> exportDetailList = getExportDetailsByExportId(exportDTO.getExportId());
+
+                for (ExportDetailDTO exportDetailDTO : exportDetailList) {
+                    if (exportDetailDTO.getProductId().equals(productId)) {
+                        quantity += exportDetailDTO.getQuantity();
+                    }
+                }
+            }
+        }
+
+        return quantity;
     }
 
     public ArrayList<ExportDetailDTO> getExportDetailsByExportId(String exportId) {

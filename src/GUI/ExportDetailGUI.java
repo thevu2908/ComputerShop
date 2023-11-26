@@ -112,7 +112,7 @@ public class ExportDetailGUI {
 
     public void setTotalQuantity() {
         int total = exportDetailBUS.calculateTotalQuantity(exportId);
-        if (total > 0) {
+        if (total >= 0) {
             txtTotalQuantity.setText(total + "");
             storageGUI.initExportTableData();
         }

@@ -502,7 +502,7 @@ public class ProductBUS {
         loadProductData();
 
         for (ProductDTO productDTO : productList) {
-            if (productDTO.getIsDeleted() == 0 && productDTO.getProductId().equals(id)) {
+            if (productDTO.getProductId().equals(id)) {
                 return productDTO.getIsDeleted();
             }
         }
@@ -535,11 +535,11 @@ public class ProductBUS {
     }
 
     public ArrayList<String> initProductStorageIdSuggestion(int col) {
-        loadProductStorageData();;
+        loadProductStorageData();
         ArrayList<String> list = new ArrayList<>();
 
         for (ProductDTO productDTO : productStorageList) {
-            if (productDTO.getIsDeleted() == 0 && productDTO.getProductQuantity() > 0) {
+            if (getIsDeletedById(productDTO.getProductId()) == 0 && productDTO.getProductQuantity() > 0) {
                 list.add(productDTO.getProductId());
             }
         }
