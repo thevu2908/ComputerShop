@@ -7,294 +7,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="82719" binding="taskbarPanel" layout-manager="GridLayoutManager" row-count="12" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="10" left="12" bottom="10" right="12"/>
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.1" weighty="1.0"/>
-        </constraints>
-        <properties>
-          <background color="-1"/>
-        </properties>
-        <border type="none">
-          <font/>
-          <title-color color="-2104859"/>
-        </border>
-        <children>
-          <grid id="9e4ff" binding="statisticsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="3cbbe" class="javax.swing.JLabel" binding="lblStatistics">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/statistics_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Thống kê"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="6486c" binding="accessPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="a0ff7" class="javax.swing.JLabel" binding="lblAccess">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/wrench_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý quyền"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="7c99a" binding="employeePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="52565" class="javax.swing.JLabel" binding="lblEmployee">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/employee_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý nhân viên"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="d9b6" binding="productPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="a6451" class="javax.swing.JLabel" binding="lblProduct">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/product_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý sản phẩm"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="d1e" binding="billPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="cdc6a" class="javax.swing.JLabel" binding="lblBill">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/bill_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Hóa đơn"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="34dec" binding="customerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="a6097" class="javax.swing.JLabel" binding="lblCustomer">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/customer_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý khách hàng"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="72897" binding="storagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="e931" class="javax.swing.JLabel" binding="lblStorage">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/storage_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý kho"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="52ff7" binding="supplierPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="b43ac" class="javax.swing.JLabel" binding="lblSupplier">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/supplier_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý nhà cung cấp"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <vspacer id="8451e">
-            <constraints>
-              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <grid id="b5903" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="30" right="0"/>
-            <constraints>
-              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="e9718" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <font name="Berlin Sans FB Demi" size="20" style="1"/>
-                  <foreground color="-16777216"/>
-                  <text value="Xin chào,"/>
-                </properties>
-              </component>
-              <component id="60b3b" class="javax.swing.JLabel" binding="lblUserName">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <enabled value="true"/>
-                  <font size="22" style="1"/>
-                  <foreground color="-11107086"/>
-                  <text value="Name"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="7563c" binding="salePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
-            <margin top="24" left="0" bottom="24" right="0"/>
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="2d2b0" class="javax.swing.JLabel" binding="lblSale">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <icon value="images/sale_icon.png"/>
-                  <iconTextGap value="10"/>
-                  <opaque value="true"/>
-                  <text value="Quản lý CTKM"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-        </children>
-      </grid>
       <grid id="adae2" layout-manager="GridBagLayout">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -349,6 +61,302 @@
           </grid>
         </children>
       </grid>
+      <scrollpane id="58ac">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.5" weighty="1.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="82719" binding="taskbarPanel" layout-manager="GridLayoutManager" row-count="12" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="10" left="12" bottom="10" right="12"/>
+            <constraints/>
+            <properties>
+              <background color="-1"/>
+              <enabled value="true"/>
+            </properties>
+            <border type="none">
+              <font/>
+              <title-color color="-2104859"/>
+            </border>
+            <children>
+              <grid id="9e4ff" binding="statisticsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="3cbbe" class="javax.swing.JLabel" binding="lblStatistics">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/statistics_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Thống kê"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="6486c" binding="accessPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a0ff7" class="javax.swing.JLabel" binding="lblAccess">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/wrench_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý quyền"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="7c99a" binding="employeePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="52565" class="javax.swing.JLabel" binding="lblEmployee">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/employee_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý nhân viên"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="d9b6" binding="productPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a6451" class="javax.swing.JLabel" binding="lblProduct">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/product_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý sản phẩm"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="d1e" binding="billPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="cdc6a" class="javax.swing.JLabel" binding="lblBill">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/bill_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Hóa đơn"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="34dec" binding="customerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a6097" class="javax.swing.JLabel" binding="lblCustomer">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/customer_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý khách hàng"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="72897" binding="storagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="e931" class="javax.swing.JLabel" binding="lblStorage">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/storage_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý kho"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="52ff7" binding="supplierPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="b43ac" class="javax.swing.JLabel" binding="lblSupplier">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/supplier_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý nhà cung cấp"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <vspacer id="8451e">
+                <constraints>
+                  <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <grid id="b5903" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="30" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="e9718" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Berlin Sans FB Demi" size="20" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Xin chào,"/>
+                    </properties>
+                  </component>
+                  <component id="60b3b" class="javax.swing.JLabel" binding="lblUserName">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <enabled value="true"/>
+                      <font size="22" style="1"/>
+                      <foreground color="-11107086"/>
+                      <text value="Name"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="7563c" binding="salePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="24">
+                <margin top="24" left="0" bottom="24" right="0"/>
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="2d2b0" class="javax.swing.JLabel" binding="lblSale">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-1"/>
+                      <font size="16" style="1"/>
+                      <foreground color="-16777216"/>
+                      <icon value="images/sale_icon.png"/>
+                      <iconTextGap value="10"/>
+                      <opaque value="true"/>
+                      <text value="Quản lý CTKM"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
