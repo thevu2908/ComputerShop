@@ -88,7 +88,7 @@ INSERT INTO `hang_san_pham` (`ma_hsp`, `ten_hsp`, `trang_thai`) VALUES
 
 CREATE TABLE `hoa_don` (
   `ma_hd` varchar(10) NOT NULL,
-  `ma_kh` varchar(10) NOT NULL,
+  `ma_kh` varchar(10),
   `ma_nv` varchar(10) NOT NULL,
   `ngay_lap` date NOT NULL,
   `tong_tien` int NOT NULL,
@@ -116,6 +116,7 @@ CREATE TABLE `khach_hang` (
 --
 
 INSERT INTO `khach_hang` (`ma_kh`, `ho_ten`, `dia_chi`, `so_dien_thoai`, `ngay_sinh`, `gioi_tinh`, `diem_tich_luy`, `trang_thai`) VALUES
+('KH00', '', 'abcd', '0123', '2000-01-01', 'Nam', 0, 0),
 ('KH01', 'Trần Quốc Tuấn', '29 Phạm Ngọc Thạch ', '0978572812', '2000-07-03', 'Nam', 14100, 0),
 ('KH02', 'Nguyễn Xuân Thùy', '112 Lý Chính Thắng', '0894728493', '1999-04-09', 'Nữ', 12400, 0),
 ('KH03', 'Đỗ Hoàng Đạt', '956 Phạm Thế Hiển', '0983648214', '1998-02-13', 'Nam', 2300, 0);
