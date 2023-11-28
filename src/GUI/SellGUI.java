@@ -328,6 +328,14 @@ public class SellGUI {
                 }
             }
         });
+
+        btnAddCustomer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddCustomerGUI addCustomerGUI = new AddCustomerGUI();
+                addCustomerGUI.openAddCustomerGUI();
+            }
+        });
     }
 
     public void resetBillData() {
@@ -603,6 +611,7 @@ public class SellGUI {
     private JTextField txtFinalTotal;
     private JButton btnViewCustomerInfo;
     private JButton btnPrintBill;
+    private JButton btnAddCustomer;
     private JDateChooser billDateFrom;
     private JDateChooser billDateTo;
 }
