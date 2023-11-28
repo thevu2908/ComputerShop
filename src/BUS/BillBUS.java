@@ -36,29 +36,27 @@ public class BillBUS {
     }
 
     public boolean addBill(String employeeId, String phone, int total, int discount) {
-        if (phone.equals("")) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại của khách hàng", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        if (!Validate.isValidPhone(phone)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
         CustomerDTO customerDTO = customerBUS.getCustomerByPhone(phone);
-        if (customerDTO == null) {
-            JOptionPane.showMessageDialog(null, "Không có khách hàng nào có số điện thoại này", "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            return false;
+
+        if (!phone.equals("")) {
+            if (!Validate.isValidPhone(phone)) {
+                JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ (10 chữ số và bắt đầu bằng số 0)", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (customerDTO == null) {
+                JOptionPane.showMessageDialog(null, "Không có khách hàng nào có số điện thoại này", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
         }
 
         String billId = getNewBillId();
+        String customerId = customerDTO == null ? null : customerDTO.getCustomerId();
         String currentDate = DateTime.getStringCurrentDate();
 
-        BillDTO billDTO = new BillDTO(billId, customerDTO.getCustomerId(), employeeId, currentDate, total, discount, 0);
+        BillDTO billDTO = new BillDTO(billId, customerId, employeeId, currentDate, total, discount, 0);
 
         if (billDAO.addBill(billDTO) > 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công");

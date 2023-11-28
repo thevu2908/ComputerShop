@@ -169,8 +169,10 @@ public class SellGUI {
                     int bonusPoint = calculateBonusPoint(finalTotal);
 
                     if (billBUS.addBill(employeeId, phone, total, discount) && sellBUS.addBillDetail()
-                            && sellBUS.decreaseProductQuantity() && customerBUS.increasePoint(phone, bonusPoint)) {
-
+                            && sellBUS.decreaseProductQuantity()) {
+                        if (!phone.equals("")) {
+                            customerBUS.increasePoint(phone, bonusPoint);
+                        }
                         sellBUS.resetBillDetailList();
                         sellBUS.renderToTableBillSell(sellBillModel);
                         resetSellData();
