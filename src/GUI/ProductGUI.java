@@ -41,7 +41,7 @@ public class ProductGUI {
                 String type = cbxProductType.getSelectedItem().toString();
                 String price = txtProductPrice.getText();
                 String cpu = txtCPU.getText();
-                String ram = txtRAM.getText();
+                String ram = cbxRAM.getSelectedItem().toString();
                 String storage = txtStorage.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
@@ -68,7 +68,7 @@ public class ProductGUI {
                     cbxProductType.setSelectedItem(productTypeBUS.getNameById(product.getProductType()));
                     txtProductPrice.setText(product.getProductPrice() + "");
                     txtCPU.setText(product.getProductCPU());
-                    txtRAM.setText(product.getProductRAM());
+                    cbxRAM.setSelectedItem(product.getProductRAM());
                     txtStorage.setText(product.getProductStorage());
                     txtScreen.setText(product.getProductScreen());
                     txtScreenCard.setText(product.getProductScreenCard());
@@ -91,7 +91,7 @@ public class ProductGUI {
                 String type = cbxProductType.getSelectedItem().toString();
                 String price = txtProductPrice.getText();
                 String cpu = txtCPU.getText();
-                String ram = txtRAM.getText();
+                String ram = cbxRAM.getSelectedItem().toString();
                 String storage = txtStorage.getText();
                 String screen = txtScreen.getText();
                 String screenCard = txtScreenCard.getText();
@@ -231,7 +231,7 @@ public class ProductGUI {
         txtProductName.setText("");
         txtProductPrice.setText("");
         txtCPU.setText("");
-        txtRAM.setText("");
+        cbxRAM.setSelectedIndex(0);
         txtStorage.setText("");
         txtScreen.setText("");
         txtScreenCard.setText("");
@@ -323,9 +323,9 @@ public class ProductGUI {
     private JTextField txtSearch;
     private JTextField txtCPU;
     private JTextField txtStorage;
-    private JTextField txtRAM;
     private JTextField txtScreen;
     private JTextField txtScreenCard;
     private JComboBox cbxFilterPrice;
     private JComboBox cbxFilterProductType;
+    private JComboBox cbxRAM;
 }
