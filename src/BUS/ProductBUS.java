@@ -585,6 +585,39 @@ public class ProductBUS {
         model.fireTableDataChanged();
     }
 
+
+    public void renderToSellTable(DefaultTableModel model, ArrayList<ProductDTO> list) {
+        model.setRowCount(0);
+        loadProductData();
+
+        for (ProductDTO productDTO : productList) {
+            if (productDTO.getIsDeleted() == 0) {
+                int quantity = productDTO.getProductQuantity();
+
+                if (list != null) {
+                    for (ProductDTO product : list) {
+                        if (productDTO.getProductId().equals(product.getProductId())) {
+                            quantity -= product.getProductQuantity();
+                        }
+                    }
+                }
+
+                model.addRow(new Object[]{
+                        productDTO.getProductId(),
+                        productDTO.getProductName(),
+                        productTypeBUS.getNameById(productDTO.getProductType()),
+                        productDTO.getProductPrice(),
+                        saleBUS.getSaleById(productDTO.getSaleId()) == null
+                                ? ""
+                                : "Giảm " + saleBUS.getSaleById(productDTO.getSaleId()).getSaleInfo(),
+                        quantity
+                });
+            }
+        }
+
+        model.fireTableDataChanged();
+    }
+
     public void renderToProductTable(DefaultTableModel model) {
         model.setRowCount(0);
         loadProductData();

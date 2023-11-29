@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.*;
+import DTO.ProductDTO;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.event.*;
@@ -14,6 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SellGUI {
@@ -86,21 +88,22 @@ public class SellGUI {
                 int quantity = Integer.parseInt(txtProdQuantity.getText());
                 String discount = txtDiscount.getText();
 
-                int boughtQuantity = 0;
-                for (int i = 0; i < tblSellBills.getRowCount(); i++) {
-                    if (tblSellBills.getValueAt(i, 0).equals(productId)) {
-                        boughtQuantity = Integer.parseInt(tblSellBills.getValueAt(i, 3).toString());
-                        break;
-                    }
-                }
-
-                if (quantity > Integer.parseInt(tblProducts.getValueAt(rowSelected, 5).toString()) - boughtQuantity) {
+                if (quantity > Integer.parseInt(tblProducts.getValueAt(rowSelected, 5).toString())) {
                     JOptionPane.showMessageDialog(null, "Số lượng còn lại của sản phẩm không đủ", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 sellBUS.chooseProduct(sellBillModel, productId, quantity);
+
+                ArrayList<ProductDTO> boughtProductList = new ArrayList<>();
+                for (int i = 0; i < tblSellBills.getRowCount(); i++) {
+                    String id = tblSellBills.getValueAt(i, 0).toString();
+                    int billQuantity = Integer.parseInt(tblSellBills.getValueAt(i, 3).toString());
+                    boughtProductList.add(new ProductDTO(id, billQuantity));
+                }
+
+                productBUS.renderToSellTable(productModel, boughtProductList);
 
                 int total = sellBUS.calculateTotalPrice();
                 txtTotal.setText(total + "");
@@ -129,7 +132,15 @@ public class SellGUI {
 
                 if (choice == JOptionPane.YES_OPTION) {
                     sellBUS.unchooseProduct(sellBillModel, tblSellBills.getValueAt(rowSelected, 0).toString());
-                    JOptionPane.showMessageDialog(null, "Bỏ chọn sản phẩm thành công");
+
+                    ArrayList<ProductDTO> boughtProductList = new ArrayList<>();
+                    for (int i = 0; i < tblSellBills.getRowCount(); i++) {
+                        String id = tblSellBills.getValueAt(i, 0).toString();
+                        int billQuantity = Integer.parseInt(tblSellBills.getValueAt(i, 3).toString());
+                        boughtProductList.add(new ProductDTO(id, billQuantity));
+                    }
+
+                    productBUS.renderToSellTable(productModel, boughtProductList);
 
                     int total = sellBUS.calculateTotalPrice();
                     String discount = txtDiscount.getText();
@@ -173,14 +184,15 @@ public class SellGUI {
                         if (!phone.equals("")) {
                             customerBUS.increasePoint(phone, bonusPoint);
                         }
+                        if (!usedPoint.equals("")) {
+                            customerBUS.decreasePoint(phone, Integer.parseInt(usedPoint));
+                        }
+
                         sellBUS.resetBillDetailList();
                         sellBUS.renderToTableBillSell(sellBillModel);
                         resetSellData();
                         resetBillData();
-
-                        if (!usedPoint.equals("")) {
-                            customerBUS.decreasePoint(phone, Integer.parseInt(usedPoint));
-                        }
+                        productBUS.renderToSellTable(productModel, null);
                     }
                 }
             }
@@ -544,7 +556,7 @@ public class SellGUI {
     }
 
     public void initProductTableData() {
-        productBUS.renderToSellTable(productModel);
+        productBUS.renderToSellTable(productModel, null);
     }
 
     public void initProductTable() {

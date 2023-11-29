@@ -58,6 +58,7 @@ public class SellBUS {
                 break;
             }
         }
+        JOptionPane.showMessageDialog(null, "Bỏ chọn sản phẩm thành công");
         billDetailBUS.renderToTable(model, billDetailList);
     }
 
