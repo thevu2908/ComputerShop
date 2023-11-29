@@ -349,8 +349,14 @@ public class ProductBUS {
             Iterator<Row> iterator = sheet.iterator();
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
+                if (nextRow.getRowNum() == 0) {
+                    continue;
+                }
 
                 ProductDTO product = new ProductDTO();
+                String id = createNewProductID();
+                product.setProductId(id);
+
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
 
                 while (cellIterator.hasNext()) {
@@ -359,30 +365,27 @@ public class ProductBUS {
 
                     switch (cell.getColumnIndex()) {
                         case 0:
-                            product.setProductId(cellValue.toString());
-                            break;
-                        case 1:
                             product.setProductName(cellValue.toString());
                             break;
-                        case 2:
+                        case 1:
                             product.setProductType(cellValue.toString());
                             break;
-                        case 3:
+                        case 2:
                             product.setProductPrice(Integer.parseInt(cellValue.toString()));
                             break;
-                        case 4:
+                        case 3:
                             product.setProductCPU(cellValue.toString());
                             break;
-                        case 5:
+                        case 4:
                             product.setProductRAM(cellValue.toString());
                             break;
-                        case 6:
+                        case 5:
                             product.setProductStorage(cellValue.toString());
                             break;
-                        case 7:
+                        case 6:
                             product.setProductScreen(cellValue.toString());
                             break;
-                        case 8:
+                        case 7:
                             product.setProductScreenCard(cellValue.toString());
                             break;
                         default:
