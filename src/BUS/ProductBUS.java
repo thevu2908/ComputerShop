@@ -563,29 +563,6 @@ public class ProductBUS {
         return list;
     }
 
-    public void renderToSellTable(DefaultTableModel model) {
-        model.setRowCount(0);
-        loadProductData();
-
-        for (ProductDTO productDTO : productList) {
-            if (productDTO.getIsDeleted() == 0) {
-                model.addRow(new Object[]{
-                        productDTO.getProductId(),
-                        productDTO.getProductName(),
-                        productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice(),
-                        saleBUS.getSaleById(productDTO.getSaleId()) == null
-                                ? ""
-                                : "Giảm " + saleBUS.getSaleById(productDTO.getSaleId()).getSaleInfo(),
-                        productDTO.getProductQuantity()
-                });
-            }
-        }
-
-        model.fireTableDataChanged();
-    }
-
-
     public void renderToSellTable(DefaultTableModel model, ArrayList<ProductDTO> list) {
         model.setRowCount(0);
         loadProductData();
@@ -628,7 +605,7 @@ public class ProductBUS {
                         productDTO.getProductId(),
                         productDTO.getProductName(),
                         productTypeBUS.getNameById(productDTO.getProductType()),
-                        productDTO.getProductPrice()
+                        productDTO.getProductPrice(),
                 });
             }
         }
